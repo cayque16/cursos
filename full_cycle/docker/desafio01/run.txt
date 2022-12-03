@@ -1,0 +1,2 @@
+# so compila o arquivo
+docker run -e GO111MODULE=off --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.19 go build -v

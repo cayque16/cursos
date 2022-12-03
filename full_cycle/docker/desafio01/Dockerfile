@@ -1,5 +1,5 @@
 FROM scratch
 
-COPY myapp /
+COPY hello-rocks /
 
-CMD [ "/myapp" ]
+CMD ["/hello-rocks"]
