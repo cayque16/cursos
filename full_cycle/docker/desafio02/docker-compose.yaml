@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  web:
+    # build:
+    #   context: ./nginx
+    image: cayque16/desafio02_nginx
+    container_name: web
+    networks:
+      - rede-desafio
+    tty: true
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+      - app
+  
+  db:
+    # build:
+    #   context: ./mysql
+    image: cayque16/desafio02_mysql
+    command: --innodb-use-native-aio=0
+    container_name: db
+    tty: true
+    volumes:
+      - ./data:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - rede-desafio
+
+  app:
+    # build:
+    #   context: ./node
+    image: cayque16/desafio02_node
+    container_name: app
+    entrypoint: dockerize --wait tcp://db:3306 --timeout 90s docker-entrypoint.sh
+    command: node index.js
+    networks:
+      - rede-desafio
+    tty: true
+    depends_on:
+      - db
+
+networks:
+  rede-desafio:
+    driver: bridge
