@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  laravel:
+    build: 
+      context: ../pratica03_laravel_otimizado
+      dockerfile: Dockerfile.prod
+    image: meu_laravel:prod
+    container_name: laravel
+
+  nginx:
+    build: 
+      context: ../pratica04_nginx
+      dockerfile: Dockerfile
+    image: nginx:prod
+    container_name: nginx
+    ports:
+      - "8081:80"
+
+networks:
+  default:
+    name: laranet
+    external: true

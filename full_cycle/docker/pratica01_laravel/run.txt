@@ -1,0 +1,4 @@
+# cria a imagem
+docker build -t meu_laravel .
+# sobe o container
+docker run --rm -d --name laravel -p 8002:8002 meu_laravel --host=0.0.0.0 --port=8002

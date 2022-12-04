@@ -1,0 +1,4 @@
+# cria a imagem
+docker build -t meu_laravel:prod . -f Dockerfile.prod
+# sobe o container
+docker run -d --network laranet --name laravel  meu_laravel:prod

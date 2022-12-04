@@ -1,0 +1,4 @@
+# cria a tabela no mysql
+create table people(id int not null auto_increment, name varchar(255), primary key(id));
+# instala a extensao do mysql no node
+npm install mysql --save
