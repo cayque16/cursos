@@ -4,9 +4,9 @@ jobs:
   check-aplication:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkou@v2
-      - uses: actions/setup-go@2
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
         with:
           go-version: 1.19
-      - run: go test ./ci/
-      - run: go run ./ci/math.go
+      - run: go test ./full_cycle/ci/
+      - run: go run ./full_cycle/ci/math.go
