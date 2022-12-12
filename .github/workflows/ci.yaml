@@ -22,7 +22,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           username: ${{ teste_ci_go.secrets.DOCKERHUB_USERNAME }}
-          password: ${{ teste_ci_go.DOCKERHUB_TOKEN }}
+          password: ${{ teste_ci_go.secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push
         uses: docker/build-push-action@v3
