@@ -1,0 +1,8 @@
+# kind.yaml
+kind create cluster --config=kind.yaml --name=fullcycle
+# pod.yaml
+kubectl apply -f pod.yaml
+# replicaset.yaml
+kubectl apply -f replicaset.yaml
+# deployment.yaml
+kubectl apply -f deployment.yaml
