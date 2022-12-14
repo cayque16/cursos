@@ -1,5 +1,5 @@
 function mult(a, b) {
-    return 8;
+    return a * b;
 }
 
 module.exports = mult;
