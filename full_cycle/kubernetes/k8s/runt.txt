@@ -6,3 +6,9 @@ kubectl apply -f pod.yaml
 kubectl apply -f replicaset.yaml
 # deployment.yaml
 kubectl apply -f deployment.yaml
+# deployment.yaml
+kubectl apply -f service.yaml
+
+
+# Direcionar a porta
+kubectl port-forward svc/goserver-service 9000:80
