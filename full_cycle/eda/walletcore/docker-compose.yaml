@@ -10,12 +10,10 @@ services:
       - 8080:8080
 
   mysql:
-    image: mysql:5.7
+    build: db
     platform: linux/amd64
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: wallet
-      MYSQL_PASSWORD: root
     ports:
       - 3306:3306
     volumes:
