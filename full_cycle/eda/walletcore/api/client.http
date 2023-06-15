@@ -1,0 +1,28 @@
+
+POST http://localhost:8080/clients HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Cayque",
+    "email": "cayque@gmail"
+}
+
+###
+
+POST http://localhost:8080/accounts HTTP/1.1
+Content-Type: application/json
+
+{
+    "client_id": "004d71c9-413f-4860-88dd-434ef0a4edbb"
+}
+
+###
+
+POST http://localhost:8080/transactions HTTP/1.1
+Content-Type: application/json
+
+{
+    "account_id_from": "3bab8e81-54eb-43a3-96d2-a166cfe9aa20",
+    "account_id_to": "627fd60c-352a-412a-86e4-48e236b28fae",
+    "amount": 100
+}
