@@ -22,4 +22,4 @@ CREATE DATABASE IF NOT EXISTS `balances`;
 USE `balances`;
 
 DROP TABLE IF EXISTS `balance`;
-CREATE TABLE `balance` (id varchar(255), client_id varchar(255), balance int, created_at date);
+CREATE TABLE `balance` (id varchar(255), account_id varchar(255), balance int, created_at date);
