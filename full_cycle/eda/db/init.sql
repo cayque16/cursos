@@ -24,6 +24,6 @@ USE `balances`;
 DROP TABLE IF EXISTS `balance`;
 CREATE TABLE `balance` (id varchar(255), account_id varchar(255), balance int, created_at date);
 
-INSERT INTO `balance` (`id`,`account_id`,`balance`,`created_at`) VALUES ('cdcb72d0-0fc4-11ee-be56-0242ac120002','4bea56fb-4494-43e5-b653-7a526de21880',50,'2023-06-19');
-INSERT INTO `balance` (`id`,`account_id`,`balance`,`created_at`) VALUES ('cdcb75c8-0fc4-11ee-be56-0242ac120002','89a45be4-5425-4efd-b134-2b246350ac25',1000,'2023-06-19');
-INSERT INTO `balance` (`id`,`account_id`,`balance`,`created_at`) VALUES ('cdcb776c-0fc4-11ee-be56-0242ac120002','c23f5698-cdbb-472b-a419-059fb2b491a9',10000,'2023-06-19');
+INSERT INTO `balance` (`id`,`account_id`,`balance`,`created_at`) VALUES ('cdcb72d0-0fc4-11ee-be56-0242ac120002','920cee42-1054-495d-9f55-df2d771847eb',50,'2023-06-19');
+INSERT INTO `balance` (`id`,`account_id`,`balance`,`created_at`) VALUES ('cdcb75c8-0fc4-11ee-be56-0242ac120002','7b49be5e-11fe-4b64-8247-bc1cb2e57178',1000,'2023-06-19');
+INSERT INTO `balance` (`id`,`account_id`,`balance`,`created_at`) VALUES ('cdcb776c-0fc4-11ee-be56-0242ac120002','2470622b-eebc-422f-8fc6-567c4d2e4a6a',10000,'2023-06-19');
