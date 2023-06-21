@@ -1,7 +1,5 @@
-import json
-from kafka import KafkaConsumer
 import mysql.connector as mysql
-from bottle import Bottle, request, route, template
+from bottle import Bottle, request, template
 
 class Balances(Bottle):
     def __init__(self):
@@ -33,11 +31,11 @@ class Balances(Bottle):
         cur.close()
 
         if len(result) == 0:
-            return template("Conta não encontrada") 
+            return "Conta não encontrada"
         else:
-            return template("Saldo da conta {{account}}: {{balance}}", account=result[0][1], balance=result[0][2]) 
+            return template("Saldo da conta {{account}}: {{balance}}", account=result[0][1], balance=result[0][2])
     
 if __name__ == '__main__':
     balances = Balances()
-    
+
     balances.run(host='0.0.0.0', port='3003', debug='True')
