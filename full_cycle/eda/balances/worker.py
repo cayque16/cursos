@@ -22,12 +22,16 @@ if __name__ == '__main__':
 
             amount = trasaction['Payload']['amount']
 
-            sql_reduce = """UPDATE balance 
+            sql_reduce_and_add = """UPDATE balance 
                 SET balance = balance - {}
-                WHERE account_id = "{}"
-            """.format(amount, trasaction['Payload']['account_id_from'])
+                WHERE account_id = "{}";
 
-            sql_add = """UPDATE balance 
+                UPDATE balance 
                 SET balance = balance + {}
                 WHERE account_id = "{}"
-            """.format(amount, trasaction['Payload']['account_id_to'])
+            """.format(
+                amount, 
+                trasaction['Payload']['account_id_from'],
+                amount, 
+                trasaction['Payload']['account_id_to']
+            )
