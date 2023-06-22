@@ -6,7 +6,7 @@ class Balances(Bottle):
         super().__init__()
 
         self.conn = mysql.connect(
-            host="192.168.2.10",
+            host="mysql",
             user="root",
             password="root",
             database="balances",

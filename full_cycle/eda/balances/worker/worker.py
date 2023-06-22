@@ -4,7 +4,7 @@ from kafka import KafkaConsumer
 
 if __name__ == '__main__':
     conn = mysql.connect(
-        host="192.168.2.10",
+        host="mysql",
         user="root",
         password="root",
         database="balances",
@@ -16,13 +16,13 @@ if __name__ == '__main__':
     while True:
         consumer = KafkaConsumer(
             'transactions',
-            bootstrap_servers='192.168.2.10:9092'
+            bootstrap_servers='kafka:29092'
         )
         for msg in consumer:
             trasaction = json.loads(msg.value)
 
             amount = trasaction['Payload']['amount']
-
+            print(amount)
             sql_reduce = """UPDATE balance 
                 SET balance = balance - {}
                 WHERE account_id = "{}"
