@@ -11,27 +11,42 @@ if __name__ == '__main__':
         port=3306
     )
 
+    print("Worker online, esperando transacoes...")
+
     while True:
         consumer = KafkaConsumer(
             'transactions',
-            bootstrap_servers='192.168.2.10:9092',
-            auto_offset_reset='earliest'
+            bootstrap_servers='192.168.2.10:9092'
         )
         for msg in consumer:
             trasaction = json.loads(msg.value)
 
             amount = trasaction['Payload']['amount']
 
-            sql_reduce_and_add = """UPDATE balance 
+            sql_reduce = """UPDATE balance 
                 SET balance = balance - {}
-                WHERE account_id = "{}";
-
-                UPDATE balance 
-                SET balance = balance + {}
                 WHERE account_id = "{}"
             """.format(
                 amount, 
                 trasaction['Payload']['account_id_from'],
-                amount, 
-                trasaction['Payload']['account_id_to']
             )
+            
+            cur = conn.cursor()
+            cur.execute(sql_reduce)
+            conn.commit()
+            cur.close()
+            print("Saldo da conta {} atualizado...".format(trasaction['Payload']['account_id_from']))
+
+            sql_add = """UPDATE balance 
+                SET balance = balance + {}
+                WHERE account_id = "{}"
+            """.format(
+                amount, 
+                trasaction['Payload']['account_id_to'],
+            )
+
+            cur = conn.cursor()
+            cur.execute(sql_add)
+            conn.commit()
+            cur.close()
+            print("Saldo da conta {} atualizado...".format(trasaction['Payload']['account_id_to']))
