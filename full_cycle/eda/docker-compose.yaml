@@ -69,3 +69,25 @@ services:
       CONFLUENT_METRICS_TOPIC_REPLICATION: 1
       PORT: 9021
   
+  balances:
+    image: python:3.8.10
+    volumes:
+      - ./balances/main:/balances
+    working_dir: /balances
+    command: bash ./install.sh
+    ports:
+      - "3003:3003"
+    depends_on:
+     - mysql
+     - goapp
+
+  worker:
+    image: python:3.8.10
+    volumes:
+      - ./balances/worker:/worker
+    working_dir: /worker
+    command: bash ./install.sh
+    depends_on:
+     - kafka
+     - mysql
+     - goapp
