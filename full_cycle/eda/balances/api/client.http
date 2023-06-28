@@ -2,5 +2,5 @@ POST http://192.168.2.10:3003/balances HTTP/1.1
 Content-Type: application/json
 
 {
-    "account_id": "89a45be4-5425-4efd-b134-2b246350ac25"
+    "account_id": "7b49be5e-11fe-4b64-8247-bc1cb2e57178"
 }
