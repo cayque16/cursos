@@ -84,10 +84,11 @@ services:
      - goapp
 
   worker:
-    image: python:3.8.10
+    build: ./balances/worker/
     volumes:
       - ./balances/worker:/worker
     working_dir: /worker
+    entrypoint: dockerize --wait tcp://kafka:29092 --timeout 90s
     command: bash ./install.sh
     depends_on:
      - kafka
