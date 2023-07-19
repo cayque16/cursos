@@ -1,10 +1,11 @@
 <?php
 
 use Alura\Pdo\Domain\Model\Student;
+use Alura\Pdo\Infrastructure\Persistence\ConnectionCreator;
 
 require_once 'vendor/autoload.php';
 
-$pdo = new PDO('sqlite:banco.sqlite');
+$pdo = ConnectionCreator::createConnection();
 
 $statement = $pdo->query('SELECT * FROM students;');
 $studentDataList = $statement->fetchAll(PDO::FETCH_ASSOC);

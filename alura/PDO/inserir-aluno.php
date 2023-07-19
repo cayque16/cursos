@@ -1,12 +1,13 @@
 <?php
 
 use Alura\Pdo\Domain\Model\Student;
+use Alura\Pdo\Infrastructure\Persistence\ConnectionCreator;
 
 require_once 'vendor/autoload.php';
 
-$pdo = new PDO('sqlite:banco.sqlite');
+$pdo = ConnectionCreator::createConnection();
 
-$student = new Student(null, 'Cayque Santos', new \DateTimeImmutable('1994-04-15'));
+$student = new Student(null, 'Davi Santos', new \DateTimeImmutable('2023-04-20'));
 
 $sqlInsert = "INSERT INTO students (name, birth_date) VALUES (?, ?);";
 $statement = $pdo->prepare($sqlInsert);
