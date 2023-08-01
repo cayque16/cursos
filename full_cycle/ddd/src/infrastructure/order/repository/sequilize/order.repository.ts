@@ -1,4 +1,5 @@
 import Order from "../../../../domain/checkout/entity/order";
+import OrderItem from "../../../../domain/checkout/entity/order_item";
 import OrderRepositoryInterface from "../../../../domain/checkout/repository/order-repository.interface";
 import OrderItemModel from "./order-item.model";
 import OrderModel from "./order.model";
@@ -38,7 +39,35 @@ export default class OrderRepository implements OrderRepositoryInterface{
   }
 
   async find(id: string): Promise<Order> {
-    return new Order("1","teste",[]);
+    let orderModel, orderItensModel;
+    try {
+      orderModel = await OrderModel.findOne({
+        where: {
+          id,
+        },
+        rejectOnEmpty:true,
+      });
+      orderItensModel = await OrderItemModel.findAll({
+        where: {
+          order_id: id,
+        }
+      });
+    } catch (error) {
+      throw new Error("Order not found")
+    }
+
+    const items = orderItensModel.map((orderItensModel) => {
+      let item = new OrderItem(
+        orderItensModel.id,
+        orderItensModel.name,
+        orderItensModel.price,
+        orderItensModel.product_id,
+        orderItensModel.quantity
+      );
+      return item;
+    });
+    
+    return new Order(id, orderModel.customer_id, items);
   }
 
   async findAll(): Promise<Order[]> {
