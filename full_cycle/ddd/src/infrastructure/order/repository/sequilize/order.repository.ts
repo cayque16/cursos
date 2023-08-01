@@ -1,8 +1,9 @@
 import Order from "../../../../domain/checkout/entity/order";
+import OrderRepositoryInterface from "../../../../domain/checkout/repository/order-repository.interface";
 import OrderItemModel from "./order-item.model";
 import OrderModel from "./order.model";
 
-export default class OrderRepository {
+export default class OrderRepository implements OrderRepositoryInterface{
   async create(entity: Order): Promise<void> {
     await OrderModel.create(
       {
@@ -21,5 +22,26 @@ export default class OrderRepository {
         include: [{ model: OrderItemModel }],
       }
     );
+  }
+
+  async update(entity: Order): Promise<void> {
+    await OrderModel.update(
+      {
+        customer_id: entity.customerId,
+      },
+      {
+        where: {
+          id: entity.id,
+        },
+      }
+    );
+  }
+
+  async find(id: string): Promise<Order> {
+    return new Order("1","teste",[]);
+  }
+
+  async findAll(): Promise<Order[]> {
+    return [];
   }
 }
