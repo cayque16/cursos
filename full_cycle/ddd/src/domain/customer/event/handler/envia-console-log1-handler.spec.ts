@@ -14,12 +14,12 @@ describe("Console log 1 tests", () => {
         eventDispatcher.getEventHandlers["CustomerCreatedEvent"][0]
     ).toMatchObject(eventHandler);
 
-    const cusotmerCreatedEvent = new CustomerCreatedEvent({
+    const customerCreatedEvent = new CustomerCreatedEvent({
         id: "231",
         name: "Fulano"
     });
 
-    eventDispatcher.notify(cusotmerCreatedEvent);
+    eventDispatcher.notify(customerCreatedEvent);
 
     expect(spyEventHandler).toHaveBeenCalled();
    });
