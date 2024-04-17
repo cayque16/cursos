@@ -19,14 +19,7 @@ export default class AddClientUseCase {
       name: input.name,
       email: input.email,
       document: input.document,
-      address: new Address(
-        input.address.street,
-        input.address.number,
-        input.address.complement,
-        input.address.city,
-        input.address.state,
-        input.address.zipCode,
-      )
+      address: input.address
     }
 
     const client = new Client(props)

@@ -6,7 +6,6 @@ import ClientAdmFacade from "./client-adm.facade"
 import ClientAdmFacadeFactory from "../factory/client-adm.facade.factory"
 import Address from "../../@shared/domain/value-object/address"
 
-
 describe("Client Adm Facade test", () => {
 
   let sequelize: Sequelize
@@ -99,11 +98,11 @@ describe("Client Adm Facade test", () => {
     expect(client.name).toBe(input.name)
     expect(client.email).toBe(input.email)
     expect(client.document).toBe(input.document)
-    expect(client.address.street).toBe(input.address.street)
-    expect(client.address.number).toBe(input.address.number)
-    expect(client.address.complement).toBe(input.address.complement)
-    expect(client.address.city).toBe(input.address.city)
-    expect(client.address.state).toBe(input.address.state)
-    expect(client.address.zipCode).toBe(input.address.zipCode)
+    expect(client.street).toBe(input.address.street)
+    expect(client.number).toBe(input.address.number)
+    expect(client.complement).toBe(input.address.complement)
+    expect(client.city).toBe(input.address.city)
+    expect(client.state).toBe(input.address.state)
+    expect(client.zipcode).toBe(input.address.zipCode)
   })
 })

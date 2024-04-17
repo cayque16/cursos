@@ -20,14 +20,12 @@ export default class FindClientUseCase {
       name: result.name,
       email: result.email,
       document: result.document,
-      address: new Address(
-        result.address.street,
-        result.address.number,
-        result.address.complement,
-        result.address.city,
-        result.address.state,
-        result.address.zipCode,
-      ),
+      street:  result.address.street,
+      number: result.address.number,
+      complement: result.address.complement,
+      city: result.address.city,
+      state: result.address.state,
+      zipcode: result.address.zipCode,
       createdAt: result.createdAt,
       updatedAt: result.updatedAt
     }

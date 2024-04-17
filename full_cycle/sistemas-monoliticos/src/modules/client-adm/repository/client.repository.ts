@@ -8,6 +8,7 @@ export default class ClientRepository implements ClientGateway {
 
   async add(entity: Client): Promise<void> {
 
+    console.log(entity);
     await ClientModel.create({
       id: entity.id.id,
       name: entity.name,
