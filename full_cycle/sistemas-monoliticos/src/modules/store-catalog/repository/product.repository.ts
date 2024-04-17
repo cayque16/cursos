@@ -3,7 +3,7 @@ import Product from "../domain/product.entity";
 import ProductGateway from "../gateway/product.gateway";
 import ProductModel from "./product.model";
 
-export default class ProductRepository implements ProductGateway {
+export default class StoreCatalogRepository implements ProductGateway {
   async findAll(): Promise<Product[]> {
     const products = await ProductModel.findAll();
 

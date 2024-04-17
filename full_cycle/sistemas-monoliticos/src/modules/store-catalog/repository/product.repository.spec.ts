@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize-typescript";
 import ProductModel from "./product.model";
-import ProductRepository from "./product.repository";
+import StoreCatalogRepository from "./product.repository";
 
 describe("ProductRepository test", () => {
   let sequelize: Sequelize;
@@ -36,7 +36,7 @@ describe("ProductRepository test", () => {
       salesPrice: 200,
     });
 
-    const productRepository = new ProductRepository();
+    const productRepository = new StoreCatalogRepository();
     const products = await productRepository.findAll();
 
     expect(products.length).toBe(2);
@@ -58,7 +58,7 @@ describe("ProductRepository test", () => {
       salesPrice: 100,
     });
 
-    const productRepository = new ProductRepository();
+    const productRepository = new StoreCatalogRepository();
     const product = await productRepository.find("1");
 
     expect(product.id.id).toBe("1");
