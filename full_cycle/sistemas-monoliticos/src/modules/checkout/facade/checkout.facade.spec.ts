@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
 import OrderModel from "../repository/order.model";
 import ClientOrderModel from "../repository/client.model";
-import ProductModel from "../repository/product.model";
+import ProductOrderModel from "../repository/product.model";
 import OrderItemsModel from "../repository/order-items.model";
 import CheckoutFacade from "./checkout.facade";
 import PlaceOrderUseCase from "../usecase/place-order/place-order.usecase";
@@ -20,7 +20,7 @@ describe("Checkout facade test", () => {
         sequelize.addModels([
             OrderModel,
             ClientOrderModel,
-            ProductModel,
+            ProductOrderModel,
             OrderItemsModel,
             ClientOrderModel
         ]);

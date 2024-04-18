@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
 import OrderModel from "./order.model";
 import ClientOrderModel from "./client.model";
-import ProductModel from "./product.model";
+import ProductOrderModel from "./product.model";
 import Order from "../domain/order.entity";
 import Client from "../domain/client.entity";
 import Product from "../domain/product.entity";
@@ -22,7 +22,7 @@ describe("OrderRepository test", () => {
 
         await sequelize.addModels([
             ClientOrderModel,
-            ProductModel,
+            ProductOrderModel,
             OrderModel,
             OrderItemsModel
         ]);
@@ -98,14 +98,14 @@ describe("OrderRepository test", () => {
             salesPrice: 150
         });
 
-        ProductModel.create({
+        ProductOrderModel.create({
             id: product1.id.id,
             name: product1.name,
             description: product1.description,
             salesPrice: product1.salesPrice
         })
 
-        ProductModel.create({
+        ProductOrderModel.create({
             id: product2.id.id,
             name: product2.name,
             description: product2.description,

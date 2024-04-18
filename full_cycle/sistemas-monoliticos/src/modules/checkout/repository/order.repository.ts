@@ -6,7 +6,7 @@ import CheckoutGateway from "../gateway/checkout.gateway";
 import ClientOrderModel from "./client.model";
 import OrderItemsModel from "./order-items.model";
 import OrderModel from "./order.model";
-import ProductModel from "./product.model";
+import ProductOrderModel from "./product.model";
 
 export default class OrderRepository implements CheckoutGateway {
     async addOrder(order: Order): Promise<void> {
@@ -17,7 +17,7 @@ export default class OrderRepository implements CheckoutGateway {
         })
 
         order.products.forEach(element => {
-            ProductModel.create({
+            ProductOrderModel.create({
                 id: element.id.id,
                 name: element.name,
                 description: element.description,
@@ -54,7 +54,7 @@ export default class OrderRepository implements CheckoutGateway {
 
         let products: Product[]  = [];
         for(const element of order[0].items) {
-            const product = await ProductModel.findOne({where: {id: element.idProduct}})
+            const product = await ProductOrderModel.findOne({where: {id: element.idProduct}})
             products.push(new Product({
                 id: new Id(product.id),
                 name: product.name,
