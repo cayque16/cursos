@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize-typescript";
 import OrderModel from "./order.model";
-import ClientModel from "./client.model";
+import ClientOrderModel from "./client.model";
 import ProductModel from "./product.model";
 import Order from "../domain/order.entity";
 import Client from "../domain/client.entity";
@@ -21,7 +21,7 @@ describe("OrderRepository test", () => {
         });
 
         await sequelize.addModels([
-            ClientModel,
+            ClientOrderModel,
             ProductModel,
             OrderModel,
             OrderItemsModel
@@ -40,7 +40,7 @@ describe("OrderRepository test", () => {
             email: "fulano@teste",
         });
 
-        ClientModel.create({
+        ClientOrderModel.create({
             id: client.id.id,
             name: client.name,
             email: client.email,
@@ -78,7 +78,7 @@ describe("OrderRepository test", () => {
             email: "fulano@teste",
         });
 
-        ClientModel.create({
+        ClientOrderModel.create({
             id: client.id.id,
             name: client.name,
             email: client.email,

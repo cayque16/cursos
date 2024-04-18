@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize-typescript";
 import OrderModel from "../repository/order.model";
-import ClientModel from "../repository/client.model";
+import ClientOrderModel from "../repository/client.model";
 import ProductModel from "../repository/product.model";
 import OrderItemsModel from "../repository/order-items.model";
 import CheckoutFacade from "./checkout.facade";
@@ -19,10 +19,10 @@ describe("Checkout facade test", () => {
 
         sequelize.addModels([
             OrderModel,
-            ClientModel,
+            ClientOrderModel,
             ProductModel,
             OrderItemsModel,
-            ClientModel
+            ClientOrderModel
         ]);
         await sequelize.sync()
     })

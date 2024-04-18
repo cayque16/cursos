@@ -3,7 +3,7 @@ import Client from "../domain/client.entity";
 import Order from "../domain/order.entity";
 import Product from "../domain/product.entity";
 import CheckoutGateway from "../gateway/checkout.gateway";
-import ClientModel from "./client.model";
+import ClientOrderModel from "./client.model";
 import OrderItemsModel from "./order-items.model";
 import OrderModel from "./order.model";
 import ProductModel from "./product.model";
@@ -35,7 +35,7 @@ export default class OrderRepository implements CheckoutGateway {
                     required: true,
                 },
                 {
-                    model: ClientModel,
+                    model: ClientOrderModel,
                     required: true,
                 },
             ]
