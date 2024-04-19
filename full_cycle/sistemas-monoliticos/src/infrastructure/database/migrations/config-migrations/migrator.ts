@@ -10,7 +10,7 @@ export const migrator = (
       glob: [
         "*/infrastructure/database/migrations/*.{js,ts}",
         {
-          cwd: join(__dirname, "../../../../"),
+          cwd: join(__dirname, "../../../../../"),
           ignore: ["**/*.d.ts", "**/index.ts", "**/index.js"],
         },
       ],
