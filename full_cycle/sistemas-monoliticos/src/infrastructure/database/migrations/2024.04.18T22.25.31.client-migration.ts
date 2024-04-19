@@ -22,7 +22,7 @@ export const up: MigrationFn<Sequelize> = async ({context: sequelize}) => {
         },
         address: {
             type: DataTypes.STRING(255),
-            allowNull: false
+            allowNull: true
         },
         street: {
             type: DataTypes.STRING(255),
