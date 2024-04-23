@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import Id from "../../@shared/domain/value-object/id.value-object";
 import Client from "../domain/client.entity";
 import Order from "../domain/order.entity";
@@ -16,14 +17,13 @@ export default class OrderRepository implements CheckoutGateway {
             status: order.status
         })
 
-        order.products.forEach(element => {
-            ProductOrderModel.create({
-                id: element.id.id,
-                name: element.name,
-                description: element.description,
-                salesPrice: element.salesPrice,
+        for(const element of order.products) {
+            await OrderItemsModel.create({
+                id: uuidv4(),
+                idProduct: element.id.id,
+                idOrder: order.id.id
             });
-        });
+        }
     }
 
     async findOrder(id: string): Promise<Order> {
