@@ -8,6 +8,7 @@ import Product from "../domain/product.entity";
 import Id from "../../@shared/domain/value-object/id.value-object";
 import OrderRepository from "./order.repository";
 import OrderItemsModel from "./order-items.model";
+import { v4 as uuidv4 } from "uuid";
 
 describe("OrderRepository test", () => {
     let sequelize: Sequelize;
@@ -47,21 +48,39 @@ describe("OrderRepository test", () => {
             address: client.address
         });
 
+        const product1 =  new Product({
+            id: new Id(uuidv4()),
+            name: "Produto 1",
+            description: "Teste",
+            salesPrice: 100
+        });
+
+        ProductOrderModel.create({
+            id: product1.id.id,
+            name: product1.name,
+            description: product1.description,
+            salesPrice: product1.salesPrice
+        });
+
+        const product2 = new Product({
+            id: new Id(uuidv4()),
+            name: "Produto 2",
+            description: "Teste",
+            salesPrice: 150
+        });
+
+        ProductOrderModel.create({
+            id: product2.id.id,
+            name: product2.name,
+            description: product2.description,
+            salesPrice: product2.salesPrice
+        });
+
         const order = new Order({
             client: client,
             products: [
-                new Product({
-                    id: new Id("1"),
-                    name: "Produto 1",
-                    description: "Teste",
-                    salesPrice: 100
-                }),
-                new Product({
-                    id: new Id("2"),
-                    name: "Produto 2",
-                    description: "Teste",
-                    salesPrice: 150
-                })
+                product1,
+                product2
             ],
         });
         
