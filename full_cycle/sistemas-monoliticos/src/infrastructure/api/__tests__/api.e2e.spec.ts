@@ -15,6 +15,7 @@ import OrderModel from "../../../modules/checkout/repository/order.model";
 import OrderItemsModel from "../../../modules/checkout/repository/order-items.model";
 import ClientAdmFacadeFactory from "../../../modules/client-adm/factory/client-adm.facade.factory";
 import Address from "../../../modules/@shared/domain/value-object/address";
+import CheckoutFacadeFactory from "../../../modules/checkout/factory/checkout.facade.factory";
 
 describe("API E2E tests", () => {
     let sequelize: Sequelize;
@@ -134,5 +135,52 @@ describe("API E2E tests", () => {
             .send(checkoutDto);
 
         expect(response.status).toBe(200);
+    });
+
+    it("should find a invoice", async () => {
+        const checkoutFacade = CheckoutFacadeFactory.create();
+
+        const clientFacade = ClientAdmFacadeFactory.create();
+        const productFacade = ProductAdmFacadeFactory.create();
+
+        const clientDto = {
+            id: "123",
+            name: "Cliente teste",
+            email: "cliente@teste",
+            document: "documento completo",
+            address: new Address(
+                "Rua tal",
+                "55",
+                "Final da rua",
+                "Aquela",
+                "MG",
+                "1235-152"
+            )
+        }
+    
+        await clientFacade.add(clientDto);
+    
+        const productDto = {
+            id: "4700",
+            name: "Produto 1",
+            description: "Teste do produto",
+            purchasePrice: 120,
+            stock: 10
+        };
+
+        await productFacade.addProduct(productDto);
+
+        const checkout = await checkoutFacade.execute({
+            clientId: clientDto.id,
+            products: [
+                {productId: productDto.id}
+            ]
+        });
+
+        const response = await request(app)
+            .get(`/invoice/${checkout.idInvoice}`);
+
+        expect(response.status).toBe(200);
+        expect(response.body.id).toBe(checkout.idInvoice);
     });
 })
