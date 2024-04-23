@@ -2,6 +2,10 @@ import ClientAdmFacade from "../../client-adm/facade/client-adm.facade";
 import ClientRepository from "../../client-adm/repository/client.repository";
 import AddClientUseCase from "../../client-adm/usecase/add-client/add-client.usecase";
 import FindClientUseCase from "../../client-adm/usecase/find-client/find-client.usecase";
+import InvoiceFacade from "../../invoice/facade/invoice.facade";
+import InvoiceRepository from "../../invoice/repository/invoice.repository";
+import FindInvoiceUseCase from "../../invoice/usecase/find-invoice/find-invoice.usecase";
+import GenerateInvoiceUseCase from "../../invoice/usecase/generate-invoice/generate-invoice.usecase";
 import ProductAdmFacade from "../../product-adm/facade/product-adm.facade";
 import ProductRepository from "../../product-adm/repository/product.repository";
 import AddProductUseCase from "../../product-adm/usecase/add-product/add-product.usecase";
@@ -40,12 +44,21 @@ export default class CheckoutFacadeFactory {
             findUseCase: catalogFindUseCase
         });
 
+        const invoiceRepository = new InvoiceRepository();
+        const invoiceGenerateUsecase = new GenerateInvoiceUseCase(invoiceRepository);
+        const invoiceFindUseCase = new FindInvoiceUseCase(invoiceRepository);
+        const invoiceFacade = new InvoiceFacade({
+            find: invoiceFindUseCase,
+            generate: invoiceGenerateUsecase
+        });
+
         const orderRepository = new OrderRepository();
 
         const checkoutUseCase = new PlaceOrderUseCase(
             clientFacade,
             productFacade,
             catalogFacade, 
+            invoiceFacade,
             orderRepository
         );
         const facade = new CheckoutFacade(checkoutUseCase);
