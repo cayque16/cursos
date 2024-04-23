@@ -18,7 +18,7 @@ export const up: MigrationFn<Sequelize> = async ({ context: sequelize }) => {
         },
         price: {
             type: DataTypes.NUMBER,
-            allowNull: false,
+            allowNull: true,
         },
     })
     await sequelize.getQueryInterface().addConstraint('invoice_items', {
