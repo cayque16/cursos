@@ -13,6 +13,11 @@ clientRoute.post("/", async (req: Request, res: Response) => {
         address: req.body.address
     }
 
-    const output = await clientFacade.add(clientDto);
-    res.send(output);
+    try {
+        const output = await clientFacade.add(clientDto);
+        res.send(output);
+    } catch (err) {
+        console.log(err)
+        res.status(500).send(err)
+    }
 });

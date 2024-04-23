@@ -7,14 +7,15 @@ checkoutRoute.post("/", async (req: Request, res: Response) => {
     const checkoutFacade = CheckoutFacadeFactory.create();
 
     const checkoutDto = {
-        clientId: "1",
-        products: [
-            {productId: "1"},
-            {productId: "2"},
-            {productId: "3"},
-        ]
+        clientId: req.body.clientId,
+        products: req.body.products
     }
 
-    const output = await checkoutFacade.execute(checkoutDto);
-    res.send(output);
+    try {
+        const output = await checkoutFacade.execute(checkoutDto);
+        res.send(output);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
 });
