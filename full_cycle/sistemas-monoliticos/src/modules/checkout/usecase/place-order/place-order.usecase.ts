@@ -1,6 +1,8 @@
 import Id from "../../../@shared/domain/value-object/id.value-object";
 import UseCaseInterface from "../../../@shared/usecase/use-case.interface";
 import ClientAdmFacadeInterface from "../../../client-adm/facade/client-adm.facade.interface";
+import InvoiceItems from "../../../invoice/domain/invoice-items.entity";
+import InvoiceFacadeInterface from "../../../invoice/facade/invoice.facade.interface";
 import ProductAdmFacadeInterface from "../../../product-adm/facade/product-adm.facade.interface";
 import StoreCatalogFacade from "../../../store-catalog/facade/store-catalog.facade";
 import Client from "../../domain/client.entity";
@@ -13,17 +15,20 @@ export default class PlaceOrderUseCase implements UseCaseInterface {
   private _clientFacade: ClientAdmFacadeInterface;
   private _productFacade: ProductAdmFacadeInterface;
   private _catalogFacade: StoreCatalogFacade;
+  private _invoiceFacade: InvoiceFacadeInterface;
   private _repository: CheckoutGateway;
 
   constructor(
     clientFacade: ClientAdmFacadeInterface,
     productFacade: ProductAdmFacadeInterface,
     catalogFacade: StoreCatalogFacade,
+    invoiceFacade: InvoiceFacadeInterface,
     repository: CheckoutGateway
   ) {
     this._clientFacade = clientFacade;
     this._productFacade = productFacade;
     this._catalogFacade = catalogFacade;
+    this._invoiceFacade = invoiceFacade;
     this._repository = repository;
   }
 
@@ -54,8 +59,29 @@ export default class PlaceOrderUseCase implements UseCaseInterface {
     });
     this._repository.addOrder(order);
 
+    let invoiceItems: InvoiceItems[] = [];
+    products.forEach(element => {
+      invoiceItems.push(new InvoiceItems({
+          name: element.name,
+          price: element.salesPrice
+      }));
+    });
+
+    const invoice = await this._invoiceFacade.generate({
+      name: client.name,
+      document: client.document,
+      street: client.street,
+      number: client.number,
+      complement: client.complement,
+      city: client.city,
+      state: client.state,
+      zipCode: client.zipcode,
+      items: invoiceItems
+    })
+    
     return {
       id: order.id.id,
+      idInvoice: invoice.id,
       total: order.total,
       products: order.products.map((p) => {
         return {
