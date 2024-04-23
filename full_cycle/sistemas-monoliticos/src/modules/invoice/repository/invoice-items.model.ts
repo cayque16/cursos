@@ -17,6 +17,6 @@ export default class InvoiceItemsModel extends Model {
     @Column({ allowNull: false })
     name: string;
 
-    @Column({ allowNull: false })
+    @Column({ allowNull: true })
     price: number;
 }
