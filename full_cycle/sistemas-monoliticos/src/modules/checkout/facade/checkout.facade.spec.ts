@@ -64,6 +64,22 @@ describe("Checkout facade test", () => {
         }),
         findAll: jest.fn().mockResolvedValue(null),
     }
+    const invoiceFacadeMock = {
+        find: jest.fn(),
+        generate: jest.fn().mockResolvedValue({
+            id: "string",
+            name: "string",
+            document: "string",
+            street: "string",
+            number: "string",
+            complement: "string",
+            city: "string",
+            state: "string",
+            zipCode: "string",
+            items: [],
+            total: 0
+        })
+    }
     const orderRepository = {
         addOrder: jest.fn(),
         findOrder: jest.fn()
@@ -79,21 +95,26 @@ describe("Checkout facade test", () => {
         usecase["_productFacade"] = productFacadeMock;
         //@ts-expect-error - force set catalogFacade
         usecase["_catalogFacade"] = catalogFacadeMock;
+        //@ts-expected-error - force set invoiceFacade
+        usecase["_invoiceFacade"] = invoiceFacadeMock;
         //@ts-expected-error - force set repository
         usecase["_repository"] = orderRepository;
 
         const facade = new CheckoutFacade(usecase);
 
+        
         const result = await facade.execute({
             clientId: "1",
             products: [
-              {productId: "1"},
+            {productId: "1"},
             ]
         });
+        
         expect(result.id).toBeDefined();
         expect(clientFacadeMock.find).toHaveBeenCalled();
         expect(productFacadeMock.checkStock).toHaveBeenCalled();
         expect(catalogFacadeMock.find).toHaveBeenCalled();
+        expect(invoiceFacadeMock.generate).toHaveBeenCalled();
         expect(orderRepository.addOrder).toHaveBeenCalled();
     });
 });

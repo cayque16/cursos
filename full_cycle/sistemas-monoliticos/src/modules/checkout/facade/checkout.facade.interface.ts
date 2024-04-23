@@ -7,6 +7,7 @@ export interface CheckoutFacadeInputDto {
   
   export interface CheckoutFacadeOutputDto {
     id: string;
+    idInvoice: string;
     total: number;
     products: {
       productId: string;
