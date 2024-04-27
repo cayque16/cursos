@@ -68,9 +68,23 @@ class CategoryUnitTest extends TestCase
     public function testExceptionName()
     {
         try {
-            $category = new Category(
+            new Category(
                 name: 'Ne',
                 description: 'New Desc'
+            );
+
+            $this->assertTrue(false, 'Nao deveria ter passado no validate!');
+        } catch (Throwable $th) {
+            $this->assertInstanceOf(EntityValidationException::class, $th);
+        }
+    }
+
+    public function testExceptionDescription()
+    {
+        try {
+            new Category(
+                name: 'Ne',
+                description: random_bytes(999999)
             );
 
             $this->assertTrue(false, 'Nao deveria ter passado no validate!');
