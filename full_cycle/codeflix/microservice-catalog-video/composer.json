@@ -1,0 +1,16 @@
+{
+    "name": "cayque16/app-php-catalog-video",
+    "description": "App With PHP - Catalog Video",
+    "authors": [
+        {
+            "name": "Cayque Santos",
+            "email": "cayque_santos16@hotmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Core\\": "src/Core/"
+        }
+    },
+    "require": {}
+}
