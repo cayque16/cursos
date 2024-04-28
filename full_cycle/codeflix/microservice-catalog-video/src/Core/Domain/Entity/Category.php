@@ -40,7 +40,7 @@ class Category
         $this->description = $description;
     }
 
-    public function validate()
+    private function validate()
     {
         DomainValidation::strMaxLength($this->name);
         DomainValidation::strMinLength($this->name);
