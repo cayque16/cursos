@@ -1,6 +1,6 @@
 <?php
 
-use Core\Domain\Entity\Category;
+namespace Core\Domain\Repository;
 
 interface PaginationInterface
 {
