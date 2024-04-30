@@ -17,6 +17,7 @@ class CreateCategoryUseCaseUnitTest extends TestCase
     public function testCreateNewCategory()
     {
         $uuid = (string) Uuid::uuid4()->toString();
+        $uuid = (string) Uuid::uuid4()->toString();
         $categoryName = 'name cat';
 
         $this->mockEntity = Mockery::mock(Category::class, [
@@ -25,8 +26,19 @@ class CreateCategoryUseCaseUnitTest extends TestCase
         ]);
 
         $this->mockEntity->shouldReceive('id')->andReturn($uuid);
+        $this->mockEntity = Mockery::mock(Category::class, [
+            $uuid,
+            $categoryName
+        ]);
+
+        $this->mockEntity->shouldReceive('id')->andReturn($uuid);
 
         $this->mockRepo = Mockery::mock(stdClass::class, CategoryRepositoryInterface::class);
+        $this->mockRepo->shouldReceive('insert')->andReturn($this->mockEntity);
+
+        $this->mockInputDto = Mockery::mock(CreateCategoryInputDto::class, [
+            $categoryName
+        ]);
         $this->mockRepo->shouldReceive('insert')->andReturn($this->mockEntity);
 
         $this->mockInputDto = Mockery::mock(CreateCategoryInputDto::class, [
