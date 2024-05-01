@@ -14,6 +14,11 @@ use stdClass;
 
 class CreateCategoryUseCaseUnitTest extends TestCase
 {
+    private $mockEntity;
+    private $mockRepo;
+    private $mockInputDto;
+    private $spy;
+
     public function testCreateNewCategory()
     {
         $uuid = (string) Uuid::uuid4()->toString();

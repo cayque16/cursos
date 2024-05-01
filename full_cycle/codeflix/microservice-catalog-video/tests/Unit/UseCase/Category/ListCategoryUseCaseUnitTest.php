@@ -14,6 +14,11 @@ use stdClass;
 
 class ListCategoryUseCaseUnitTest extends TestCase
 {
+    private $mockEntity;
+    private $mockRepo;
+    private $mockInputDto;
+    private $spy;
+
     public function testGetById()
     {
         $id = (string) Uuid::uuid4()->toString();
