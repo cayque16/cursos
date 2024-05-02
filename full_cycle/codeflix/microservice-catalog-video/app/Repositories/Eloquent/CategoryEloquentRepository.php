@@ -61,9 +61,19 @@ class CategoryEloquentRepository implements CategoryRepositoryInterface
 
     public function update(EntityCategory $category): EntityCategory
     {
-        return new EntityCategory(
-            name: 'test',
-        );
+        if (!$categoryDb = $this->model->find($category->id())) {
+            throw new NotFoundException();
+        }
+
+        $categoryDb->update([
+            'name' => $category->name,
+            'description' => $category->description,
+            'is_active' => $category->isActive,
+        ]);
+
+        $categoryDb->refresh();
+
+        return $this->toCategory($categoryDb);
     }
 
     public function delete(string $id): bool

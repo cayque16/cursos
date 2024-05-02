@@ -87,4 +87,32 @@ class CategoryEloquentRepositoryTest extends TestCase
         $this->assertInstanceOf(PaginationInterface::class, $response);
         $this->assertCount(0, $response->items());
     }
+
+    public function testUpdateIdNotFound()
+    {
+        try {
+            $category = new CategoryEntity(name: 'test');
+            $this->repository->update($category);
+
+            $this->assertTrue(false);
+        } catch (Throwable $th) {
+            $this->assertInstanceOf(NotFoundException::class, $th);
+        }
+    }
+
+    public function testUpdate()
+    {
+        $categoryDb = CategoryModel::factory()->create();
+
+        $category = new CategoryEntity(
+            id: $categoryDb->id,
+            name: 'updated name',
+        );
+        
+        $response = $this->repository->update($category);
+
+        $this->assertInstanceOf(CategoryEntity::class, $response);
+        $this->assertNotEquals($response->name, $categoryDb->name);
+        $this->assertEquals('updated name', $response->name);
+    }
 }
