@@ -87,9 +87,14 @@ class CategoryEloquentRepository implements CategoryRepositoryInterface
 
     public function toCategory(object $data): EntityCategory
     {
-        return new EntityCategory(
+        $entity =  new EntityCategory(
             id: $data->id,
             name: $data->name,
+            description: $data->description
         );
+
+        ((bool) $entity->isActive) ? $entity->activate() : $entity->disable();
+
+        return $entity;
     }
 }

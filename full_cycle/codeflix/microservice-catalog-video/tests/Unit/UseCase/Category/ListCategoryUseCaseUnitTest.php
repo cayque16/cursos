@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\UseCase\Category;
 
-use CategoryRepositoryInterface;
 use Core\Domain\Entity\Category;
+use Core\Domain\Repository\CategoryRepositoryInterface;
 use Core\UseCase\Category\ListCategoryUseCase;
 use Core\UseCase\DTO\Category\CategoryInputDto;
 use Core\UseCase\DTO\Category\CategoryOutputDto;
