@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\UseCase\Category;
 
-use CategoryRepositoryInterface;
+use Core\Domain\Repository\CategoryRepositoryInterface;
 use Core\UseCase\Category\DeleteCategoryUseCase;
 use Core\UseCase\DTO\Category\CategoryInputDto;
 use Core\UseCase\DTO\Category\DeleteCategory\CategoryDeleteOutputDto;
