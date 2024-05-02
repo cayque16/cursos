@@ -8,12 +8,11 @@ use Core\Domain\Entity\Category as EntityCategory;
 use Core\Domain\Exception\NotFoundException;
 use Core\Domain\Repository\CategoryRepositoryInterface;
 use Core\Domain\Repository\PaginationInterface;
-use Illuminate\Database\Eloquent\Model;
 
 class CategoryEloquentRepository implements CategoryRepositoryInterface
 {
     public function __construct(
-        protected Model $model
+        protected ModelCategory $model
     ) { }
 
     public function insert(EntityCategory $category): EntityCategory

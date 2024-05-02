@@ -35,6 +35,7 @@ class CategoryController extends Controller
                                     ->additional([
                                         'meta' => [
                                             'total' => $response->total,
+                                            'current_page' => $response->current_page,
                                             'last_page' => $response->last_page,
                                             'first_page' => $response->first_page,
                                             'per_page' => $response->per_page,
@@ -53,8 +54,8 @@ class CategoryController extends Controller
                 isActive: (bool) $request->is_active ?? true
             )
         );
-
-        return (new CategoryResource(collect($response)))
+        
+        return CategoryResource::collection(collect([$response]))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
     }
@@ -63,7 +64,7 @@ class CategoryController extends Controller
     {
         $category = $useCase->execute(new CategoryInputDto($id));
 
-        return (new CategoryResource(collect($category)))->response();
+        return CategoryResource::collection(collect([$category]))->response();
     }
 
     public function update(
@@ -78,7 +79,7 @@ class CategoryController extends Controller
             )
         );
 
-        return (new CategoryResource(collect($response)))->response();
+        return CategoryResource::collection(collect([$response]))->response();
     }
 
     public function destroy(DeleteCategoryUseCase $useCase, $id)
