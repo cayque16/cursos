@@ -2,7 +2,7 @@
 
 namespace Core\UseCase\Category;
 
-use CategoryRepositoryInterface;
+use Core\Domain\Repository\CategoryRepositoryInterface;
 use Core\UseCase\DTO\Category\UpdateCategory\CategoryUpdateInputDto;
 use Core\UseCase\DTO\Category\UpdateCategory\CategoryUpdateOutputDto;
 
