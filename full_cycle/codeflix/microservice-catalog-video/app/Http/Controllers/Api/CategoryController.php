@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Resources\CategoryResource;
+use Core\UseCase\Category\CreateCategoryUseCase;
 use Core\UseCase\Category\ListCategoriesUseCase;
+use Core\UseCase\DTO\Category\CreateCategory\CreateCategoryInputDto;
 use Core\UseCase\DTO\Category\ListCategories\ListCategoriesInputDto;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CategoryController extends Controller
 {
@@ -32,5 +36,20 @@ class CategoryController extends Controller
                                             'from' => $response->from,
                                         ]
                                     ]);
+    }
+
+    public function store(StoreCategoryRequest $request, CreateCategoryUseCase $useCase)
+    {
+        $response = $useCase->execute(
+            input: new CreateCategoryInputDto(
+                name: $request->name,
+                description: $request->description ?? '',
+                isActive: (bool) $request->is_active ?? true
+            )
+        );
+
+        return (new CategoryResource(collect($response)))
+            ->response()
+            ->setStatusCode(Response::HTTP_CREATED);
     }
 }
