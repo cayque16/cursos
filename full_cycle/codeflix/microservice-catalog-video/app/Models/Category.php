@@ -14,7 +14,7 @@ class Category extends Model
         'id',
         'name',
         'description',
-        'id_active',
+        'is_active',
     ];
 
     public $incrementing = false;

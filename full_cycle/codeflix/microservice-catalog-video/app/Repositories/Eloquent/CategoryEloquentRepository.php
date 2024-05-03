@@ -92,7 +92,7 @@ class CategoryEloquentRepository implements CategoryRepositoryInterface
             description: $data->description
         );
 
-        ((bool) $entity->isActive) ? $entity->activate() : $entity->disable();
+        ((bool) $data->isActive) ? $entity->activate() : $entity->disable();
 
         return $entity;
     }

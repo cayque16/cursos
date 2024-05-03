@@ -87,4 +87,39 @@ class CategoryApiTest extends TestCase
             ]
         ]);
     }
+
+    public function testStore()
+    {
+        $data = [
+            'name' => 'New category'
+        ];
+
+        $response = $this->postJson($this->endpoint, $data);
+
+        $response->assertStatus(Response::HTTP_CREATED);
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'name',
+                'description',
+                'is_active',
+                'created_at',
+            ]
+        ]);
+
+        $response = $this->postJson($this->endpoint, [
+            'name' => 'New cat',
+            'description' => 'New desc',
+            'is_active' => false,
+        ]);
+        
+        $response->assertStatus(Response::HTTP_CREATED);
+        $this->assertEquals('New cat', $response['data']['name']);
+        $this->assertEquals('New desc', $response['data']['description']);
+        $this->assertEquals(false, $response['data']['is_active']);
+        $this->assertDatabaseHas('categories', [
+            'id' => $response['data']['id'],
+            'is_active' => false,
+        ]);
+    }
 }

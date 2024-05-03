@@ -28,7 +28,7 @@ class CategoryUnitTest extends ModelTestCase
             'id',
             'name',
             'description',
-            'id_active',
+            'is_active',
         ];
 
     }
