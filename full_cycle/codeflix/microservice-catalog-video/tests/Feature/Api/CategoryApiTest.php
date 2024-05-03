@@ -122,4 +122,55 @@ class CategoryApiTest extends TestCase
             'is_active' => false,
         ]);
     }
+
+    public function testNotFoundUpdate()
+    {
+        $data = [
+            'name' => 'New name'
+        ];
+
+        $response = $this->putJson("{$this->endpoint}/{fake_id}", $data);
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
+    }
+
+    public function testValidationsUpdate()
+    {
+        $category = Category::factory()->create();
+
+        $response = $this->putJson("{$this->endpoint}/{$category->id}", []);
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertJsonStructure([
+            'message',
+            'errors' => [
+                'name'
+            ]
+        ]);
+    }
+
+    public function testUpdate()
+    {
+        $category = Category::factory()->create();
+
+        $data = [
+            'name' => 'Name Updated'
+        ];
+
+        $response = $this->putJson("{$this->endpoint}/{$category->id}", $data);
+
+        $response->assertStatus(Response::HTTP_OK);
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'name',
+                'description',
+                'is_active',
+                'created_at',
+            ]
+        ]);
+        $this->assertDatabaseHas('categories', [
+            'name' => 'Name Updated',
+        ]);
+    }
 }
