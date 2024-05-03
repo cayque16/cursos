@@ -5,6 +5,7 @@ namespace Tests\Unit\Domain\Entity;
 use Core\Domain\Entity\Genre;
 use Core\Domain\ValueObject\Uuid;
 use DateTime;
+use PhpParser\Node\Expr\New_;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid as RamseyUuid;
 
@@ -61,5 +62,16 @@ class GenreUnitTest extends TestCase
         $this->assertTrue($genre->isActive);
         $genre->disable();
         $this->assertFalse($genre->isActive);
+    }
+
+    public function testUpdate()
+    {
+        $genre = new Genre(name: 'name');
+
+        $this->assertEquals('name', $genre->name);
+
+        $genre->update(name: 'name updated');
+        
+        $this->assertEquals('name updated', $genre->name);
     }
 }
