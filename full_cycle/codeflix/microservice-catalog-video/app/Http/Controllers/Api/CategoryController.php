@@ -64,7 +64,7 @@ class CategoryController extends Controller
     {
         $category = $useCase->execute(new CategoryInputDto($id));
 
-        return CategoryResource::collection(collect([$category]))->response();
+        return (new CategoryResource($category))->response();
     }
 
     public function update(
