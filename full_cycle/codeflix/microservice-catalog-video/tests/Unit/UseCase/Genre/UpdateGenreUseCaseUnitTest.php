@@ -40,7 +40,7 @@ class UpdateGenreUseCaseUnitTest extends TestCase
         $uuid = (string) RamseyUuid::uuid4();
 
         $useCase = new UpdateGenreUseCase(
-            $this->mockRepository($uuid),
+            $this->mockRepository($uuid, 0),
             $this->mockTransaction(),
             $this->mockCategoryRepository([$uuid])
         );
@@ -54,18 +54,23 @@ class UpdateGenreUseCaseUnitTest extends TestCase
             'teste', new Uuid($uuid), true, []
         ]);
         $mockEntity->shouldReceive('createdAt')->andReturn(date('Y-m-a H:i:s'));
-        $mockEntity->shouldReceive('update');
+        $mockEntity->shouldReceive('update')->times(1);
         $mockEntity->shouldReceive('addCategory');
 
         return $mockEntity;
     }
 
-    private function mockRepository(string $uuid)
+    private function mockRepository(string $uuid, int $timesCalled = 1)
     {
         $mockEntity = $this->mockEntity($uuid);
         $mockRepository = Mockery::mock(stdClass::class, GenreRepositoryInterface::class);
-        $mockRepository->shouldReceive('findById')->andReturn($mockEntity);
-        $mockRepository->shouldReceive('update')->andReturn($mockEntity);
+        $mockRepository->shouldReceive('findById')
+                        ->once()
+                        ->with($uuid)
+                        ->andReturn($mockEntity);
+        $mockRepository->shouldReceive('update')
+                        ->times($timesCalled)
+                        ->andReturn($mockEntity);
 
         return $mockRepository;
     }
@@ -91,7 +96,9 @@ class UpdateGenreUseCaseUnitTest extends TestCase
     private function mockCategoryRepository(array $uuid)
     {
         $mockCategoryRepository = Mockery::mock(stdClass::class, CategoryRepositoryInterface::class);
-        $mockCategoryRepository->shouldReceive('getIdsListIds')->andReturn($uuid);
+        $mockCategoryRepository->shouldReceive('getIdsListIds')
+                                ->once()
+                                ->andReturn($uuid);
 
         return $mockCategoryRepository;
     }

@@ -17,7 +17,7 @@ class ListGenreUseCaseUnitTest extends TestCase
 {
     public function testListSingle()
     {
-        $uuid = RamseyUuid::uuid4();
+        $uuid = (string) RamseyUuid::uuid4();
 
         $mockEntity = Mockery::mock(EntityGenre::class,[
             'teste', new Uuid($uuid), true, []
@@ -25,7 +25,10 @@ class ListGenreUseCaseUnitTest extends TestCase
         $mockEntity->shouldReceive('createdAt')->andReturn(date('Y-m-a H:i:s'));
 
         $mockRepository = Mockery::mock(stdClass::class, GenreRepositoryInterface::class);
-        $mockRepository->shouldReceive('findById')->andReturn($mockEntity);
+        $mockRepository->shouldReceive('findById')
+                        ->once()
+                        ->with($uuid)
+                        ->andReturn($mockEntity);
         
         $mockInputDto = Mockery::mock(GenreInputDto::class, [
             $uuid
