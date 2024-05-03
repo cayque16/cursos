@@ -46,4 +46,11 @@ class CategoryApiTest extends TestCase
         $this->assertEquals(2, $response['meta']['current_page']);
         $this->assertEquals(30, $response['meta']['total']);
     }
+
+    public function testListCategoryNotFound()
+    {
+        $response = $this->getJson("$this->endpoint/fake_value");
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
+    }
 }
