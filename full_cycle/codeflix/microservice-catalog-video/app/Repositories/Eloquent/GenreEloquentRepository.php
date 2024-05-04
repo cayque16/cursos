@@ -80,6 +80,10 @@ class GenreEloquentRepository implements GenreRepositoryInterface
             'name' => $genre->name
         ]);
 
+        if (count($genre->categories) > 0) {
+            $genreDb->categories()->sync($genre->categories);
+        }
+
         return $this->toGenre($genreDb);
     }
 
