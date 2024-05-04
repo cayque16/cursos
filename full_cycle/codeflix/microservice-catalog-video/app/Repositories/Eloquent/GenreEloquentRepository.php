@@ -72,7 +72,15 @@ class GenreEloquentRepository implements GenreRepositoryInterface
 
     public function update(GenreEntity $genre): GenreEntity
     {
+        if (!$genreDb = $this->model->find($genre->id)) {
+            throw new NotFoundException("Genre {$genre->id} not found");
+        }
 
+        $genreDb->update([
+            'name' => $genre->name
+        ]);
+
+        return $this->toGenre($genreDb);
     }
 
     public function delete(string $id): bool
