@@ -43,7 +43,16 @@ class GenreEloquentRepository implements GenreRepositoryInterface
 
     public function findAll(string $filter = '', $order = 'DESC'): array
     {
+        $result = $this->model
+            ->where(function ($query) use ($filter){
+                if ($filter) {
+                    $query->where('name', 'LIKE', "%{$filter}%");
+                }
+            })
+            ->orderBy('name', $order)
+            ->get();
 
+        return $result->toArray();
     }
 
     public function paginate(string $filter = '', $order = 'DESC', int $page = 1, $totalPage = 15): PaginationInterface
