@@ -4,13 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreGenreRequest;
+use App\Http\Requests\UpdateGenreRequest;
 use App\Http\Resources\GenreResource;
 use Core\UseCase\DTO\Genre\CreateGenre\GenreCreateInputDto;
 use Core\UseCase\DTO\Genre\GenreInputDto;
 use Core\UseCase\DTO\Genre\ListGenres\ListGenresInputDto;
+use Core\UseCase\DTO\Genre\UpdateGenre\GenreUpdateInputDto;
 use Core\UseCase\Genre\CreateGenreUseCase;
 use Core\UseCase\Genre\ListGenresUseCase;
 use Core\UseCase\Genre\ListGenreUseCase;
+use Core\UseCase\Genre\UpdateGenreUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -63,24 +66,22 @@ class GenreController extends Controller
         return new GenreResource($response);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(
+        UpdateGenreRequest $request,
+        UpdateGenreUseCase $useCase,
+        $id
+    ) {
+        $response = $useCase->execute(
+            input: new GenreUpdateInputDto(
+                id: $id,
+                name: $request->name,
+                categories: $request->categories_ids
+            )
+        );
+
+        return new GenreResource($response);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //
