@@ -81,4 +81,27 @@ class GenreApiTest extends TestCase
             ]
         ]);
     }
+
+    public function testShowNotFound()
+    {
+        $response = $this->getJson("{$this->endpoint}/fake_id");
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
+    }
+
+    public function testShow()
+    {
+        $genre = Genre::factory()->create();
+
+        $response = $this->getJson("{$this->endpoint}/{$genre->id}");
+
+        $response->assertStatus(Response::HTTP_OK);
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'name',
+                'is_active',
+            ]
+        ]);
+    }
 }

@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreGenreRequest;
 use App\Http\Resources\GenreResource;
 use Core\UseCase\DTO\Genre\CreateGenre\GenreCreateInputDto;
+use Core\UseCase\DTO\Genre\GenreInputDto;
 use Core\UseCase\DTO\Genre\ListGenres\ListGenresInputDto;
 use Core\UseCase\Genre\CreateGenreUseCase;
 use Core\UseCase\Genre\ListGenresUseCase;
+use Core\UseCase\Genre\ListGenreUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -54,15 +56,11 @@ class GenreController extends Controller
                 ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(ListGenreUseCase $useCase, $id)
     {
-        //
+        $response = $useCase->execute(new GenreInputDto($id));
+
+        return new GenreResource($response);
     }
 
     /**
