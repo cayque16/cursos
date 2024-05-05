@@ -153,4 +153,20 @@ class GenreApiTest extends TestCase
             ]
         ]);
     }
+
+    public function testDeleteNotFound()
+    {
+        $response = $this->deleteJson("{$this->endpoint}/fake_id");
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
+    }
+
+    public function testDelete()
+    {
+        $genre = Genre::factory()->create();
+
+        $response = $this->deleteJson("{$this->endpoint}/{$genre->id}");
+
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
+    }
 }
