@@ -32,7 +32,11 @@ class CastMemberEloquentRepository implements CastMemberRepositoryInterface
 
     public function findById(string $id): CastMemberEntity
     {
+        if (!$dataDb = $this->model->find($id)) {
+            throw new NotFoundException("Cast Member {$id} Not Found");
+        }
 
+        return $this->toCastMember($dataDb);
     }
 
     public function findAll(string $filter = '', $order = 'DESC'): array
