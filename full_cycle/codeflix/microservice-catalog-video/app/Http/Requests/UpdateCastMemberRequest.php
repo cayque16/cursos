@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Core\Domain\Enum\CastMemberType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class UpdateCastMemberRequest extends FormRequest
 {
@@ -31,7 +33,8 @@ class UpdateCastMemberRequest extends FormRequest
             ],
             'type' => [
                 'nullable',
-                'int'
+                'int',
+                new Enum(CastMemberType::class)
             ]
         ];
     }
