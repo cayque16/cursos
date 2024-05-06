@@ -303,4 +303,19 @@ class VideoUnitTest extends TestCase
         $this->assertInstanceOf(Media::class, $entity->videoFile());
         $this->assertEquals('path/video.mp4', $entity->videoFile()->filePath);
     }
+
+    public function testValidations()
+    {
+        $this->expectException(EntityValidationException::class);
+
+        new Video(
+            title: 'ne',
+            description: 'description',
+            yearLaunched: 2029,
+            duration: 12,
+            opened: true,
+            rating: Rating::RATE12,
+            published: true,
+        );
+    }
 }

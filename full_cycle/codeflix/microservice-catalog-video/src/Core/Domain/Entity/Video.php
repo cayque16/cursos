@@ -36,6 +36,8 @@ class Video
     ) {
         $this->id = $this->id ?? Uuid::random();
         $this->createdAt = $this->createdAt ?? new DateTime();
+
+        $this->validation();
     }
 
     public function addCategoryId(String $categoryId)
@@ -91,5 +93,12 @@ class Video
     public function videoFile(): ?Media
     {
         return $this->videoFile;
+    }
+
+    protected function validation()
+    {
+        DomainValidation::notNull($this->title);
+        DomainValidation::strMinLength($this->title);
+        DomainValidation::strCanNullAndMaxLength($this->description);
     }
 }
