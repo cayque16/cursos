@@ -6,6 +6,7 @@ use Core\Domain\Entity\Genre;
 use Core\Domain\Entity\Video;
 use Core\Domain\Enum\Rating;
 use Core\Domain\Exception\EntityValidationException;
+use Core\Domain\ValueObject\Image;
 use Core\Domain\ValueObject\Uuid;
 use DateTime;
 use PhpParser\Node\Expr\New_;
@@ -146,7 +147,7 @@ class VideoUnitTest extends TestCase
 
         $this->assertCount(1, $entity->genresId);
     }
-//----------------------------------------------------
+
     public function testAddCastMemberId()
     {
         $castMemberId = (string) RamseyUuid::uuid4();
@@ -191,5 +192,25 @@ class VideoUnitTest extends TestCase
         $entity->removeCastMemberId($castMemberId);
 
         $this->assertCount(1, $entity->castMembersId);
+    }
+
+    public function testValueObjectImage()
+    {
+        $entity = new Video(
+            title: 'new title',
+            description: 'description',
+            yearLaunched: 2029,
+            duration: 12,
+            opened: true,
+            rating: Rating::RATE12,
+            published: true,
+            thumbFile: new Image(
+                path: 'test/image-movie.png'
+            )
+        );
+
+        $this->assertNotNull($entity->thumbFile());
+        $this->assertInstanceOf(Image::class, $entity->thumbFile());
+        $this->assertEquals('test/image-movie.png', $entity->thumbFile()->path());
     }
 }
