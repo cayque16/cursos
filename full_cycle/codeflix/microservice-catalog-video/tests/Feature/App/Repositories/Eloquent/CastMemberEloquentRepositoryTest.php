@@ -8,6 +8,7 @@ use Core\Domain\Entity\CastMember as CastMemberEntity;
 use Core\Domain\Enum\CastMemberType;
 use Core\Domain\Exception\NotFoundException;
 use Core\Domain\Repository\CastMemberRepositoryInterface;
+use Core\Domain\ValueObject\Uuid;
 use Tests\TestCase;
 
 class CastMemberEloquentRepositoryTest extends TestCase
@@ -89,5 +90,30 @@ class CastMemberEloquentRepositoryTest extends TestCase
 
         $this->assertCount(10, $response->items());
         $this->assertEquals(80, $response->total());
+    }
+
+    public function testUpdateIdNotFound()
+    {
+        $this->expectException(NotFoundException::class);
+
+        $castMember = new CastMemberEntity('name', CastMemberType::ACTOR);
+
+        $this->repository->update($castMember);
+    }
+
+    public function testUpdate()
+    {
+        $castMember = CastMemberModel::factory()->create();
+
+        $entity = new CastMemberEntity(
+            id: new Uuid($castMember->id),
+            name: 'new name',
+            type: CastMemberType::DIRECTOR,
+        );
+
+        $response = $this->repository->update($entity);
+
+        $this->assertNotEquals($castMember->name, $response->name);
+        $this->assertEquals('new name', $response->name);
     }
 }
