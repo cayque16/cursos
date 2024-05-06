@@ -4,9 +4,11 @@ namespace Tests\Unit\Domain\Entity;
 
 use Core\Domain\Entity\Genre;
 use Core\Domain\Entity\Video;
+use Core\Domain\Enum\MediaStatus;
 use Core\Domain\Enum\Rating;
 use Core\Domain\Exception\EntityValidationException;
 use Core\Domain\ValueObject\Image;
+use Core\Domain\ValueObject\Media;
 use Core\Domain\ValueObject\Uuid;
 use DateTime;
 use PhpParser\Node\Expr\New_;
@@ -232,5 +234,29 @@ class VideoUnitTest extends TestCase
         $this->assertNotNull($entity->thumbHalfFile());
         $this->assertInstanceOf(Image::class, $entity->thumbHalfFile());
         $this->assertEquals('test/image-movie.png', $entity->thumbHalfFile()->path());
+    }
+
+    public function testValueObjectMedia()
+    {
+        $trailerFile = new Media(
+            filePath: 'path/video.mp4',
+            mediaStatus: MediaStatus::PENDING,
+            encodePath: 'path/encoded.extension',
+        );
+
+        $entity = new Video(
+            title: 'new title',
+            description: 'description',
+            yearLaunched: 2029,
+            duration: 12,
+            opened: true,
+            rating: Rating::RATE12,
+            published: true,
+            trailerFile: $trailerFile,
+        );
+
+        $this->assertNotNull($entity->trailerFile());
+        $this->assertInstanceOf(Media::class, $entity->trailerFile());
+        $this->assertEquals('path/video.mp4', $entity->trailerFile()->filePath);
     }
 }
