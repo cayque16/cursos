@@ -13,5 +13,5 @@ interface CastMemberRepositoryInterface
     public function paginate(string $filter = '', $order = 'DESC', int $page = 1, $totalPage = 15): PaginationInterface;
     public function update(CastMember $castMember): CastMember;
     public function delete(string $id): bool;
-    public function toGenre(object $data): CastMember;
+    public function toCastMember(object $data): CastMember;
 }

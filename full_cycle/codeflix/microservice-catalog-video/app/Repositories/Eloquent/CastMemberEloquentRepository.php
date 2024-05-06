@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquent;
 use Core\Domain\Entity\CastMember as CastMemberEntity;
 use App\Models\CastMember as CastMemberModel;
 use App\Repositories\Presenters\PaginationPresenter;
+use Core\Domain\Enum\CastMemberType;
 use Core\Domain\Exception\NotFoundException;
 use Core\Domain\Repository\CastMemberRepositoryInterface;
 use Core\Domain\Repository\PaginationInterface;
@@ -19,7 +20,14 @@ class CastMemberEloquentRepository implements CastMemberRepositoryInterface
 
     public function insert(CastMemberEntity $castMember): CastMemberEntity
     {
-        
+        $dataBd = $this->model->create([
+            'id' => $castMember->id(),
+            'name' => $castMember->name,
+            'type' => $castMember->type->value,
+            'created_at' => $castMember->createdAt()
+        ]);
+
+        return $this->toCastMember($dataBd);
     }
 
     public function findById(string $id): CastMemberEntity
@@ -47,8 +55,13 @@ class CastMemberEloquentRepository implements CastMemberRepositoryInterface
 
     }
 
-    public function toGenre(object $data): CastMemberEntity
+    public function toCastMember(object $data): CastMemberEntity
     {
-
+        return new CastMemberEntity(
+            id: new Uuid($data->id),
+            name: $data->name,
+            type: CastMemberType::from($data->type),
+            createdAt: $data->created_at
+        );
     }
 }
