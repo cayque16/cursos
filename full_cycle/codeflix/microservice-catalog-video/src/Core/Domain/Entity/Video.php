@@ -27,11 +27,12 @@ class Video
         protected Rating $rating,
         protected bool $published = false,
         protected ?Uuid $id = null,
-        protected ?DateTime $createdAt = null,
         protected ?Image $thumbFile = null,
         protected ?Image $thumbHalfFile = null,
+        protected ?Image $bannerFile = null,
         protected ?Media $trailerFile = null,
         protected ?Media $videoFile = null,
+        protected ?DateTime $createdAt = null,
     ) {
         $this->id = $this->id ?? Uuid::random();
         $this->createdAt = $this->createdAt ?? new DateTime();
@@ -75,6 +76,11 @@ class Video
     public function thumbHalfFile(): ?Image
     {
         return $this->thumbHalfFile;
+    }
+
+    public function bannerFile(): ?Image
+    {
+        return $this->bannerFile;
     }
 
     public function trailerFile(): ?Media
