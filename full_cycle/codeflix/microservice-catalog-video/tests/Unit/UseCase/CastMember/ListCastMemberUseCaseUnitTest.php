@@ -13,7 +13,7 @@ use Core\UseCase\DTO\CastMember\CastMemberOutputDto;
 use Mockery;
 use stdClass;
 
-class ListCastMemberCaseUnitTest extends TestCase
+class ListCastMemberUseCaseUnitTest extends TestCase
 {
     public function testList()
     {
