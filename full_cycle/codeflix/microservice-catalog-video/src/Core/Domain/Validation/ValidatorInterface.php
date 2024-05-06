@@ -4,7 +4,7 @@ namespace Core\Domain\Validation;
 
 use Core\Domain\Entity\BaseEntity;
 
-interface ValidationInterface
+interface ValidatorInterface
 {
     public function validate(BaseEntity $entity): void;
 }
