@@ -2,10 +2,8 @@
 
 namespace Core\Domain\Entity;
 
-use Core\Domain\Entity\Traits\MethodsMagicsTrait;
 use Core\Domain\Enum\Rating;
-use Core\Domain\Exception\EntityValidationException;
-use Core\Domain\Validation\DomainValidation;
+use Core\Domain\Notification\NotificationException;
 use Core\Domain\ValueObject\Image;
 use Core\Domain\ValueObject\Media;
 use Core\Domain\ValueObject\Uuid;
@@ -33,6 +31,8 @@ class Video extends BaseEntity
         protected ?Media $videoFile = null,
         protected ?DateTime $createdAt = null,
     ) {
+        parent::__construct();
+
         $this->id = $this->id ?? Uuid::random();
         $this->createdAt = $this->createdAt ?? new DateTime();
 
@@ -118,7 +118,7 @@ class Video extends BaseEntity
         }
 
         if ($this->notification->hasErrors()) {
-            throw new EntityValidationException(
+            throw new NotificationException(
                 $this->notification->messages()
             );
         }
