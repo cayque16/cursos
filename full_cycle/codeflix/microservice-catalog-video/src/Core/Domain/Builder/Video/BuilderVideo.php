@@ -21,7 +21,7 @@ class BuilderVideo implements Builder
         $this->entity = null;
     }
 
-    public function createEntity(object $input): void
+    public function createEntity(object $input): Builder
     {
         $this->entity = new Video(
             title: $input->title,
@@ -44,48 +44,59 @@ class BuilderVideo implements Builder
             $this->entity->addCastMemberId($castMemberId);
         }
 
+        return $this;
     }
 
-    public function addMediaVideo(string $path, MediaStatus $mediaStatus): void
+    public function addMediaVideo(string $path, MediaStatus $mediaStatus): Builder
     {
         $media = new Media(
             filePath: $path,
             mediaStatus: MediaStatus::PROCESSING
         );
         $this->entity->setVideoFile($media);
+
+        return $this;
     }
 
-    public function addTrailer(string $path): void
+    public function addTrailer(string $path): Builder
     {
         $media = new Media(
             filePath: $path,
             mediaStatus: MediaStatus::PROCESSING
         );
         $this->entity->setTrailerFile($media);
+
+        return $this;
     }
 
-    public function addThumb(string $path): void
+    public function addThumb(string $path): Builder
     {
         $media = new Image(
             path: $path,
         );
         $this->entity->setThumbHalfFile($media);
+
+        return $this;
     }
 
-    public function addThumbHalf(string $path): void
+    public function addThumbHalf(string $path): Builder
     {
         $media = new Image(
             path: $path,
         );
         $this->entity->setThumbHalfFile($media);
+
+        return $this;
     }
 
-    public function addBanner(string $path): void
+    public function addBanner(string $path): Builder
     {
         $media = new Image(
             path: $path,
         );
         $this->entity->setBannerFile($media);
+
+        return $this;
     }
 
     public function getEntity(): Video
