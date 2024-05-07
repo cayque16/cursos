@@ -21,13 +21,25 @@ use Tests\TestCase;
 
 class CreateVideoUseCaseUnitTest extends TestCase
 {
-    private function getUseCase()
-    {
+    private function getUseCase(
+        int $timesCallMethodActionRepository = 1,
+        int $timesCallMethodUpdateMediaRepository = 1,
+        int $timesCallMethodCommitTransaction = 1,
+        int $timesCallMethodRollbackTransaction = 0,
+        int $timesCallMethodStoreFileStorage = 0,
+        int $timesCallMethodDispatchEventManager = 0,
+    ) {
         return new CreateVideoUseCase(
-            repository: $this->createMockRepository(),
-            transaction: $this->createMockTransaction(),
-            storage: $this->createMockStorage(),
-            eventManager: $this->createMockEventManage(),
+            repository: $this->createMockRepository(
+                timesCallAction: $timesCallMethodActionRepository,
+                timesCallUpdateMedia: $timesCallMethodUpdateMediaRepository
+            ),
+            transaction: $this->createMockTransaction(
+                timesCallCommit: $timesCallMethodCommitTransaction,
+                timesCallRollback: $timesCallMethodRollbackTransaction
+            ),
+            storage: $this->createMockStorage($timesCallMethodStoreFileStorage),
+            eventManager: $this->createMockEventManage($timesCallMethodDispatchEventManager),
 
             repositoryCategory: $this->createMockCategoryRepository(),
             repositoryGenre: $this->createMockGenreRepository(),
@@ -37,14 +49,14 @@ class CreateVideoUseCaseUnitTest extends TestCase
 
     public function testConstructor()
     {
-        $this->getUseCase();
+        $this->getUseCase(0, 0, 0);
 
         $this->assertTrue(true);
     }
 
     public function testExecuteInputOutput()
     {
-        $useCase = $this->getUseCase();
+        $useCase = $this->getUseCase(1, 1);
 
         $response = $useCase->execute($this->createMockInputDto());
 
@@ -55,7 +67,7 @@ class CreateVideoUseCaseUnitTest extends TestCase
     {
         $this->expectException(NotFoundException::class);
 
-        ($this->getUseCase())->execute(
+        ($this->getUseCase(0, 0, 0))->execute(
             input: $this->createMockInputDto(categoriesIds: ['uuid-1'])
         );
     }
@@ -69,16 +81,21 @@ class CreateVideoUseCaseUnitTest extends TestCase
         array $thumb,
         array $thumbHalf,
         array $banner,
+        int $timesStoreFileStorage,
+        int $timesDispatch = 0
     ) {
-        $response = ($this->getUseCase())->execute(
-            input: $this->createMockInputDto(
-                videoFile: $video['value'],
-                trailerFile: $trailer['value'],
-                thumbFile: $thumb['value'],
-                thumbHalfFile: $thumbHalf['value'],
-                bannerFile: $banner['value'],
-            )
-        );
+        $response = ($this->getUseCase(
+            timesCallMethodStoreFileStorage: $timesStoreFileStorage,
+            timesCallMethodDispatchEventManager: $timesDispatch
+            ))->execute(
+                input: $this->createMockInputDto(
+                    videoFile: $video['value'],
+                    trailerFile: $trailer['value'],
+                    thumbFile: $thumb['value'],
+                    thumbHalfFile: $thumbHalf['value'],
+                    bannerFile: $banner['value'],
+                )
+            );
 
         $this->assertEquals($response->videoFile, $video['expected']);
         $this->assertEquals($response->trailerFile, $trailer['expected']);
@@ -96,6 +113,8 @@ class CreateVideoUseCaseUnitTest extends TestCase
                 'thumb' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
                 'thumbHalf' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
                 'banner' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
+                'timesStorage' => 5,
+                'timesDispatch' => 1
             ],
             [
                 'video' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
@@ -103,6 +122,8 @@ class CreateVideoUseCaseUnitTest extends TestCase
                 'thumb' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
                 'thumbHalf' => ['value' => null, 'expected' => null],
                 'banner' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
+                'timesStorage' => 3,
+                'timesDispatch' => 1
             ],
             [
                 'video' => ['value' => null, 'expected' => null],
@@ -110,6 +131,7 @@ class CreateVideoUseCaseUnitTest extends TestCase
                 'thumb' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
                 'thumbHalf' => ['value' => null, 'expected' => null],
                 'banner' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
+                'timesStorage' => 2,
             ],
             [
                 'video' => ['value' => null, 'expected' => null],
@@ -117,6 +139,7 @@ class CreateVideoUseCaseUnitTest extends TestCase
                 'thumb' => ['value' => null, 'expected' => null],
                 'thumbHalf' => ['value' => null, 'expected' => null],
                 'banner' => ['value' => null, 'expected' => null],
+                'timesStorage' => 0
             ],
         ];
     }
@@ -135,12 +158,17 @@ class CreateVideoUseCaseUnitTest extends TestCase
         return $mock;
     }
 
-    private function createMockRepository()
-    {
+    private function createMockRepository(
+        int $timesCallAction,
+        int $timesCallUpdateMedia,
+    ) {
         $mock =  Mockery::mock(stdClass::class, VideoRepositoryInterface::class);
 
-        $mock->shouldReceive('insert')->andReturn($this->createMockEntity());
-        $mock->shouldReceive('updateMedia');
+        $mock->shouldReceive('insert')
+            ->times($timesCallAction)
+            ->andReturn($this->createMockEntity());
+        $mock->shouldReceive('updateMedia')
+            ->times($timesCallUpdateMedia);
 
         return $mock;
     }
@@ -172,30 +200,34 @@ class CreateVideoUseCaseUnitTest extends TestCase
         return $mock;
     }
 
-    private function createMockTransaction()
-    {
+    private function createMockTransaction(
+        int $timesCallCommit,
+        int $timesCallRollback
+    ) {
         $mock = Mockery::mock(stdClass::class, TransactionInterface::class);
 
-        $mock->shouldReceive('commit');
-        $mock->shouldReceive('rollBack');
+        $mock->shouldReceive('commit')->times($timesCallCommit);
+        $mock->shouldReceive('rollBack')->times($timesCallRollback);
 
         return $mock;
     }
 
-    private function createMockStorage()
+    private function createMockStorage(int $times)
     {
         $mock = Mockery::mock(stdClass::class, FileStorageInterface::class);
 
-        $mock->shouldReceive('store')->andReturn('path/file.ext');
+        $mock->shouldReceive('store')
+                            ->times($times)
+                            ->andReturn('path/file.ext');
 
         return $mock;
     }
 
-    private function createMockEventManage()
+    private function createMockEventManage(int $times)
     {
         $mock =  Mockery::mock(stdClass::class, VideoEventManagerInterface::class);
 
-        $mock->shouldReceive('dispatch');
+        $mock->shouldReceive('dispatch')->times($times);
 
         return $mock;
     }
