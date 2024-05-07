@@ -57,6 +57,7 @@ class CreateVideoUseCase
 
     private function createEntity(CreateVideoInputDto $input): Video
     {
+        $this->validateAllIds($input);
         $entity = new Video(
             title: $input->title,
             description: $input->description,
@@ -66,17 +67,14 @@ class CreateVideoUseCase
             rating: $input->rating,
         );
 
-        $this->validateCategoriesId($input->categories);
         foreach ($input->categories as $categoryId) {
             $entity->addCategoryId($categoryId);
         }
 
-        $this->validateGenresId($input->genres);
         foreach ($input->genres as $genreId) {
             $entity->addGenreId($genreId);
         }
 
-        $this->validateCastMembersId($input->castMembers);
         foreach ($input->castMembers as $castMemberId) {
             $entity->addCastMemberId($castMemberId);
         }
@@ -129,50 +127,42 @@ class CreateVideoUseCase
             null;
     }
 
-    private function validateCategoriesId(array $categories = [])
+    protected function validateAllIds(object $input)
     {
-        $categoriesDb = $this->repositoryCategory->getIdsListIds($categories);
-        
-        $arrayDiff = array_diff($categories, $categoriesDb);
-        
-        if (count($arrayDiff)) {
-            $msg = sprintf(
-                '%s %s not found',
-                count($arrayDiff) > 1 ? 'Categories' : 'Category',
-                implode(', ', $arrayDiff)
-            );
+        $this->validateIds(
+            ids: $input->categories,
+            repository: $this->repositoryCategory,
+            singularLabel: 'Category',
+            pluralLabel: 'Categories'
+        );
 
-            throw new NotFoundException($msg);
-        }
+        $this->validateIds(
+            ids: $input->genres,
+            repository: $this->repositoryGenre,
+            singularLabel: 'Genre',
+        );
+
+        $this->validateIds(
+            ids: $input->castMembers,
+            repository: $this->repositoryCastMember,
+            singularLabel: 'Cast Member',
+        );
     }
 
-    private function validateGenresId(array $genres = [])
-    {
-        $genresDb = $this->repositoryGenre->getIdsListIds($genres);
+    protected function validateIds(
+        array $ids = [],
+        $repository,
+        string $singularLabel,
+        ?string $pluralLabel = null
+    ) {
+        $idsDb = $repository->getIdsListIds($ids);
         
-        $arrayDiff = array_diff($genres, $genresDb);
-        
-        if (count($arrayDiff)) {
-            $msg = sprintf(
-                '%s %s not found',
-                count($arrayDiff) > 1 ? 'Genres' : 'Genre',
-                implode(', ', $arrayDiff)
-            );
-
-            throw new NotFoundException($msg);
-        }
-    }
-
-    private function validateCastMembersId(array $castMembers = [])
-    {
-        $castMembersDb = $this->repositoryCastMember->getIdsListIds($castMembers);
-        
-        $arrayDiff = array_diff($castMembers, $castMembersDb);
+        $arrayDiff = array_diff($ids, $idsDb);
         
         if (count($arrayDiff)) {
             $msg = sprintf(
                 '%s %s not found',
-                count($arrayDiff) > 1 ? 'CastMembers' : 'CastMember',
+                count($arrayDiff) > 1 ? $pluralLabel ?? $singularLabel . 's' : $singularLabel,
                 implode(', ', $arrayDiff)
             );
 
