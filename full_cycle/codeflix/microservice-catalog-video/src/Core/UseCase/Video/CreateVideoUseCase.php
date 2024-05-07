@@ -41,7 +41,7 @@ class CreateVideoUseCase
 
             $this->transaction->commit();
 
-            return new CreateVideoOutputDto();
+            return $this->output($entity);
         } catch (Throwable $th) {
             $this->transaction->rollback();
 
@@ -134,5 +134,26 @@ class CreateVideoUseCase
 
             throw new NotFoundException($msg);
         }
+    }
+
+    private function output(Video $entity): CreateVideoOutputDto
+    {
+        return new CreateVideoOutputDto(
+            $entity->id(),
+            $entity->title,
+            $entity->description,
+            $entity->yearLaunched,
+            $entity->duration,
+            $entity->opened,
+            $entity->rating,
+            $entity->categoriesId,
+            $entity->genresId,
+            $entity->castMembersId,
+            $entity->videoFile()?->filePath,
+            $entity->thumbFile()?->path,
+            $entity->thumbHalfFile()?->path,
+            $entity->bannerFile()?->path,
+            $entity->trailerFile()?->filePath,
+        );
     }
 }

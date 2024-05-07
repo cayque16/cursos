@@ -211,7 +211,7 @@ class VideoUnitTest extends TestCase
 
         $this->assertNotNull($entity->thumbFile());
         $this->assertInstanceOf(Image::class, $entity->thumbFile());
-        $this->assertEquals('test/image-movie.png', $entity->thumbFile()->path());
+        $this->assertEquals('test/image-movie.png', $entity->thumbFile()->path);
     }
 
     public function testValueObjectImageToThumbHalf()
@@ -231,7 +231,7 @@ class VideoUnitTest extends TestCase
 
         $this->assertNotNull($entity->thumbHalfFile());
         $this->assertInstanceOf(Image::class, $entity->thumbHalfFile());
-        $this->assertEquals('test/image-movie.png', $entity->thumbHalfFile()->path());
+        $this->assertEquals('test/image-movie.png', $entity->thumbHalfFile()->path);
     }
 
     public function testValueObjectImageToBannerFile()
@@ -251,7 +251,7 @@ class VideoUnitTest extends TestCase
 
         $this->assertNotNull($entity->bannerFile());
         $this->assertInstanceOf(Image::class, $entity->bannerFile());
-        $this->assertEquals('test/banner.png', $entity->bannerFile()->path());
+        $this->assertEquals('test/banner.png', $entity->bannerFile()->path);
     }
 
     public function testValueObjectMedia()

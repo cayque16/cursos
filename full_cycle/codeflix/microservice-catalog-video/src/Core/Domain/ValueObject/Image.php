@@ -8,8 +8,8 @@ class Image
         protected string $path,
     ) { }
 
-    public function path(): String
+    public function __get($property)
     {
-        return $this->path;
+        return $this->{$property};
     }
 }
