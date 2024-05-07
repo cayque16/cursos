@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\UseCase\Video\Builder;
+namespace Core\Domain\Builder\Video;
 
 use Core\Domain\Entity\BaseEntity;
 use Core\Domain\Enum\MediaStatus;
