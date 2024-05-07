@@ -2,22 +2,11 @@
 
 namespace Tests\Unit\UseCase\Video;
 
-use Core\Domain\Entity\Video;
 use Core\Domain\Enum\Rating;
-use Core\Domain\Exception\NotFoundException;
-use Core\Domain\Repository\CastMemberRepositoryInterface;
-use Core\Domain\Repository\CategoryRepositoryInterface;
-use Core\Domain\Repository\GenreRepositoryInterface;
-use Core\Domain\Repository\VideoRepositoryInterface;
 use Core\UseCase\DTO\Video\CreateVideo\CreateVideoInputDto;
 use Core\UseCase\DTO\Video\CreateVideo\CreateVideoOutputDto;
-use Core\UseCase\Interfaces\FileStorageInterface;
-use Core\UseCase\Interfaces\TransactionInterface;
 use Core\UseCase\Video\CreateVideoUseCase;
-use Core\UseCase\Video\Interfaces\VideoEventManagerInterface;
 use Mockery;
-use stdClass;
-use Tests\TestCase;
 
 class CreateVideoUseCaseUnitTest extends BaseVideoUseCaseUnitTest
 {
