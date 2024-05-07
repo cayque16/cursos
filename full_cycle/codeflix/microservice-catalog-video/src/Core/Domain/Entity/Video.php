@@ -75,9 +75,19 @@ class Video extends BaseEntity
         return $this->thumbFile;
     }
 
+    public function setThumbFile(Image $thumbFile): void
+    {
+        $this->thumbFile = $thumbFile;
+    }
+
     public function thumbHalfFile(): ?Image
     {
         return $this->thumbHalfFile;
+    }
+
+    public function setThumbHalfFile(Image $thumbHalfFile): void
+    {
+        $this->thumbHalfFile = $thumbHalfFile;
     }
 
     public function bannerFile(): ?Image
@@ -85,14 +95,29 @@ class Video extends BaseEntity
         return $this->bannerFile;
     }
 
+    public function setBannerFile(Image $bannerFile): void
+    {
+        $this->bannerFile = $bannerFile;
+    }
+
     public function trailerFile(): ?Media
     {
         return $this->trailerFile;
     }
 
+    public function setTrailerFile(Media $trailerFile): void
+    {
+        $this->trailerFile = $trailerFile;
+    }
+
     public function videoFile(): ?Media
     {
         return $this->videoFile;
+    }
+
+    public function setVideoFile(Media $videoFile): void
+    {
+        $this->videoFile = $videoFile;
     }
 
     protected function validation()
