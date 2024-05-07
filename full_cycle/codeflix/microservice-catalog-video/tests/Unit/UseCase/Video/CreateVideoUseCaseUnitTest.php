@@ -19,220 +19,28 @@ use Mockery;
 use stdClass;
 use Tests\TestCase;
 
-class CreateVideoUseCaseUnitTest extends TestCase
+class CreateVideoUseCaseUnitTest extends BaseVideoUseCaseUnitTest
 {
-    private function getUseCase(
-        int $timesCallMethodActionRepository = 1,
-        int $timesCallMethodUpdateMediaRepository = 1,
-        int $timesCallMethodCommitTransaction = 1,
-        int $timesCallMethodRollbackTransaction = 0,
-        int $timesCallMethodStoreFileStorage = 0,
-        int $timesCallMethodDispatchEventManager = 0,
-    ) {
-        return new CreateVideoUseCase(
-            repository: $this->createMockRepository(
-                timesCallAction: $timesCallMethodActionRepository,
-                timesCallUpdateMedia: $timesCallMethodUpdateMediaRepository
-            ),
-            transaction: $this->createMockTransaction(
-                timesCallCommit: $timesCallMethodCommitTransaction,
-                timesCallRollback: $timesCallMethodRollbackTransaction
-            ),
-            storage: $this->createMockStorage($timesCallMethodStoreFileStorage),
-            eventManager: $this->createMockEventManage($timesCallMethodDispatchEventManager),
-
-            repositoryCategory: $this->createMockCategoryRepository(),
-            repositoryGenre: $this->createMockGenreRepository(),
-            repositoryCastMember: $this->createMockCastMemberRepository(),
-        );
-    }
-
-    public function testConstructor()
-    {
-        $this->getUseCase(0, 0, 0);
-
-        $this->assertTrue(true);
-    }
-
     public function testExecuteInputOutput()
     {
-        $useCase = $this->getUseCase(1, 1);
+        $useCase = $this->createUseCase(1, 1);
 
         $response = $useCase->execute($this->createMockInputDto());
 
         $this->assertInstanceOf(CreateVideoOutputDto::class, $response);
     }
 
-    public function testExceptionCategoriesIds()
+    protected function nameActionRepository(): string
     {
-        $this->expectException(NotFoundException::class);
-
-        ($this->getUseCase(0, 0, 0))->execute(
-            input: $this->createMockInputDto(categoriesIds: ['uuid-1'])
-        );
+        return 'insert';
     }
 
-    /**
-     * @dataProvider dataProviderFiles
-     */
-    public function testUploadFiles(
-        array $video,
-        array $trailer,
-        array $thumb,
-        array $thumbHalf,
-        array $banner,
-        int $timesStoreFileStorage,
-        int $timesDispatch = 0
-    ) {
-        $response = ($this->getUseCase(
-            timesCallMethodStoreFileStorage: $timesStoreFileStorage,
-            timesCallMethodDispatchEventManager: $timesDispatch
-            ))->execute(
-                input: $this->createMockInputDto(
-                    videoFile: $video['value'],
-                    trailerFile: $trailer['value'],
-                    thumbFile: $thumb['value'],
-                    thumbHalfFile: $thumbHalf['value'],
-                    bannerFile: $banner['value'],
-                )
-            );
-
-        $this->assertEquals($response->videoFile, $video['expected']);
-        $this->assertEquals($response->trailerFile, $trailer['expected']);
-        $this->assertEquals($response->thumbFile, $thumb['expected']);
-        $this->assertEquals($response->thumbHalfFile, $thumbHalf['expected']);
-        $this->assertEquals($response->bannerFile, $banner['expected']);
-    }
-
-    public function dataProviderFiles(): array
+    protected function getUseCase(): string
     {
-        return [
-            [
-                'video' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
-                'trailer' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
-                'thumb' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
-                'thumbHalf' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
-                'banner' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
-                'timesStorage' => 5,
-                'timesDispatch' => 1
-            ],
-            [
-                'video' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
-                'trailer' => ['value' => null, 'expected' => null],
-                'thumb' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
-                'thumbHalf' => ['value' => null, 'expected' => null],
-                'banner' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
-                'timesStorage' => 3,
-                'timesDispatch' => 1
-            ],
-            [
-                'video' => ['value' => null, 'expected' => null],
-                'trailer' => ['value' => null, 'expected' => null],
-                'thumb' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
-                'thumbHalf' => ['value' => null, 'expected' => null],
-                'banner' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
-                'timesStorage' => 2,
-            ],
-            [
-                'video' => ['value' => null, 'expected' => null],
-                'trailer' => ['value' => null, 'expected' => null],
-                'thumb' => ['value' => null, 'expected' => null],
-                'thumbHalf' => ['value' => null, 'expected' => null],
-                'banner' => ['value' => null, 'expected' => null],
-                'timesStorage' => 0
-            ],
-        ];
+        return CreateVideoUseCase::class;
     }
 
-    private function createMockEntity()
-    {
-        $mock =  Mockery::mock(Video::class, [
-            'title',
-            'description',
-            2023,
-            90,
-            true,
-            Rating::RATE14,
-        ]);
-
-        return $mock;
-    }
-
-    private function createMockRepository(
-        int $timesCallAction,
-        int $timesCallUpdateMedia,
-    ) {
-        $mock =  Mockery::mock(stdClass::class, VideoRepositoryInterface::class);
-
-        $mock->shouldReceive('insert')
-            ->times($timesCallAction)
-            ->andReturn($this->createMockEntity());
-        $mock->shouldReceive('updateMedia')
-            ->times($timesCallUpdateMedia);
-
-        return $mock;
-    }
-
-    private function createMockCategoryRepository($response = [])
-    {
-        $mock =  Mockery::mock(stdClass::class, CategoryRepositoryInterface::class);
-
-        $mock->shouldReceive('getIdsListIds')->andReturn($response);
-
-        return $mock;
-    }
-
-    private function createMockGenreRepository($response = [])
-    {
-        $mock =  Mockery::mock(stdClass::class, GenreRepositoryInterface::class);
-
-        $mock->shouldReceive('getIdsListIds')->andReturn($response);
-
-        return $mock;
-    }
-
-    private function createMockCastMemberRepository($response = [])
-    {
-        $mock =  Mockery::mock(stdClass::class, CastMemberRepositoryInterface::class);
-
-        $mock->shouldReceive('getIdsListIds')->andReturn($response);
-
-        return $mock;
-    }
-
-    private function createMockTransaction(
-        int $timesCallCommit,
-        int $timesCallRollback
-    ) {
-        $mock = Mockery::mock(stdClass::class, TransactionInterface::class);
-
-        $mock->shouldReceive('commit')->times($timesCallCommit);
-        $mock->shouldReceive('rollBack')->times($timesCallRollback);
-
-        return $mock;
-    }
-
-    private function createMockStorage(int $times)
-    {
-        $mock = Mockery::mock(stdClass::class, FileStorageInterface::class);
-
-        $mock->shouldReceive('store')
-                            ->times($times)
-                            ->andReturn('path/file.ext');
-
-        return $mock;
-    }
-
-    private function createMockEventManage(int $times)
-    {
-        $mock =  Mockery::mock(stdClass::class, VideoEventManagerInterface::class);
-
-        $mock->shouldReceive('dispatch')->times($times);
-
-        return $mock;
-    }
-
-    private function createMockInputDto(
+    protected function createMockInputDto(
         array $categoriesIds = [],
         array $genresIds = [],
         array $castMembersIds = [],
@@ -258,12 +66,5 @@ class CreateVideoUseCaseUnitTest extends TestCase
             $trailerFile,
             $videoFile,
         ]);
-    }
-
-    protected function tearDown(): void
-    {
-        Mockery::close();
-
-        parent::tearDown();
     }
 }
