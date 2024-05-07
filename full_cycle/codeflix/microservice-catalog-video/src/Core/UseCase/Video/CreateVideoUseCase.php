@@ -2,12 +2,19 @@
 
 namespace Core\UseCase\Video;
 
+use Core\Domain\Builder\Video\Builder;
+use Core\Domain\Builder\Video\CreateVideoBuilder;
 use Core\UseCase\DTO\Video\CreateVideo\CreateVideoInputDto;
 use Core\UseCase\DTO\Video\CreateVideo\CreateVideoOutputDto;
 use Throwable;
 
 class CreateVideoUseCase extends BaseVideoUseCase
 {
+    protected function getBuilder(): Builder
+    {
+        return new CreateVideoBuilder;
+    }
+    
     public function execute(CreateVideoInputDto $input): CreateVideoOutputDto
     {
         $this->validateAllIds($input);

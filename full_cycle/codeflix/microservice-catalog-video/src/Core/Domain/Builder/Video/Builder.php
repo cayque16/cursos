@@ -2,7 +2,7 @@
 
 namespace Core\Domain\Builder\Video;
 
-use Core\Domain\Entity\BaseEntity;
+use Core\Domain\Entity\Video;
 use Core\Domain\Enum\MediaStatus;
 
 interface Builder
@@ -13,5 +13,5 @@ interface Builder
     public function addThumb(string $path): Builder;
     public function addThumbHalf(string $path): Builder;
     public function addBanner(string $path): Builder;
-    public function getEntity(): BaseEntity;
+    public function getEntity(): Video;
 }
