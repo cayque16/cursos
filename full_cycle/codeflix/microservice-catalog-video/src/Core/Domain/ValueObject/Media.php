@@ -9,7 +9,7 @@ class Media
     public function __construct(
         protected string $filePath,
         protected MediaStatus $mediaStatus,
-        protected string $encodePath,
+        protected ?string $encodePath = null,
     ) { }
 
     public function __get($property)
