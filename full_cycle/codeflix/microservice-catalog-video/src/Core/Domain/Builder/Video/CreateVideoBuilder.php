@@ -79,7 +79,7 @@ class CreateVideoBuilder implements Builder
         $media = new Image(
             path: $path,
         );
-        $this->entity->setThumbHalfFile($media);
+        $this->entity->setThumbFile($media);
 
         return $this;
     }
