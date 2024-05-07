@@ -4,6 +4,7 @@ namespace Tests\Unit\UseCase\Video;
 
 use Core\Domain\Entity\Video;
 use Core\Domain\Enum\Rating;
+use Core\Domain\Exception\NotFoundException;
 use Core\Domain\Repository\CastMemberRepositoryInterface;
 use Core\Domain\Repository\CategoryRepositoryInterface;
 use Core\Domain\Repository\GenreRepositoryInterface;
@@ -20,9 +21,9 @@ use Tests\TestCase;
 
 class CreateVideoUseCaseUnitTest extends TestCase
 {
-    public function testConstructor()
+    private function getUseCase()
     {
-        new CreateVideoUseCase(
+        return new CreateVideoUseCase(
             repository: $this->createMockRepository(),
             transaction: $this->createMockTransaction(),
             storage: $this->createMockStorage(),
@@ -32,26 +33,42 @@ class CreateVideoUseCaseUnitTest extends TestCase
             repositoryGenre: $this->createMockGenreRepository(),
             repositoryCastMember: $this->createMockCastMemberRepository(),
         );
+    }
+
+    public function testConstructor()
+    {
+        $this->getUseCase();
 
         $this->assertTrue(true);
     }
 
     public function testExecuteInputOutput()
     {
-        $useCase = new CreateVideoUseCase(
-            repository: $this->createMockRepository(),
-            transaction: $this->createMockTransaction(),
-            storage: $this->createMockStorage(),
-            eventManager: $this->createMockEventManage(),
-
-            repositoryCategory: $this->createMockCategoryRepository(),
-            repositoryGenre: $this->createMockGenreRepository(),
-            repositoryCastMember: $this->createMockCastMemberRepository(),
-        );
+        $useCase = $this->getUseCase();
 
         $response = $useCase->execute($this->createMockInputDto());
 
         $this->assertInstanceOf(CreateVideoOutputDto::class, $response);
+    }
+
+    public function testExceptionCategoriesIds()
+    {
+        $this->expectException(NotFoundException::class);
+
+        ($this->getUseCase())->execute(
+            input: $this->createMockInputDto(categoriesIds: ['uuid-1'])
+        );
+    }
+
+    public function testUploadFiles()
+    {
+        $response = ($this->getUseCase())->execute(
+            input: $this->createMockInputDto(
+                videoFile: ['tmp' => 'tmp/file.png']
+            )
+        );
+
+        $this->assertNotNull($response->videoFile);
     }
 
     private function createMockEntity()
@@ -133,8 +150,16 @@ class CreateVideoUseCaseUnitTest extends TestCase
         return $mock;
     }
 
-    private function createMockInputDto()
-    {
+    private function createMockInputDto(
+        array $categoriesIds = [],
+        array $genresIds = [],
+        array $castMembersIds = [],
+        ?array $thumbFile = null,
+        ?array $thumbHalfFile = null,
+        ?array $bannerFile = null,
+        ?array $trailerFile = null,
+        ?array $videoFile = null,
+    ) {
         return Mockery::mock(CreateVideoInputDto::class, [
             'title',
             'description',
@@ -142,9 +167,14 @@ class CreateVideoUseCaseUnitTest extends TestCase
             90,
             true,
             Rating::RATE14,
-            [],
-            [],
-            []
+            $categoriesIds,
+            $genresIds,
+            $castMembersIds,
+            $thumbFile,
+            $thumbHalfFile,
+            $bannerFile,
+            $trailerFile,
+            $videoFile,
         ]);
     }
 
