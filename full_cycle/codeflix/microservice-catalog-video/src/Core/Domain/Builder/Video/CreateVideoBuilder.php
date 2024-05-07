@@ -7,7 +7,7 @@ use Core\Domain\Enum\MediaStatus;
 use Core\Domain\ValueObject\Image;
 use Core\Domain\ValueObject\Media;
 
-class BuilderVideo implements Builder
+class CreateVideoBuilder implements Builder
 {
     private ?Video $entity = null;
 
@@ -32,6 +32,13 @@ class BuilderVideo implements Builder
             rating: $input->rating,
         );
 
+        $this->addIds($input);
+
+        return $this;
+    }
+
+    protected function addIds(object $input)
+    {
         foreach ($input->categories as $categoryId) {
             $this->entity->addCategoryId($categoryId);
         }
@@ -43,8 +50,6 @@ class BuilderVideo implements Builder
         foreach ($input->castMembers as $castMemberId) {
             $this->entity->addCastMemberId($castMemberId);
         }
-
-        return $this;
     }
 
     public function addMediaVideo(string $path, MediaStatus $mediaStatus): Builder
