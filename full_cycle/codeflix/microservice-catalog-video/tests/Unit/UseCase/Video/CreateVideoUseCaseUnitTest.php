@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\UseCase\Video;
 
+use Core\Domain\Entity\Video;
 use Core\Domain\Enum\Rating;
 use Core\Domain\Repository\VideoRepositoryInterface;
 use Core\UseCase\DTO\Video\CreateVideo\CreateVideoInputDto;
@@ -11,8 +12,8 @@ use Core\UseCase\Interfaces\TransactionInterface;
 use Core\UseCase\Video\CreateVideoUseCase;
 use Core\UseCase\Video\Interfaces\VideoEventManagerInterface;
 use Mockery;
-use PHPUnit\Framework\TestCase;
 use stdClass;
+use Tests\TestCase;
 
 class CreateVideoUseCaseUnitTest extends TestCase
 {
@@ -42,24 +43,55 @@ class CreateVideoUseCaseUnitTest extends TestCase
         $this->assertInstanceOf(CreateVideoOutputDto::class, $response);
     }
 
+    private function createMockEntity()
+    {
+        $mock =  Mockery::mock(Video::class, [
+            'title',
+            'description',
+            2023,
+            90,
+            true,
+            Rating::RATE14,
+        ]);
+
+        return $mock;
+    }
+
     private function createMockRepository()
     {
-        return Mockery::mock(stdClass::class, VideoRepositoryInterface::class);
+        $mock =  Mockery::mock(stdClass::class, VideoRepositoryInterface::class);
+
+        $mock->shouldReceive('insert')->andReturn($this->createMockEntity());
+
+        return $mock;
     }
 
     private function createMockTransaction()
     {
-        return Mockery::mock(stdClass::class, TransactionInterface::class);
+        $mock = Mockery::mock(stdClass::class, TransactionInterface::class);
+
+        $mock->shouldReceive('commit');
+        $mock->shouldReceive('rollBack');
+
+        return $mock;
     }
 
     private function createMockStorage()
     {
-        return Mockery::mock(stdClass::class, FileStorageInterface::class);
+        $mock = Mockery::mock(stdClass::class, FileStorageInterface::class);
+
+        $mock->shouldReceive('store')->andReturn('path/file.ext');
+
+        return $mock;
     }
 
     private function createMockEventManage()
     {
-        return Mockery::mock(stdClass::class, VideoEventManagerInterface::class);
+        $mock =  Mockery::mock(stdClass::class, VideoEventManagerInterface::class);
+
+        $mock->shouldReceive('dispatch');
+
+        return $mock;
     }
 
     private function createMockInputDto()
