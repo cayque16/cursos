@@ -2,7 +2,6 @@
 
 namespace Core\UseCase\Video\Builder;
 
-use Core\Domain\Entity\BaseEntity;
 use Core\Domain\Entity\Video;
 use Core\Domain\Enum\MediaStatus;
 use Core\Domain\ValueObject\Image;
@@ -32,6 +31,19 @@ class BuilderVideo implements Builder
             opened: $input->opened,
             rating: $input->rating,
         );
+
+        foreach ($input->categories as $categoryId) {
+            $this->entity->addCategoryId($categoryId);
+        }
+
+        foreach ($input->genres as $genreId) {
+            $this->entity->addGenreId($genreId);
+        }
+
+        foreach ($input->castMembers as $castMemberId) {
+            $this->entity->addCastMemberId($castMemberId);
+        }
+
     }
 
     public function addMediaVideo(string $path, MediaStatus $mediaStatus): void
@@ -76,7 +88,7 @@ class BuilderVideo implements Builder
         $this->entity->setBannerFile($media);
     }
 
-    public function getEntity(): BaseEntity
+    public function getEntity(): Video
     {
         return $this->entity;
     }
