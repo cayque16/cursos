@@ -40,7 +40,7 @@ abstract class BaseVideoUseCaseUnitTest extends TestCase
         int $timesCallMethodStoreFileStorage = 0,
         int $timesCallMethodDispatchEventManager = 0,
     ) {
-        return new CreateVideoUseCase(
+        return new ($this->getUseCase())(
             repository: $this->createMockRepository(
                 timesCallAction: $timesCallMethodActionRepository,
                 timesCallUpdateMedia: $timesCallMethodUpdateMediaRepository
@@ -146,18 +146,16 @@ abstract class BaseVideoUseCaseUnitTest extends TestCase
         ];
     }
 
-    private function createMockEntity()
+    private function createEntity()
     {
-        $mock =  Mockery::mock(Video::class, [
-            'title',
-            'description',
-            2023,
-            90,
-            true,
-            Rating::RATE14,
-        ]);
-
-        return $mock;
+        return new Video(
+            title: 'title',
+            description: 'description',
+            yearLaunched: 2020,
+            duration: 120,
+            opened: true,
+            rating: Rating::RATE10
+        );
     }
 
     private function createMockRepository(
@@ -168,9 +166,11 @@ abstract class BaseVideoUseCaseUnitTest extends TestCase
 
         $mock->shouldReceive($this->nameActionRepository())
             ->times($timesCallAction)
-            ->andReturn($this->createMockEntity());
+            ->andReturn($this->createEntity());
         $mock->shouldReceive('updateMedia')
             ->times($timesCallUpdateMedia);
+        $mock->shouldReceive('findById')
+            ->andReturn($this->createEntity());
 
         return $mock;
     }

@@ -40,6 +40,14 @@ class Video extends BaseEntity
         $this->validation();
     }
 
+    public function update(string $title, string $description): void
+    {
+        $this->title = $title;
+        $this->description = $description;
+
+        $this->validation();
+    }
+
     public function addCategoryId(String $categoryId)
     {
         array_push($this->categoriesId, $categoryId);
