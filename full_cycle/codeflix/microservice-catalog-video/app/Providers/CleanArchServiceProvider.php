@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Events\VideoCreatedEvent;
+use App\Events\VideoEvent;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\Eloquent\CastMemberEloquentRepository;
 use App\Repositories\Eloquent\CategoryEloquentRepository;
@@ -36,7 +36,7 @@ class CleanArchServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             VideoEventManagerInterface::class,
-            VideoCreatedEvent::class
+            VideoEvent::class
         );
 
         /**

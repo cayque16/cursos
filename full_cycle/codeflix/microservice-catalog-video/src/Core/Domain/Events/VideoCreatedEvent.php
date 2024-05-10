@@ -18,7 +18,7 @@ class VideoCreatedEvent implements EventInterface
     {
         return [
             'resource_id' => $this->video->id(),
-            'file_path' => $this->video->videoFile()->path,
+            'file_path' => $this->video->videoFile()->filePath,
         ];
     }
 }
