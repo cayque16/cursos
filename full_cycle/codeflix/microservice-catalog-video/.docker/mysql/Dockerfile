@@ -1,3 +1,10 @@
 FROM mysql:5.7
 
-RUN usermod -u 1000 mysql
+ENV TZ=America/Sao_Paulo
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > etc/timezone
+
+RUN echo "America/Sao_Paulo" > /etc/timezone
+
+EXPOSE 33006
+
+CMD ["mysqld"]
