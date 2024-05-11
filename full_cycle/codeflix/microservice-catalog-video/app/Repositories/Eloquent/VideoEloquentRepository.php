@@ -28,6 +28,8 @@ class VideoEloquentRepository implements VideoRepositoryInterface
             'opened' => $entity->opened,
         ]);
 
+        $this->syncRelationships($entityDb, $entity);
+
         return $this->toBaseEntity($entityDb);
     }
     
@@ -63,7 +65,7 @@ class VideoEloquentRepository implements VideoRepositoryInterface
     
     public function toBaseEntity(object $data): BaseEntity
     {
-        return new VideoEntity(
+        $entity = new VideoEntity(
             id: new Uuid($data->id),
             title: $data->title,
             description: $data->description,
@@ -72,10 +74,31 @@ class VideoEloquentRepository implements VideoRepositoryInterface
             duration: (bool) $data->duration,
             opened: $data->opened,
         );
+
+        foreach ($data->categories as $category) {
+            $entity->addCategoryId($category->id);
+        }
+
+        foreach ($data->genres as $genre) {
+            $entity->addGenreId($genre->id);
+        }
+
+        foreach ($data->castMembers as $castMember) {
+            $entity->addCastMemberId($castMember->id);
+        }
+
+        return $entity;
     }
     
     public function updateMedia(BaseEntity $entity): BaseEntity
     {
 
+    }
+
+    protected function syncRelationships(VideoModel $model, VideoEntity $entity)
+    {
+        $model->categories()->sync($entity->categoriesId);
+        $model->genres()->sync($entity->genresId);
+        $model->castMembers()->sync($entity->castMembersId);
     }
 }
