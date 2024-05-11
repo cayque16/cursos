@@ -50,6 +50,8 @@ class Handler extends ExceptionHandler
             return $this->showError($exception->getMessage(), Response::HTTP_NOT_FOUND);
         if ($exception instanceof EntityValidationException)
             return $this->showError($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        if ($exception instanceof EntityValidationException)
+            return $this->showError($exception->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
 
         return parent::render($request, $exception);
     }
