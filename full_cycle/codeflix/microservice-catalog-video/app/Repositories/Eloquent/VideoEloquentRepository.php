@@ -6,6 +6,7 @@ use App\Models\Video as VideoModel;
 use Core\Domain\Entity\Video as VideoEntity;
 use Core\Domain\Entity\BaseEntity;
 use Core\Domain\Enum\Rating;
+use Core\Domain\Exception\NotFoundException;
 use Core\Domain\Repository\PaginationInterface;
 use Core\Domain\Repository\VideoRepositoryInterface;
 use Core\Domain\ValueObject\Uuid;
@@ -35,7 +36,11 @@ class VideoEloquentRepository implements VideoRepositoryInterface
     
     public function findById(string $id): BaseEntity
     {
+        if (!$entityDb = $this->model->find($id)) {
+            throw new NotFoundException('Video not found');
+        }
 
+        return $this->toBaseEntity($entityDb);
     }
     
     public function getIdsListIds(array $entitiesId = []): array
@@ -70,7 +75,7 @@ class VideoEloquentRepository implements VideoRepositoryInterface
             title: $data->title,
             description: $data->description,
             yearLaunched: (int) $data->year_launched,
-            rating: $data->rating,
+            rating: $data->rating instanceof Rating ? $data->rating :  Rating::from($data->rating),
             duration: (bool) $data->duration,
             opened: $data->opened,
         );
