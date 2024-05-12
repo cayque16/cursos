@@ -108,4 +108,28 @@ class VideoEloquentRepositoryTest extends TestCase
         $this->assertEquals($video->id, $response->id());
         $this->assertEquals($video->title, $response->title);
     }
+
+    public function testFindAll()
+    {
+        VideoModel::factory()->count(10)->create();
+
+        $response = $this->repository->findAll();
+
+        $this->assertCount(10, $response);
+    }
+
+    public function testFindAllWithFilter()
+    {
+        VideoModel::factory()->count(10)->create();
+        VideoModel::factory()->count(10)->create([
+            'title' => 'Test'
+        ]);
+
+        $response = $this->repository->findAll(
+            filter: 'Test'
+        );
+
+        $this->assertCount(10, $response);
+        $this->assertDatabaseCount('videos', 20);
+    }
 }
