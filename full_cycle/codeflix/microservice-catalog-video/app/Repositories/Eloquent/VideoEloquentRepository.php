@@ -43,11 +43,6 @@ class VideoEloquentRepository implements VideoRepositoryInterface
         return $this->toBaseEntity($entityDb);
     }
     
-    public function getIdsListIds(array $entitiesId = []): array
-    {
-
-    }
-    
     public function findAll(string $filter = '', $order = 'DESC'): array
     {
         $result = $this->model
