@@ -11,6 +11,7 @@ use Core\Domain\Entity\Video as VideoEntity;
 use Core\Domain\Enum\Rating;
 use Core\Domain\Exception\NotFoundException;
 use Core\Domain\Repository\VideoRepositoryInterface;
+use Core\Domain\ValueObject\Uuid;
 use Tests\TestCase;
 
 class VideoEloquentRepositoryTest extends TestCase
@@ -171,5 +172,70 @@ class VideoEloquentRepositoryTest extends TestCase
                 'totalPage' => 15,
             ],
         ];
+    }
+
+    public function testUpdateNotFoundId()
+    {
+        $this->expectException(NotFoundException::class);
+
+        $entity = new VideoEntity(
+            title: 'Test',
+            description: 'Test',
+            yearLaunched: 2026,
+            rating: Rating::L,
+            duration: 1,
+            opened: true
+        );
+
+        $this->repository->update($entity);
+    }
+
+    public function testUpdate()
+    {
+        $categories = Category::factory()->count(10)->create();
+        $genres = Genre::factory()->count(10)->create();
+        $castMembers = CastMember::factory()->count(10)->create();
+
+        $videoDb = VideoModel::factory()->create();
+
+        $this->assertDatabaseHas('videos', [
+            'title' => $videoDb->title,
+        ]);
+
+        $entity = new VideoEntity(
+            id: new Uuid($videoDb->id),
+            title: 'Test',
+            description: 'Test',
+            yearLaunched: 2026,
+            rating: Rating::L,
+            duration: 1,
+            opened: true
+        );
+
+        foreach ($categories as $category) {
+            $entity->addCategoryId($category->id);
+        }
+
+        foreach ($genres as $genre) {
+            $entity->addGenreId($genre->id);
+        }
+
+        foreach ($castMembers as $castMember) {
+            $entity->addCastMemberId($castMember->id);
+        }
+
+        $entityInDb = $this->repository->update($entity);
+
+        $this->assertDatabaseHas('videos', [
+            'title' => 'Test',
+        ]);
+
+        $this->assertDatabaseCount('category_video', 10);
+        $this->assertDatabaseCount('genre_video', 10);
+        $this->assertDatabaseCount('cast_member_video', 10);
+
+        $this->assertEquals($categories->pluck('id')->toArray(), $entityInDb->categoriesId);
+        $this->assertEquals($genres->pluck('id')->toArray(), $entityInDb->genresId);
+        $this->assertEquals($castMembers->pluck('id')->toArray(), $entityInDb->castMembersId);
     }
 }

@@ -74,7 +74,24 @@ class VideoEloquentRepository implements VideoRepositoryInterface
     
     public function update(BaseEntity $entity): BaseEntity
     {
+        if (!$entityDb = $this->model->find($entity->id())) {
+            throw new NotFoundException('Video not found');
+        }
 
+        $entityDb->update([
+            'title' => $entity->title,
+            'description' => $entity->description,
+            'year_launched' => $entity->yearLaunched,
+            'rating' => $entity->rating,
+            'duration' => $entity->duration,
+            'opened' => $entity->opened,
+        ]);
+
+        $entityDb->refresh();
+
+        $this->syncRelationships($entityDb, $entity);
+
+        return $this->toBaseEntity($entityDb);
     }
     
     public function delete(string $id): bool
