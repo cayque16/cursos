@@ -96,7 +96,11 @@ class VideoEloquentRepository implements VideoRepositoryInterface
     
     public function delete(string $id): bool
     {
-
+        if (!$entityDb = $this->model->find($id)) {
+            throw new NotFoundException('Video not found');
+        }
+        
+        return $entityDb->delete();
     }
     
     public function toBaseEntity(object $data): BaseEntity

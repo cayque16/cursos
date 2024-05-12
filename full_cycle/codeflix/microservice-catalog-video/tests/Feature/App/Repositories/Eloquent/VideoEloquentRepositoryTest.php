@@ -238,4 +238,22 @@ class VideoEloquentRepositoryTest extends TestCase
         $this->assertEquals($genres->pluck('id')->toArray(), $entityInDb->genresId);
         $this->assertEquals($castMembers->pluck('id')->toArray(), $entityInDb->castMembersId);
     }
+
+    public function testDeleteNotFound()
+    {
+        $this->expectException(NotFoundException::class);
+
+        $this->repository->delete('fake_value');
+    }
+
+    public function testDelete()
+    {
+        $video = VideoModel::factory()->create();
+
+        $this->repository->delete($video->id);
+
+        $this->assertSoftDeleted('videos', [
+            'id' => $video->id,
+        ]);
+    }
 }
