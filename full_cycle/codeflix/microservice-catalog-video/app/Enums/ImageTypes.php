@@ -4,9 +4,9 @@ namespace App\Enums;
 
 enum ImageTypes: int
 {
-    case BANNER = 1;
+    case BANNER = 0;
 
-    case THUMB = 2;
+    case THUMB = 1;
 
-    case THUMB_HALF = 3;
+    case THUMB_HALF = 2;
 }
