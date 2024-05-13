@@ -17,3 +17,4 @@ yarn-error.log
 .docker/dbdata/
 .composer
 .config
+/storage/cloud/
