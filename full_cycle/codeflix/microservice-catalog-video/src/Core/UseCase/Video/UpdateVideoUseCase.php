@@ -25,7 +25,9 @@ class UpdateVideoUseCase extends BaseVideoUseCase
             description: $input->description,
         );
 
-        $this->builder->setEntity($entity);
+        $this->builder
+            ->setEntity($entity)
+            ->addIds($input);
         
         try {
             $this->repository->update($this->builder->getEntity());
