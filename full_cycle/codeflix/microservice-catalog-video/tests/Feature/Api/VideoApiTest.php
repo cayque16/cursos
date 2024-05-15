@@ -2,6 +2,9 @@
 
 namespace Tests\Feature\Api;
 
+use App\Models\CastMember;
+use App\Models\Category;
+use App\Models\Genre;
 use App\Models\Video;
 use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
@@ -136,6 +139,10 @@ class VideoApiTest extends TestCase
         $videoFile = UploadedFile::fake()->create('video.mp4', 1, 'video/mp4');
         $imageFile = UploadedFile::fake()->image('image.png');
 
+        $categoriesIds = Category::factory()->count(3)->create()->pluck('id')->toArray();
+        $genresIds = Genre::factory()->count(3)->create()->pluck('id')->toArray();
+        $castMembersIds = CastMember::factory()->count(3)->create()->pluck('id')->toArray();
+
         $data = [
             'title' => 'test title',
             'description' => 'test desc',
@@ -143,9 +150,9 @@ class VideoApiTest extends TestCase
             'duration' => 120,
             'opened' => true,
             'rating' => 'L',
-            'categories' => [],
-            'genres' => [],
-            'cast_members' => [],
+            'categories' => $categoriesIds,
+            'genres' => $genresIds,
+            'cast_members' => $castMembersIds,
             'video_file' => $videoFile,
             'trailer_file' => $videoFile,
             'banner_file' => $imageFile,
@@ -166,5 +173,23 @@ class VideoApiTest extends TestCase
         Storage::assertExists($response->json('data.thumb_half'));
 
         Storage::deleteDirectory($response->json('data.id'));
+    }
+
+    public function testStoreValidation()
+    {
+        $response = $this->postJson($this->endpoint, []);
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors([
+            'title',
+            'description',
+            'year_launched',
+            'duration',
+            'opened',
+            'rating',
+            'categories',
+            'genres',
+            'cast_members',
+        ]);
     }
 }
