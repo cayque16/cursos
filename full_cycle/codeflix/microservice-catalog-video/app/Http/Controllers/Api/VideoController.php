@@ -50,6 +50,56 @@ class VideoController extends Controller
 
     public function store(CreateVideoUseCase $useCase, Request $request)
     {
+        if ($file = $request->file('video_file')) {
+            $videoFile = [
+                'name' => $file->getClientOriginalName(),
+                'tmp_name' => $file->getPathname(),
+                'size' => $file->getSize(),
+                'error' => $file->getError(),
+                'type' => $file->getType(),
+            ];
+        }
+
+        if ($file = $request->file('trailer_file')) {
+            $trailerFile = [
+                'name' => $file->getClientOriginalName(),
+                'tmp_name' => $file->getPathname(),
+                'size' => $file->getSize(),
+                'error' => $file->getError(),
+                'type' => $file->getType(),
+            ];
+        }
+
+        if ($file = $request->file('banner_file')) {
+            $bannerFile = [
+                'name' => $file->getClientOriginalName(),
+                'tmp_name' => $file->getPathname(),
+                'size' => $file->getSize(),
+                'error' => $file->getError(),
+                'type' => $file->getType(),
+            ];
+        }
+
+        if ($file = $request->file('thumb_file')) {
+            $thumbFile = [
+                'name' => $file->getClientOriginalName(),
+                'tmp_name' => $file->getPathname(),
+                'size' => $file->getSize(),
+                'error' => $file->getError(),
+                'type' => $file->getType(),
+            ];
+        }
+
+        if ($file = $request->file('thumb_half_file')) {
+            $trailerFile = [
+                'name' => $file->getClientOriginalName(),
+                'tmp_name' => $file->getPathname(),
+                'size' => $file->getSize(),
+                'error' => $file->getError(),
+                'type' => $file->getType(),
+            ];
+        }
+
         $response = $useCase->execute(new CreateVideoInputDto(
             title: $request->title,
             description: $request->description,
@@ -60,6 +110,8 @@ class VideoController extends Controller
             categories: $request->categories,
             genres: $request->genres,
             castMembers: $request->cast_members,
+            videoFile: $videoFile ?? null,
+            trailerFile: $trailerFile ?? null,
         ));
 
         return (new VideoResource($response))

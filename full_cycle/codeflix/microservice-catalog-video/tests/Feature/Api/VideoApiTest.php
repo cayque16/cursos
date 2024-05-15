@@ -4,6 +4,8 @@ namespace Tests\Feature\Api;
 
 use App\Models\Video;
 use Illuminate\Http\Response;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class VideoApiTest extends TestCase
@@ -131,6 +133,9 @@ class VideoApiTest extends TestCase
 
     public function testStore()
     {
+        $videoFile = UploadedFile::fake()->create('video.mp4', 1, 'video/mp4');
+        $imageFile = UploadedFile::fake()->image('image.png');
+
         $data = [
             'title' => 'test title',
             'description' => 'test desc',
@@ -141,11 +146,25 @@ class VideoApiTest extends TestCase
             'categories' => [],
             'genres' => [],
             'cast_members' => [],
+            'video_file' => $videoFile,
+            'trailer_file' => $videoFile,
+            'banner_file' => $imageFile,
+            'thumb_file' => $imageFile,
+            'thumb_half_file' => $imageFile,
         ];
 
         $response = $this->postJson($this->endpoint, $data);
         $response->assertCreated();
-
+        $response->assertJsonStructure(['data' => $this->serializedFields]);
         $this->assertDatabaseCount('videos', 1);
+        $this->assertDatabaseHas('videos', ['id' => $response->json('data.id')]);
+
+        Storage::assertExists($response->json('data.video'));
+        Storage::assertExists($response->json('data.trailer'));
+        Storage::assertExists($response->json('data.banner'));
+        Storage::assertExists($response->json('data.thumb'));
+        Storage::assertExists($response->json('data.thumb_half'));
+
+        Storage::deleteDirectory($response->json('data.id'));
     }
 }
