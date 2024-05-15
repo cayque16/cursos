@@ -17,6 +17,7 @@ class ListVideoOutputDto
         public array $categories,
         public array $genres,
         public array $castMembers,
+        public string $createdAt,
         public ?string $videoFile = null,
         public ?string $thumbFile = null,
         public ?string $thumbHalfFile = null,

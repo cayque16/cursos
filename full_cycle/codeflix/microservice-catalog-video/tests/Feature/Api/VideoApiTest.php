@@ -9,6 +9,16 @@ use Tests\TestCase;
 class VideoApiTest extends TestCase
 {
     protected $endpoint = '/api/videos';
+    protected $serializedFields =  [
+        'id',
+        'title',
+        'description',
+        'year_launched',
+        'opened',
+        'rating',
+        'duration',
+        'created_at',
+    ];
 
     public function testEmpty()
     {
@@ -50,16 +60,7 @@ class VideoApiTest extends TestCase
         $response->assertJsonPath('meta.per_page', $perPage);
         $response->assertJsonStructure([
             'data' => [
-                '*' => [
-                    'id',
-                    'title',
-                    'description',
-                    'year_launched',
-                    'opened',
-                    'rating',
-                    'duration',
-                    'created_at',
-                ]
+                '*' => $this->serializedFields
             ],
             'meta' => [
                 'total',
@@ -108,5 +109,43 @@ class VideoApiTest extends TestCase
                 'filter' => 'test',
             ],
         ];
+    }
+
+    public function testShow()
+    {
+        $video = Video::factory()->create();
+
+        $response = $this->getJson("$this->endpoint/{$video->id}");
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'data' => $this->serializedFields,
+        ]);
+    }
+
+    public function testShowNotFound()
+    {
+        $response = $this->getJson("$this->endpoint/fake_id");
+
+        $response->assertNotFound();
+    }
+
+    public function testStore()
+    {
+        $data = [
+            'title' => 'test title',
+            'description' => 'test desc',
+            'year_launched' => 2000,
+            'duration' => 120,
+            'opened' => true,
+            'rating' => 'L',
+            'categories' => [],
+            'genres' => [],
+            'cast_members' => [],
+        ];
+
+        $response = $this->postJson($this->endpoint, $data);
+        $response->assertCreated();
+
+        $this->assertDatabaseCount('videos', 1);
     }
 }

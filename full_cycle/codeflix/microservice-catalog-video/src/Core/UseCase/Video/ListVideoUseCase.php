@@ -27,6 +27,7 @@ class ListVideoUseCase
             $entity->categoriesId,
             $entity->genresId,
             $entity->castMembersId,
+            $entity->createdAt(),
             $entity->videoFile()?->filePath,
             $entity->thumbFile()?->path,
             $entity->thumbHalfFile()?->path,
