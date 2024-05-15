@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\UseCase\Video;
 
+use Core\Domain\Repository\PaginationInterface;
 use Core\Domain\Repository\VideoRepositoryInterface;
 use Core\UseCase\DTO\Video\ListVideos\ListVideosInputDto;
-use Core\UseCase\DTO\Video\ListVideos\ListVideosOutputDto;
 use Core\UseCase\Video\ListVideosUseCase;
 use Mockery;
 use stdClass;
@@ -25,7 +25,7 @@ class ListVideosUseCaseUnitTest extends TestCase
             input: $this->createMockInputDto()
         );
 
-        $this->assertInstanceOf(ListVideosOutputDto::class, $response);
+        $this->assertInstanceOf(PaginationInterface::class, $response);
 
         Mockery::close();
     }
