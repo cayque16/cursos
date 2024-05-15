@@ -8,10 +8,12 @@ use App\Http\Requests\UpdateVideoRequest;
 use App\Http\Resources\VideoResource;
 use Core\Domain\Enum\Rating;
 use Core\UseCase\DTO\Video\CreateVideo\CreateVideoInputDto;
+use Core\UseCase\DTO\Video\DeleteVideo\DeleteVideoInputDto;
 use Core\UseCase\DTO\Video\ListVideoInputDto;
 use Core\UseCase\DTO\Video\ListVideos\ListVideosInputDto;
 use Core\UseCase\DTO\Video\UpdateVideo\UpdateVideoInputDto;
 use Core\UseCase\Video\CreateVideoUseCase;
+use Core\UseCase\Video\DeleteVideoUseCase;
 use Core\UseCase\Video\ListVideosUseCase;
 use Core\UseCase\Video\ListVideoUseCase;
 use Core\UseCase\Video\UpdateVideoUseCase;
@@ -192,5 +194,12 @@ class VideoController extends Controller
         return (new VideoResource($response))
                     ->response()
                     ->setStatusCode(Response::HTTP_CREATED);
+    }
+
+    public function destroy(DeleteVideoUseCase $useCase, $id)
+    {
+        $useCase->execute(new DeleteVideoInputDto(($id)));
+
+        return response()->noContent();
     }
 }

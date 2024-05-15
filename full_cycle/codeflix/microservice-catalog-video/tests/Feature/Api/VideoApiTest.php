@@ -243,4 +243,22 @@ class VideoApiTest extends TestCase
 
         Storage::deleteDirectory($response->json('data.id'));
     }
+
+    public function testDestroy()
+    {
+        $video = Video::factory()->create();
+
+        $response = $this->deleteJson("$this->endpoint/{$video->id}");
+        $response->assertNoContent();
+
+        $this->assertSoftDeleted('videos', [
+            'id' => $video->id,
+        ]);
+    }
+
+    public function testDestroyNotFound()
+    {
+        $response = $this->deleteJson("$this->endpoint/fake_id");
+        $response->assertNotFound();
+    }
 }
