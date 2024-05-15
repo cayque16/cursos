@@ -166,6 +166,10 @@ class VideoApiTest extends TestCase
         $this->assertDatabaseCount('videos', 1);
         $this->assertDatabaseHas('videos', ['id' => $response->json('data.id')]);
 
+        $this->assertEquals($categoriesIds, $response->json('data.categories'));
+        $this->assertEquals($genresIds, $response->json('data.genres'));
+        $this->assertEquals($castMembersIds, $response->json('data.cast_members'));
+
         Storage::assertExists($response->json('data.video'));
         Storage::assertExists($response->json('data.trailer'));
         Storage::assertExists($response->json('data.banner'));
