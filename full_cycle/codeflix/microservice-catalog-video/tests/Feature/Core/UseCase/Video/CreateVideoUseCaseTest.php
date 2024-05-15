@@ -8,6 +8,7 @@ use Core\UseCase\Video\CreateVideoUseCase;
 use Exception;
 use Illuminate\Database\Events\TransactionBeginning;
 use Illuminate\Support\Facades\Event;
+use Tests\Stubs\UploadFilesStub;
 
 class CreateVideoUseCaseTest extends BaseVideoUseCase
 {
@@ -55,6 +56,31 @@ class CreateVideoUseCaseTest extends BaseVideoUseCase
         try {
             $sut = $this->makeSut();
             $sut->execute($this->inputDTO());
+
+            $this->assertTrue(false);
+        } catch (\Throwable $th) {
+            $this->assertDatabaseCount('videos', 0);
+        }
+    }
+
+    public function testUploadFilesException()
+    {
+        Event::listen(UploadFilesStub::class, function () {
+            throw new Exception('upload files');
+        });
+
+        try {
+            $sut = $this->makeSut();
+            $input = $this->inputDTO(
+                videoFile: [
+                    'name' => 'video.mp4',
+                    'type' => 'video.mp4',
+                    'tmp_name' => '/tmp/video.mp4',
+                    'error' => 0,
+                ]
+            );
+
+            $sut->execute($input);
 
             $this->assertTrue(false);
         } catch (\Throwable $th) {
