@@ -4,14 +4,17 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreVideoRequest;
+use App\Http\Requests\UpdateVideoRequest;
 use App\Http\Resources\VideoResource;
 use Core\Domain\Enum\Rating;
 use Core\UseCase\DTO\Video\CreateVideo\CreateVideoInputDto;
 use Core\UseCase\DTO\Video\ListVideoInputDto;
 use Core\UseCase\DTO\Video\ListVideos\ListVideosInputDto;
+use Core\UseCase\DTO\Video\UpdateVideo\UpdateVideoInputDto;
 use Core\UseCase\Video\CreateVideoUseCase;
 use Core\UseCase\Video\ListVideosUseCase;
 use Core\UseCase\Video\ListVideoUseCase;
+use Core\UseCase\Video\UpdateVideoUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -108,6 +111,77 @@ class VideoController extends Controller
             duration: $request->duration,
             opened: $request->opened,
             rating: Rating::from($request->rating),
+            categories: $request->categories,
+            genres: $request->genres,
+            castMembers: $request->cast_members,
+            videoFile: $videoFile ?? null,
+            trailerFile: $trailerFile ?? null,
+        ));
+
+        return (new VideoResource($response))
+                    ->response()
+                    ->setStatusCode(Response::HTTP_CREATED);
+    }
+
+    public function update(
+        UpdateVideoUseCase $useCase,
+        UpdateVideoRequest $request,
+        $id
+    ) {
+        if ($file = $request->file('video_file')) {
+            $videoFile = [
+                'name' => $file->getClientOriginalName(),
+                'tmp_name' => $file->getPathname(),
+                'size' => $file->getSize(),
+                'error' => $file->getError(),
+                'type' => $file->getType(),
+            ];
+        }
+
+        if ($file = $request->file('trailer_file')) {
+            $trailerFile = [
+                'name' => $file->getClientOriginalName(),
+                'tmp_name' => $file->getPathname(),
+                'size' => $file->getSize(),
+                'error' => $file->getError(),
+                'type' => $file->getType(),
+            ];
+        }
+
+        if ($file = $request->file('banner_file')) {
+            $bannerFile = [
+                'name' => $file->getClientOriginalName(),
+                'tmp_name' => $file->getPathname(),
+                'size' => $file->getSize(),
+                'error' => $file->getError(),
+                'type' => $file->getType(),
+            ];
+        }
+
+        if ($file = $request->file('thumb_file')) {
+            $thumbFile = [
+                'name' => $file->getClientOriginalName(),
+                'tmp_name' => $file->getPathname(),
+                'size' => $file->getSize(),
+                'error' => $file->getError(),
+                'type' => $file->getType(),
+            ];
+        }
+
+        if ($file = $request->file('thumb_half_file')) {
+            $trailerFile = [
+                'name' => $file->getClientOriginalName(),
+                'tmp_name' => $file->getPathname(),
+                'size' => $file->getSize(),
+                'error' => $file->getError(),
+                'type' => $file->getType(),
+            ];
+        }
+
+        $response = $useCase->execute(new UpdateVideoInputDto(
+            id: $id,
+            title: $request->title,
+            description: $request->description,
             categories: $request->categories,
             genres: $request->genres,
             castMembers: $request->cast_members,
