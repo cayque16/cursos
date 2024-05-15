@@ -14,7 +14,7 @@ class VideoController extends Controller
     {
         $response = $useCase->execute(
             input: new ListVideosInputDto(
-                filter: $request->get('filter', ''),
+                filter: $request->filter ?? '',
                 order: $request->get('order', 'DESC'),
                 page: (int) $request->get('page', 1),
                 totalPage: (int) $request->get('total_page', 15),

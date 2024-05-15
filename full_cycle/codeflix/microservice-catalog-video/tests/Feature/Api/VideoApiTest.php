@@ -17,14 +17,37 @@ class VideoApiTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
     }
 
-    public function testPagination()
-    {
-        Video::factory()->count(20)->create();
+    /**
+     * @dataProvider dataProviderPagination
+     */
+    public function testPagination(
+        int $total,
+        int $totalCurrentPage,
+        int $page,
+        int $perPage,
+        string $filter = '',
+    ) {
+        Video::factory()->count($total)->create();
 
-        $response = $this->getJson($this->endpoint);
+        if ($filter) {
+            Video::factory()->count($total)->create([
+                'title' => $filter
+            ]);
+        }
+
+        $params = http_build_query([
+            'page' => $page,
+            'total_page' => $perPage,
+            'order' => 'DESC',
+            'filter' => $filter,
+        ]);
+        
+        $response = $this->getJson("$this->endpoint?$params");
         
         $response->assertStatus(Response::HTTP_OK);
-        $response->assertJsonCount(15, 'data');
+        $response->assertJsonCount($totalCurrentPage, 'data');
+        $response->assertJsonPath('meta.current_page', $page);
+        $response->assertJsonPath('meta.per_page', $perPage);
         $response->assertJsonStructure([
             'data' => [
                 '*' => [
@@ -48,5 +71,42 @@ class VideoApiTest extends TestCase
                 'from',
             ]
         ]);
+    }
+
+    protected function dataProviderPagination(): array
+    {
+        return [
+            'test empty' => [
+                'total' => 0,
+                'totalCurrentPage' => 0,
+                'page' => 1,
+                'perPage' => 15,
+            ],
+            'test with total two pages' => [
+                'total' => 20,
+                'totalCurrentPage' => 15,
+                'page' => 1,
+                'perPage' => 15,
+            ],
+            'test page two' => [
+                'total' => 20,
+                'totalCurrentPage' => 5,
+                'page' => 2,
+                'perPage' => 15,
+            ],
+            'test page four' => [
+                'total' => 40,
+                'totalCurrentPage' => 10,
+                'page' => 4,
+                'perPage' => 10,
+            ],
+            'test with filter' => [
+                'total' => 10,
+                'totalCurrentPage' => 10,
+                'page' => 1,
+                'perPage' => 10,
+                'filter' => 'test',
+            ],
+        ];
     }
 }
