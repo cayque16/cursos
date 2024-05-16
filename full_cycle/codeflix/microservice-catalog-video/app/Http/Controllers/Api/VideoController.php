@@ -87,7 +87,7 @@ class VideoController extends Controller
         }
 
         if ($file = $request->file('thumb_half_file')) {
-            $trailerFile = [
+            $thumbHalfFile = [
                 'name' => $file->getClientOriginalName(),
                 'tmp_name' => $file->getPathname(),
                 'size' => $file->getSize(),
@@ -108,6 +108,9 @@ class VideoController extends Controller
             castMembers: $request->cast_members,
             videoFile: $videoFile ?? null,
             trailerFile: $trailerFile ?? null,
+            bannerFile: $bannerFile ?? null,
+            thumbFile: $thumbFile ?? null,
+            thumbHalfFile: $thumbHalfFile ?? null,
         ));
 
         return (new VideoResource($response))
@@ -161,7 +164,7 @@ class VideoController extends Controller
         }
 
         if ($file = $request->file('thumb_half_file')) {
-            $trailerFile = [
+            $thumbHalfFile = [
                 'name' => $file->getClientOriginalName(),
                 'tmp_name' => $file->getPathname(),
                 'size' => $file->getSize(),
@@ -179,6 +182,9 @@ class VideoController extends Controller
             castMembers: $request->cast_members,
             videoFile: $videoFile ?? null,
             trailerFile: $trailerFile ?? null,
+            bannerFile: $bannerFile ?? null,
+            thumbFile: $thumbFile ?? null,
+            thumbHalfFile: $thumbHalfFile ?? null,
         ));
 
         return (new VideoResource($response))
