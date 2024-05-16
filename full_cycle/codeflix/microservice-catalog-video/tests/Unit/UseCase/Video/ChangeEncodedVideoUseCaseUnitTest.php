@@ -4,6 +4,7 @@ namespace Tests\Unit\UseCase\Video;
 
 use Core\Domain\Entity\Video;
 use Core\Domain\Enum\Rating;
+use Core\Domain\Exception\NotFoundException;
 use Core\Domain\Repository\VideoRepositoryInterface;
 use Core\UseCase\DTO\Video\ChangeEncoded\ChangeEncodedInputDto;
 use Core\UseCase\DTO\Video\ChangeEncoded\ChangeEncodedOutputDto;
@@ -37,6 +38,33 @@ class ChangeEncodedVideoUseCaseUnitTest extends TestCase
         $response = $useCase->execute(input: $input);
 
         $this->assertInstanceOf(ChangeEncodedOutputDto::class, $response);
+
+        Mockery::close();
+    }
+
+    public function testExceptionRepository()
+    {
+        $this->expectException(NotFoundException::class);
+
+        $input = new ChangeEncodedInputDto(
+            id: '123',
+            encodedPath: 'path/video-encoded.ext'
+        );
+
+        $mockRepository = Mockery::mock(stdClass::class, VideoRepositoryInterface::class);
+        $mockRepository->shouldReceive('findById')
+            ->times(1)
+            ->with($input->id)
+            ->andThrow(new NotFoundException('Not Found Video'));
+
+        $mockRepository->shouldReceive('updateMedia')
+            ->times(0);
+
+        $useCase = new ChangeEncodedVideoUseCase(
+            repository: $mockRepository,
+        );
+
+        $response = $useCase->execute(input: $input);
 
         Mockery::close();
     }
