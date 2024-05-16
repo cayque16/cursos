@@ -41,61 +41,11 @@ class VideoController extends Controller
     {
         $response = $useCase->execute(new ListVideoInputDto($id));
         
-        return new VideoResource($response);
+        return ApiAdapter::json($response);
     }
 
     public function store(CreateVideoUseCase $useCase, StoreVideoRequest $request)
     {
-        if ($file = $request->file('video_file')) {
-            $videoFile = [
-                'name' => $file->getClientOriginalName(),
-                'tmp_name' => $file->getPathname(),
-                'size' => $file->getSize(),
-                'error' => $file->getError(),
-                'type' => $file->getType(),
-            ];
-        }
-
-        if ($file = $request->file('trailer_file')) {
-            $trailerFile = [
-                'name' => $file->getClientOriginalName(),
-                'tmp_name' => $file->getPathname(),
-                'size' => $file->getSize(),
-                'error' => $file->getError(),
-                'type' => $file->getType(),
-            ];
-        }
-
-        if ($file = $request->file('banner_file')) {
-            $bannerFile = [
-                'name' => $file->getClientOriginalName(),
-                'tmp_name' => $file->getPathname(),
-                'size' => $file->getSize(),
-                'error' => $file->getError(),
-                'type' => $file->getType(),
-            ];
-        }
-
-        if ($file = $request->file('thumb_file')) {
-            $thumbFile = [
-                'name' => $file->getClientOriginalName(),
-                'tmp_name' => $file->getPathname(),
-                'size' => $file->getSize(),
-                'error' => $file->getError(),
-                'type' => $file->getType(),
-            ];
-        }
-
-        if ($file = $request->file('thumb_half_file')) {
-            $thumbHalfFile = [
-                'name' => $file->getClientOriginalName(),
-                'tmp_name' => $file->getPathname(),
-                'size' => $file->getSize(),
-                'error' => $file->getError(),
-                'type' => $file->getType(),
-            ];
-        }
-
         $response = $useCase->execute(new CreateVideoInputDto(
             title: $request->title,
             description: $request->description,
@@ -106,16 +56,14 @@ class VideoController extends Controller
             categories: $request->categories,
             genres: $request->genres,
             castMembers: $request->cast_members,
-            videoFile: $videoFile ?? null,
-            trailerFile: $trailerFile ?? null,
-            bannerFile: $bannerFile ?? null,
-            thumbFile: $thumbFile ?? null,
-            thumbHalfFile: $thumbHalfFile ?? null,
+            videoFile: getArrayFile($request->file('video_file')),
+            trailerFile: getArrayFile($request->file('trailer_file')),
+            bannerFile: getArrayFile($request->file('banner_file')),
+            thumbFile: getArrayFile($request->file('thumb_file')),
+            thumbHalfFile: getArrayFile($request->file('thumb_half_file')),
         ));
 
-        return (new VideoResource($response))
-                    ->response()
-                    ->setStatusCode(Response::HTTP_CREATED);
+        return ApiAdapter::json($response, Response::HTTP_CREATED);
     }
 
     public function update(
@@ -123,56 +71,6 @@ class VideoController extends Controller
         UpdateVideoRequest $request,
         $id
     ) {
-        if ($file = $request->file('video_file')) {
-            $videoFile = [
-                'name' => $file->getClientOriginalName(),
-                'tmp_name' => $file->getPathname(),
-                'size' => $file->getSize(),
-                'error' => $file->getError(),
-                'type' => $file->getType(),
-            ];
-        }
-
-        if ($file = $request->file('trailer_file')) {
-            $trailerFile = [
-                'name' => $file->getClientOriginalName(),
-                'tmp_name' => $file->getPathname(),
-                'size' => $file->getSize(),
-                'error' => $file->getError(),
-                'type' => $file->getType(),
-            ];
-        }
-
-        if ($file = $request->file('banner_file')) {
-            $bannerFile = [
-                'name' => $file->getClientOriginalName(),
-                'tmp_name' => $file->getPathname(),
-                'size' => $file->getSize(),
-                'error' => $file->getError(),
-                'type' => $file->getType(),
-            ];
-        }
-
-        if ($file = $request->file('thumb_file')) {
-            $thumbFile = [
-                'name' => $file->getClientOriginalName(),
-                'tmp_name' => $file->getPathname(),
-                'size' => $file->getSize(),
-                'error' => $file->getError(),
-                'type' => $file->getType(),
-            ];
-        }
-
-        if ($file = $request->file('thumb_half_file')) {
-            $thumbHalfFile = [
-                'name' => $file->getClientOriginalName(),
-                'tmp_name' => $file->getPathname(),
-                'size' => $file->getSize(),
-                'error' => $file->getError(),
-                'type' => $file->getType(),
-            ];
-        }
-
         $response = $useCase->execute(new UpdateVideoInputDto(
             id: $id,
             title: $request->title,
@@ -180,16 +78,14 @@ class VideoController extends Controller
             categories: $request->categories,
             genres: $request->genres,
             castMembers: $request->cast_members,
-            videoFile: $videoFile ?? null,
-            trailerFile: $trailerFile ?? null,
-            bannerFile: $bannerFile ?? null,
-            thumbFile: $thumbFile ?? null,
-            thumbHalfFile: $thumbHalfFile ?? null,
+            videoFile: getArrayFile($request->file('video_file')),
+            trailerFile: getArrayFile($request->file('trailer_file')),
+            bannerFile: getArrayFile($request->file('banner_file')),
+            thumbFile: getArrayFile($request->file('thumb_file')),
+            thumbHalfFile: getArrayFile($request->file('thumb_half_file')),
         ));
 
-        return (new VideoResource($response))
-                    ->response()
-                    ->setStatusCode(Response::HTTP_CREATED);
+        return ApiAdapter::json($response);
     }
 
     public function destroy(DeleteVideoUseCase $useCase, $id)
