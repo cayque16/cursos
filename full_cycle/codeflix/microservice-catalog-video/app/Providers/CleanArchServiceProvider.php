@@ -9,6 +9,8 @@ use App\Repositories\Eloquent\CategoryEloquentRepository;
 use App\Repositories\Eloquent\GenreEloquentRepository;
 use App\Repositories\Eloquent\VideoEloquentRepository;
 use App\Repositories\Transaction\DbTransaction;
+use App\Services\AMQP\AMQPInterface;
+use App\Services\AMQP\PhpAmqpService;
 use App\Services\Storage\FileStorage;
 use Core\Domain\Repository\CastMemberRepositoryInterface;
 use Core\Domain\Repository\CategoryRepositoryInterface;
@@ -45,6 +47,14 @@ class CleanArchServiceProvider extends ServiceProvider
         $this->app->bind(
             TransactionInterface::class,
             DbTransaction::class
+        );
+
+        /**
+         * Services
+         */
+        $this->app->bind(
+            AMQPInterface::class,
+            PhpAmqpService::class
         );
     }
 
