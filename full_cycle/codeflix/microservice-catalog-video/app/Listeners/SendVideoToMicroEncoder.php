@@ -26,7 +26,7 @@ class SendVideoToMicroEncoder
      */
     public function handle($event)
     {
-        $this->amqp->producerFanout(
+        $this->amqp->connect()->producerFanout(
             payload: $event->getPayload(),
             exchange: config('microservices.micro_encoder_go.exchange')
         );
