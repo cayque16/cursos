@@ -14,7 +14,7 @@ class PhpAmqpService implements AMQPInterface
 
     public function connect()
     {
-        if ($this->connection || app()->runningInConsole()) {
+        if ($this->connection) {
             return;
         }
 
@@ -28,6 +28,8 @@ class PhpAmqpService implements AMQPInterface
         );
 
         $this->channel = $this->connection->channel();
+
+        return $this;
     }
 
     public function producer(
