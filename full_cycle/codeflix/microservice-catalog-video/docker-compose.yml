@@ -5,6 +5,7 @@ services:
     app:
         build: .
         container_name: microservice-videos-app
+        restart: always
         volumes:
             - .:/var/www
             - ./.docker/php/custom.ini:/usr/local/etc/php/conf.d/custom.ini
@@ -16,6 +17,7 @@ services:
 
     nginx:
         build: .docker/nginx
+        restart: always
         container_name: microservice-videos-nginx
         tty: true
         ports:
@@ -30,6 +32,7 @@ services:
     db:
         build: ./.docker/mysql
         # image: mysql:5.7
+        restart: always
         container_name: microservice-videos-db
         tty: true
         ports:
@@ -45,6 +48,7 @@ services:
 
     redis:
         image: redis:alpine
+        restart: always
         container_name: microservice-videos-redis
         networks:
             - app-network
