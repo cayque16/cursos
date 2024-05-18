@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Services\AMQP\AMQPInterface;
+use Core\UseCase\DTO\Video\ChangeEncoded\ChangeEncodedInputDto;
 use Core\UseCase\Video\ChangeEncodedVideoUseCase;
 use Illuminate\Console\Command;
 
@@ -38,7 +39,18 @@ class RabbitMQCommand extends Command
     {
         $closure = function ($message) {
             $body = json_decode($message->body);
-            var_dump($body);
+            
+            if (isset($body->Error) && $body->Error === '') {
+                $encodedPath = $body->video->encoded_video_folder.'/stream.mpd';
+                $videoId = $body->video->resource_id;
+
+                $this->useCase->execute(
+                    new ChangeEncodedInputDto(
+                        id: $videoId,
+                        encodedPath: $encodedPath
+                    )
+                );
+            }
         };
 
         $this->amqp->consumer(
