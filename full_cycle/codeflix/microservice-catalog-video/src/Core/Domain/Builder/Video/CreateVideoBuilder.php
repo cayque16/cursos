@@ -109,5 +109,4 @@ class CreateVideoBuilder implements Builder
     {
         return $this->entity;
     }
-
 }

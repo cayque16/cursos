@@ -14,11 +14,11 @@ use Tests\TestCase;
 class CastMemberEloquentRepositoryTest extends TestCase
 {
     protected $repository;
-    
+
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->repository = new CastMemberEloquentRepository(new CastMemberModel());
     }
 
@@ -131,7 +131,7 @@ class CastMemberEloquentRepositoryTest extends TestCase
         $this->repository->delete($castMember->id);
 
         $this->assertSoftDeleted('cast_members', [
-            'id' => $castMember->id
+            'id' => $castMember->id,
         ]);
     }
 }

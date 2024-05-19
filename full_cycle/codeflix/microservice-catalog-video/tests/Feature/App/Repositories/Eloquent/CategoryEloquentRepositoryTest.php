@@ -8,9 +8,6 @@ use Core\Domain\Entity\Category as CategoryEntity;
 use Core\Domain\Exception\NotFoundException;
 use Core\Domain\Repository\CategoryRepositoryInterface;
 use Core\Domain\Repository\PaginationInterface;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Throwable;
 
@@ -21,7 +18,7 @@ class CategoryEloquentRepositoryTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->repository = new CategoryEloquentRepository(new CategoryModel());
     }
 
@@ -54,7 +51,7 @@ class CategoryEloquentRepositoryTest extends TestCase
     {
         try {
             $this->repository->findById('fakeValue');
-            
+
             $this->assertTrue(false);
         } catch (Throwable $th) {
             $this->assertInstanceOf(NotFoundException::class, $th);
@@ -64,7 +61,7 @@ class CategoryEloquentRepositoryTest extends TestCase
     public function testFindAll()
     {
         $categories = CategoryModel::factory()->count(10)->create();
-        
+
         $response = $this->repository->findAll();
 
         $this->assertEquals(count($categories), count($response));
@@ -108,7 +105,7 @@ class CategoryEloquentRepositoryTest extends TestCase
             id: $categoryDb->id,
             name: 'updated name',
         );
-        
+
         $response = $this->repository->update($category);
 
         $this->assertInstanceOf(CategoryEntity::class, $response);

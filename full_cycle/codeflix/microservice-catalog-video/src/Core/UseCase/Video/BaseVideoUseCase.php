@@ -26,7 +26,7 @@ abstract class BaseVideoUseCase
         protected CategoryRepositoryInterface $repositoryCategory,
         protected GenreRepositoryInterface $repositoryGenre,
         protected CastMemberRepositoryInterface $repositoryCastMember,
-    ) { 
+    ) {
         $this->builder = $this->getBuilder();
     }
 
@@ -58,7 +58,7 @@ abstract class BaseVideoUseCase
         }
     }
 
-    protected function storageFile(string $path, ?array $media = null): null|string
+    protected function storageFile(string $path, ?array $media = null): ?string
     {
         return $media ?
             $this->storage->store($path, $media) :
@@ -94,13 +94,13 @@ abstract class BaseVideoUseCase
         ?string $pluralLabel = null
     ) {
         $idsDb = $repository->getIdsListIds($ids);
-        
+
         $arrayDiff = array_diff($ids, $idsDb);
-        
+
         if (count($arrayDiff)) {
             $msg = sprintf(
                 '%s %s not found',
-                count($arrayDiff) > 1 ? $pluralLabel ?? $singularLabel . 's' : $singularLabel,
+                count($arrayDiff) > 1 ? $pluralLabel ?? $singularLabel.'s' : $singularLabel,
                 implode(', ', $arrayDiff)
             );
 

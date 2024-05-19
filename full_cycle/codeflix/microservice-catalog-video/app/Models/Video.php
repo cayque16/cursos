@@ -28,7 +28,7 @@ class Video extends Model
     protected $casts = [
         'id' => 'string',
         'is_active' => 'boolean',
-        'deleted_at' => 'datetime'
+        'deleted_at' => 'datetime',
     ];
 
     public function categories()
@@ -49,30 +49,30 @@ class Video extends Model
     public function media()
     {
         return $this->hasOne(Media::class)
-                        ->where('type', (string) MediaTypes::VIDEO->value);
+            ->where('type', (string) MediaTypes::VIDEO->value);
     }
 
     public function trailer()
     {
         return $this->hasOne(Media::class)
-                        ->where('type', (string) MediaTypes::TRAILER->value);
+            ->where('type', (string) MediaTypes::TRAILER->value);
     }
 
     public function banner()
     {
         return $this->hasOne(ImagesVideo::class)
-                        ->where('type', (string) ImageTypes::BANNER->value);
+            ->where('type', (string) ImageTypes::BANNER->value);
     }
 
     public function thumb()
     {
         return $this->hasOne(ImagesVideo::class)
-                        ->where('type', (string) ImageTypes::THUMB->value);
+            ->where('type', (string) ImageTypes::THUMB->value);
     }
 
     public function thumbHalf()
     {
         return $this->hasOne(ImagesVideo::class)
-                        ->where('type', (string) ImageTypes::THUMB_HALF->value);
+            ->where('type', (string) ImageTypes::THUMB_HALF->value);
     }
 }

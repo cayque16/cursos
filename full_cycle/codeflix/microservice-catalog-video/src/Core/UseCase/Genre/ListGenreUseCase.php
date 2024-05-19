@@ -10,12 +10,13 @@ class ListGenreUseCase
 {
     public function __construct(
         protected GenreRepositoryInterface $repository
-    ) { }
+    ) {
+    }
 
     public function execute(GenreInputDto $input): GenreOutputDto
     {
         $genre = $this->repository->findById(id: $input->id);
-        
+
         return new GenreOutputDto(
             id: (string) $genre->id,
             name: $genre->name,

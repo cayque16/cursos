@@ -14,7 +14,9 @@ use stdClass;
 class DeleteCategoryUseCaseUnitTest extends TestCase
 {
     private $mockRepo;
+
     private $mockInputDto;
+
     private $spy;
 
     public function testDelete()
@@ -25,7 +27,7 @@ class DeleteCategoryUseCaseUnitTest extends TestCase
         $this->mockRepo->shouldReceive('delete')->andReturn(true);
 
         $this->mockInputDto = Mockery::mock(CategoryInputDto::class, [
-            $categoryId
+            $categoryId,
         ]);
 
         $useCase = new DeleteCategoryUseCase($this->mockRepo);
@@ -39,7 +41,7 @@ class DeleteCategoryUseCaseUnitTest extends TestCase
          */
         $this->spy = Mockery::spy(stdClass::class, CategoryRepositoryInterface::class);
         $this->spy->shouldReceive('delete')->andReturn(true);
-        $useCase =  new DeleteCategoryUseCase($this->spy);
+        $useCase = new DeleteCategoryUseCase($this->spy);
         $useCase->execute($this->mockInputDto);
         $this->spy->shouldHaveReceived('delete');
     }
@@ -52,7 +54,7 @@ class DeleteCategoryUseCaseUnitTest extends TestCase
         $this->mockRepo->shouldReceive('delete')->andReturn(false);
 
         $this->mockInputDto = Mockery::mock(CategoryInputDto::class, [
-            $categoryId
+            $categoryId,
         ]);
 
         $useCase = new DeleteCategoryUseCase($this->mockRepo);

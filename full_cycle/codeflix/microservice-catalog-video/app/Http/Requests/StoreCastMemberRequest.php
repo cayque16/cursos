@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use Core\Domain\Enum\CastMemberType;
-use Illuminate\Validation\Rules\Enum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class StoreCastMemberRequest extends FormRequest
 {
@@ -34,8 +34,8 @@ class StoreCastMemberRequest extends FormRequest
             'type' => [
                 'required',
                 'int',
-                new Enum(CastMemberType::class)
-            ]
+                new Enum(CastMemberType::class),
+            ],
         ];
     }
 }

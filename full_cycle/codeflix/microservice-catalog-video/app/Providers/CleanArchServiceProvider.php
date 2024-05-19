@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Events\VideoEvent;
-use Illuminate\Support\ServiceProvider;
 use App\Repositories\Eloquent\CastMemberEloquentRepository;
 use App\Repositories\Eloquent\CategoryEloquentRepository;
 use App\Repositories\Eloquent\GenreEloquentRepository;
@@ -19,6 +18,7 @@ use Core\Domain\Repository\VideoRepositoryInterface;
 use Core\UseCase\Interfaces\FileStorageInterface;
 use Core\UseCase\Interfaces\TransactionInterface;
 use Core\UseCase\Video\Interfaces\VideoEventManagerInterface;
+use Illuminate\Support\ServiceProvider;
 
 class CleanArchServiceProvider extends ServiceProvider
 {

@@ -19,7 +19,7 @@ class NotificationUnitTest extends TestCase
     public function testAddErrors()
     {
         $notification = new Notification();
-        
+
         $notification->addError([
             'context' => 'video',
             'message' => 'video title is required',

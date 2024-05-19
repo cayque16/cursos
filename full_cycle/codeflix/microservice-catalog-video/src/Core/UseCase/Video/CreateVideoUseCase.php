@@ -14,7 +14,7 @@ class CreateVideoUseCase extends BaseVideoUseCase
     {
         return new CreateVideoBuilder;
     }
-    
+
     public function execute(CreateVideoInputDto $input): CreateVideoOutputDto
     {
         $this->validateAllIds($input);

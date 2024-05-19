@@ -7,8 +7,11 @@ use PHPUnit\Framework\TestCase;
 abstract class ModelTestCase extends TestCase
 {
     abstract protected function model();
+
     abstract protected function traits(): array;
+
     abstract protected function fillable(): array;
+
     abstract protected function casts(): array;
 
     public function testIfUseTraits()

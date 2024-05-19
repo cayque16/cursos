@@ -36,7 +36,7 @@ class UpdateGenreUseCaseUnitTest extends TestCase
     public function testUpdateCategoriesNotFound()
     {
         $this->expectException(NotFoundException::class);
-        
+
         $uuid = (string) RamseyUuid::uuid4();
 
         $useCase = new UpdateGenreUseCase(
@@ -50,8 +50,8 @@ class UpdateGenreUseCaseUnitTest extends TestCase
 
     private function mockEntity(string $uuid)
     {
-        $mockEntity = Mockery::mock(EntityGenre::class,[
-            'teste', new Uuid($uuid), true, []
+        $mockEntity = Mockery::mock(EntityGenre::class, [
+            'teste', new Uuid($uuid), true, [],
         ]);
         $mockEntity->shouldReceive('createdAt')->andReturn(date('Y-m-a H:i:s'));
         $mockEntity->shouldReceive('update')->times(1);
@@ -65,12 +65,12 @@ class UpdateGenreUseCaseUnitTest extends TestCase
         $mockEntity = $this->mockEntity($uuid);
         $mockRepository = Mockery::mock(stdClass::class, GenreRepositoryInterface::class);
         $mockRepository->shouldReceive('findById')
-                        ->once()
-                        ->with($uuid)
-                        ->andReturn($mockEntity);
+            ->once()
+            ->with($uuid)
+            ->andReturn($mockEntity);
         $mockRepository->shouldReceive('update')
-                        ->times($timesCalled)
-                        ->andReturn($mockEntity);
+            ->times($timesCalled)
+            ->andReturn($mockEntity);
 
         return $mockRepository;
     }
@@ -87,7 +87,7 @@ class UpdateGenreUseCaseUnitTest extends TestCase
     private function mockUpdateInputDto(string $uuid, array $categories)
     {
         $mockUpdateInputDto = Mockery::mock(GenreUpdateInputDto::class, [
-            $uuid, 'name to update', $categories
+            $uuid, 'name to update', $categories,
         ]);
 
         return $mockUpdateInputDto;
@@ -97,8 +97,8 @@ class UpdateGenreUseCaseUnitTest extends TestCase
     {
         $mockCategoryRepository = Mockery::mock(stdClass::class, CategoryRepositoryInterface::class);
         $mockCategoryRepository->shouldReceive('getIdsListIds')
-                                ->once()
-                                ->andReturn($uuid);
+            ->once()
+            ->andReturn($uuid);
 
         return $mockCategoryRepository;
     }

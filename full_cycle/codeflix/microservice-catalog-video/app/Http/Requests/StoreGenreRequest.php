@@ -27,17 +27,17 @@ class StoreGenreRequest extends FormRequest
             'name' => [
                 'required',
                 'min:3',
-                'max:255'
+                'max:255',
             ],
             'is_active' => [
                 'nullable',
-                'boolean'
+                'boolean',
             ],
             'categories_ids' => [
                 'required',
                 'array',
-                'exists:categories,id,deleted_at,NULL'
-            ]
+                'exists:categories,id,deleted_at,NULL',
+            ],
         ];
     }
 }

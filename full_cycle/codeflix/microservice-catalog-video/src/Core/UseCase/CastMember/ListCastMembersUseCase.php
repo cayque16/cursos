@@ -10,7 +10,8 @@ class ListCastMembersUseCase
 {
     public function __construct(
         protected CastMemberRepositoryInterface $repository,
-    ) { }
+    ) {
+    }
 
     public function execute(ListCastMembersInputDto $input): ListCastMembersOutputDto
     {

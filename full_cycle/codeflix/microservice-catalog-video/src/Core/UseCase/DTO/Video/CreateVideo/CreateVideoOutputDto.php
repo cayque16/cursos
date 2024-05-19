@@ -23,6 +23,6 @@ class CreateVideoOutputDto
         public ?string $thumbHalfFile = null,
         public ?string $bannerFile = null,
         public ?string $trailerFile = null,
-    ) { }
+    ) {
+    }
 }
-

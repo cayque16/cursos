@@ -3,9 +3,9 @@
 namespace Tests\Unit\App\Models;
 
 use App\Models\Media;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Traits\UuidTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class MediaUnitTest extends ModelTestCase
 {
@@ -18,9 +18,10 @@ class MediaUnitTest extends ModelTestCase
     {
         return [
             HasFactory::class,
-            UuidTrait::class
+            UuidTrait::class,
         ];
     }
+
     protected function fillable(): array
     {
         return [
@@ -31,12 +32,13 @@ class MediaUnitTest extends ModelTestCase
         ];
 
     }
+
     protected function casts(): array
     {
         return [
             'id' => 'string',
             'is_active' => 'boolean',
-            'deleted_at' => 'datetime'
+            'deleted_at' => 'datetime',
         ];
     }
 }

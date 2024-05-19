@@ -17,11 +17,11 @@ class ListGenresUseCaseUnitTest extends TestCase
     {
         $mockRepository = Mockery::mock(stdClass::class, GenreRepositoryInterface::class);
         $mockRepository->shouldReceive('paginate')
-                        ->once()
-                        ->andReturn($this->mockPagination());
+            ->once()
+            ->andReturn($this->mockPagination());
 
         $mockInputDto = Mockery::mock(ListGenresInputDto::class, [
-            'teste', 'desc', 1, 15
+            'teste', 'desc', 1, 15,
         ]);
 
         $useCase = new ListGenresUseCase($mockRepository);

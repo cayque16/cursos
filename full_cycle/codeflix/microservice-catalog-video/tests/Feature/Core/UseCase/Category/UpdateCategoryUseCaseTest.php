@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Core\UseCase\Category;
 
-use Tests\TestCase;
 use App\Models\Category as CategoryModel;
 use App\Repositories\Eloquent\CategoryEloquentRepository;
 use Core\UseCase\Category\UpdateCategoryUseCase;
 use Core\UseCase\DTO\Category\UpdateCategory\CategoryUpdateInputDto;
+use Tests\TestCase;
 
 class UpdateCategoryUseCaseTest extends TestCase
 {
@@ -27,7 +27,7 @@ class UpdateCategoryUseCaseTest extends TestCase
         $this->assertEquals('name updated', $response->name);
         $this->assertEquals($category->description, $response->description);
         $this->assertDatabaseHas('categories', [
-            'name' => $response->name
+            'name' => $response->name,
         ]);
     }
 }

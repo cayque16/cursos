@@ -6,6 +6,6 @@ class Teste
 {
     public function foo()
     {
-        return '123'; 
+        return '123';
     }
 }

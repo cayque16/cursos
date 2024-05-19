@@ -34,8 +34,8 @@ class UpdateCastMemberRequest extends FormRequest
             'type' => [
                 'nullable',
                 'int',
-                new Enum(CastMemberType::class)
-            ]
+                new Enum(CastMemberType::class),
+            ],
         ];
     }
 }

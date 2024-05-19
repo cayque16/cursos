@@ -22,13 +22,13 @@ class ListCastMembersUseCaseUnitTest extends TestCase
             CastMemberRepositoryInterface::class
         );
         $mockRepository->shouldReceive('paginate')
-                        ->once()
-                        ->andReturn($this->mockPagination());
+            ->once()
+            ->andReturn($this->mockPagination());
 
         $useCase = new ListCastMembersUseCase($mockRepository);
 
         $mockInputDto = Mockery::mock(ListCastMembersInputDto::class, [
-            'filter', 'desc', 1, 15
+            'filter', 'desc', 1, 15,
         ]);
 
         $response = $useCase->execute($mockInputDto);

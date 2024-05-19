@@ -21,7 +21,7 @@ class FileStorageTest extends TestCase
         ];
 
         $filePath = (new FileStorage())
-                        ->store('videos', $file);
+            ->store('videos', $file);
 
         Storage::assertExists($filePath);
 

@@ -54,7 +54,7 @@ class CastMemberControllerTest extends TestCase
         $request->headers->set('content-type', 'application/json');
         $request->setJson(new ParameterBag([
             'name' => 'Teste',
-            'type'=> 1
+            'type' => 1,
         ]));
 
         $response = $this->controller->store($request, $useCase);
@@ -66,7 +66,7 @@ class CastMemberControllerTest extends TestCase
     public function testShow()
     {
         $castMember = CastMember::factory()->create();
-        
+
         $response = $this->controller->show(
             useCase: new ListCastMemberUseCase($this->repository),
             id: $castMember->id,
@@ -83,7 +83,7 @@ class CastMemberControllerTest extends TestCase
         $request = new UpdateCastMemberRequest();
         $request->headers->set('content-type', 'application/json');
         $request->setJson(new ParameterBag([
-            'name' => 'Updated'
+            'name' => 'Updated',
         ]));
 
         $response = $this->controller->update(
@@ -95,7 +95,7 @@ class CastMemberControllerTest extends TestCase
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(Response::HTTP_OK, $response->status());
         $this->assertDatabaseHas('cast_members', [
-            'name' => 'Updated'
+            'name' => 'Updated',
         ]);
     }
 

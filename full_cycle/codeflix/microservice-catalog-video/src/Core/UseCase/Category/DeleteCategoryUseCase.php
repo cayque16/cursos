@@ -6,11 +6,12 @@ use Core\Domain\Repository\CategoryRepositoryInterface;
 use Core\UseCase\DTO\Category\CategoryInputDto;
 use Core\UseCase\DTO\Category\DeleteCategory\CategoryDeleteOutputDto;
 
-class DeleteCategoryUseCase 
+class DeleteCategoryUseCase
 {
     public function __construct(
         private CategoryRepositoryInterface $repository
-    ) {}
+    ) {
+    }
 
     public function execute(CategoryInputDto $input): CategoryDeleteOutputDto
     {

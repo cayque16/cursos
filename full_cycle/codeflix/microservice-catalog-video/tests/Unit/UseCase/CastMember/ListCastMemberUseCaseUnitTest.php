@@ -2,8 +2,6 @@
 
 namespace Tests\Unit\UseCase\CastMember;
 
-use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Uuid as RamseyUuid;
 use Core\Domain\Entity\CastMember as CastMemberEntity;
 use Core\Domain\Enum\CastMemberType;
 use Core\Domain\Repository\CastMemberRepositoryInterface;
@@ -11,6 +9,8 @@ use Core\UseCase\CastMember\ListCastMemberUseCase;
 use Core\UseCase\DTO\CastMember\CastMemberInputDto;
 use Core\UseCase\DTO\CastMember\CastMemberOutputDto;
 use Mockery;
+use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid as RamseyUuid;
 use stdClass;
 
 class ListCastMemberUseCaseUnitTest extends TestCase
@@ -28,14 +28,14 @@ class ListCastMemberUseCaseUnitTest extends TestCase
             CastMemberRepositoryInterface::class
         );
         $mockRepository->shouldReceive('findById')
-                        ->times(1)
-                        ->with($uuid)
-                        ->andReturn($mockEntity);
+            ->times(1)
+            ->with($uuid)
+            ->andReturn($mockEntity);
 
         $mockInputDto = Mockery::mock(CastMemberInputDto::class, [$uuid]);
 
         $useCase = new ListCastMemberUseCase($mockRepository);
-        
+
         $response = $useCase->execute($mockInputDto);
 
         $this->assertInstanceOf(CastMemberOutputDto::class, $response);

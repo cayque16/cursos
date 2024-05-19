@@ -79,5 +79,5 @@ class ChangeEncodedVideoUseCaseUnitTest extends TestCase
             opened: true,
             rating: Rating::RATE10
         );
-    }    
+    }
 }

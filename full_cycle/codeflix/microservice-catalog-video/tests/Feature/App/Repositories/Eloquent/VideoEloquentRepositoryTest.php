@@ -107,7 +107,7 @@ class VideoEloquentRepositoryTest extends TestCase
     public function testFindById()
     {
         $video = VideoModel::factory()->create();
-        
+
         $response = $this->repository->findById($video->id);
 
         $this->assertEquals($video->id, $response->id());
@@ -127,7 +127,7 @@ class VideoEloquentRepositoryTest extends TestCase
     {
         VideoModel::factory()->count(10)->create();
         VideoModel::factory()->count(10)->create([
-            'title' => 'Test'
+            'title' => 'Test',
         ]);
 
         $response = $this->repository->findAll(
@@ -275,7 +275,7 @@ class VideoEloquentRepositoryTest extends TestCase
                 mediaStatus: MediaStatus::PROCESSING,
             ),
         );
-        
+
         $this->repository->insert($entity);
 
         $this->assertDatabaseCount('medias_video', 0);
@@ -322,7 +322,7 @@ class VideoEloquentRepositoryTest extends TestCase
                 mediaStatus: MediaStatus::PROCESSING,
             ),
         );
-        
+
         $this->repository->insert($entity);
 
         $this->assertDatabaseCount('medias_video', 0);
@@ -370,7 +370,7 @@ class VideoEloquentRepositoryTest extends TestCase
         );
 
         $this->repository->insert($entity);
-        
+
         $this->assertDatabaseCount('images_video', 0);
 
         $this->repository->updateMedia($entity);
@@ -414,7 +414,7 @@ class VideoEloquentRepositoryTest extends TestCase
         );
 
         $this->repository->insert($entity);
-        
+
         $this->assertDatabaseCount('images_video', 0);
 
         $this->repository->updateMedia($entity);
@@ -458,7 +458,7 @@ class VideoEloquentRepositoryTest extends TestCase
         );
 
         $this->repository->insert($entity);
-        
+
         $this->assertDatabaseCount('images_video', 0);
 
         $this->repository->updateMedia($entity);
@@ -484,7 +484,7 @@ class VideoEloquentRepositoryTest extends TestCase
             'path' => 'test2.mp4',
             'type' => ImageTypes::THUMB_HALF->value,
         ]);
-        
+
         $this->assertNotNull($entityDb->thumbHalfFile());
     }
 }

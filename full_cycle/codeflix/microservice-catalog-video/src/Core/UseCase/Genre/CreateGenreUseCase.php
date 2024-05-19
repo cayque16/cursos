@@ -17,7 +17,8 @@ class CreateGenreUseCase
         protected GenreRepositoryInterface $repository,
         protected TransactionInterface $transaction,
         protected CategoryRepositoryInterface $categoryRepository,
-    ) { }
+    ) {
+    }
 
     public function execute(GenreCreateInputDto $input): GenreCreateOutputDto
     {
@@ -49,9 +50,9 @@ class CreateGenreUseCase
     private function validateCategoriesId(array $categories = [])
     {
         $categoriesDb = $this->categoryRepository->getIdsListIds($categories);
-        
+
         $arrayDiff = array_diff($categories, $categoriesDb);
-        
+
         if (count($arrayDiff)) {
             $msg = sprintf(
                 '%s %s not found',

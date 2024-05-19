@@ -32,7 +32,7 @@ class AuthServiceProvider extends ServiceProvider
             $realmAccess = $payload->realm_access ?? null;
 
             $roles = $realmAccess->roles ?? [];
-            
+
             return in_array('admin-catalog', $roles);
         });
     }

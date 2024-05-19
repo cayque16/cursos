@@ -2,21 +2,21 @@
 
 namespace App\Repositories\Eloquent;
 
-use Core\Domain\Entity\CastMember as CastMemberEntity;
 use App\Models\CastMember as CastMemberModel;
 use App\Repositories\Presenters\PaginationPresenter;
+use Core\Domain\Entity\CastMember as CastMemberEntity;
 use Core\Domain\Enum\CastMemberType;
 use Core\Domain\Exception\NotFoundException;
 use Core\Domain\Repository\CastMemberRepositoryInterface;
 use Core\Domain\Repository\PaginationInterface;
 use Core\Domain\ValueObject\Uuid;
-use DateTime;
 
 class CastMemberEloquentRepository implements CastMemberRepositoryInterface
 {
     public function __construct(
         protected CastMemberModel $model
-    ) { }
+    ) {
+    }
 
     public function insert(CastMemberEntity $castMember): CastMemberEntity
     {
@@ -24,7 +24,7 @@ class CastMemberEloquentRepository implements CastMemberRepositoryInterface
             'id' => $castMember->id(),
             'name' => $castMember->name,
             'type' => $castMember->type->value,
-            'created_at' => $castMember->createdAt()
+            'created_at' => $castMember->createdAt(),
         ]);
 
         return $this->toCastMember($dataBd);
@@ -32,7 +32,7 @@ class CastMemberEloquentRepository implements CastMemberRepositoryInterface
 
     public function findById(string $id): CastMemberEntity
     {
-        if (!$dataDb = $this->model->find($id)) {
+        if (! $dataDb = $this->model->find($id)) {
             throw new NotFoundException("Cast Member {$id} Not Found");
         }
 
@@ -42,21 +42,21 @@ class CastMemberEloquentRepository implements CastMemberRepositoryInterface
     public function getIdsListIds(array $castMembersId = []): array
     {
         return $this->model
-                    ->whereIn('id', $castMembersId)
-                    ->pluck('id')
-                    ->toArray();
+            ->whereIn('id', $castMembersId)
+            ->pluck('id')
+            ->toArray();
     }
 
     public function findAll(string $filter = '', $order = 'DESC'): array
     {
         $dataBd = $this->model
-                        ->where(function ($query) use ($filter){
-                            if ($filter) {
-                                $query->where('name', 'LIKE', "%{$filter}%");
-                            }
-                        })
-                        ->orderBy('name', $order)
-                        ->get();
+            ->where(function ($query) use ($filter) {
+                if ($filter) {
+                    $query->where('name', 'LIKE', "%{$filter}%");
+                }
+            })
+            ->orderBy('name', $order)
+            ->get();
 
         return $dataBd->toArray();
     }
@@ -76,7 +76,7 @@ class CastMemberEloquentRepository implements CastMemberRepositoryInterface
 
     public function update(CastMemberEntity $castMember): CastMemberEntity
     {
-        if (!$dataDb = $this->model->find($castMember->id())) {
+        if (! $dataDb = $this->model->find($castMember->id())) {
             throw new NotFoundException("Cast Member {$castMember->id()} Not Found");
         }
 
@@ -92,7 +92,7 @@ class CastMemberEloquentRepository implements CastMemberRepositoryInterface
 
     public function delete(string $id): bool
     {
-        if (!$dataDb = $this->model->find($id)) {
+        if (! $dataDb = $this->model->find($id)) {
             throw new NotFoundException("Cast Member {$id} Not Found");
         }
 

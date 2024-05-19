@@ -10,7 +10,8 @@ class Media
         protected string $filePath,
         protected MediaStatus $mediaStatus,
         protected ?string $encodePath = null,
-    ) { }
+    ) {
+    }
 
     public function __get($property)
     {

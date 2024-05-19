@@ -15,8 +15,11 @@ use stdClass;
 class ListCategoryUseCaseUnitTest extends TestCase
 {
     private $mockEntity;
+
     private $mockRepo;
+
     private $mockInputDto;
+
     private $spy;
 
     public function testGetById()
@@ -25,17 +28,17 @@ class ListCategoryUseCaseUnitTest extends TestCase
 
         $this->mockEntity = Mockery::mock(Category::class, [
             $id,
-            'teste'
+            'teste',
         ]);
         $this->mockEntity->shouldReceive('createdAt')->andReturn(date('Y-m-d H:i:s'));
 
         $this->mockRepo = Mockery::mock(stdClass::class, CategoryRepositoryInterface::class);
         $this->mockRepo->shouldReceive('findById')
-                        ->with($id)
-                        ->andReturn($this->mockEntity);
-        
+            ->with($id)
+            ->andReturn($this->mockEntity);
+
         $this->mockInputDto = Mockery::mock(CategoryInputDto::class, [
-            $id
+            $id,
         ]);
 
         $useCase = new ListCategoryUseCase($this->mockRepo);
@@ -50,8 +53,8 @@ class ListCategoryUseCaseUnitTest extends TestCase
          */
         $this->spy = Mockery::spy(stdClass::class, CategoryRepositoryInterface::class);
         $this->spy->shouldReceive('findById')
-                        ->with($id)
-                        ->andReturn($this->mockEntity);
+            ->with($id)
+            ->andReturn($this->mockEntity);
         $useCase = new ListCategoryUseCase($this->spy);
         $response = $useCase->execute($this->mockInputDto);
         $this->spy->shouldHaveReceived('findById');

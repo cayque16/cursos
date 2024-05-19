@@ -6,5 +6,6 @@ class ListVideoInputDto
 {
     public function __construct(
         public string $id,
-    ) { }
+    ) {
+    }
 }

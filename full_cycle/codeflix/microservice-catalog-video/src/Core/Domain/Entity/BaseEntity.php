@@ -9,7 +9,8 @@ abstract class BaseEntity
 {
     public function __construct(
         protected $notification = new Notification(),
-    ) { }
+    ) {
+    }
 
     public function __get($property)
     {

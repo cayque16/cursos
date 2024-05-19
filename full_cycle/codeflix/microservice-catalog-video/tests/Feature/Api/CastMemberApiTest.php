@@ -10,7 +10,7 @@ use Tests\Traits\WithoutMiddlewareTrait;
 class CastMemberApiTest extends TestCase
 {
     use WithoutMiddlewareTrait;
-    
+
     private $endpoint = '/api/cast_members';
 
     public function testGetAllEmpty()
@@ -39,7 +39,7 @@ class CastMemberApiTest extends TestCase
                 'per_page',
                 'to',
                 'from',
-            ]
+            ],
         ]);
     }
 
@@ -48,7 +48,7 @@ class CastMemberApiTest extends TestCase
         CastMember::factory()->count(20)->create();
 
         $response = $this->get("$this->endpoint?page=2");
-        
+
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonCount(5, 'data');
         $this->assertEquals(20, $response['meta']['total']);
@@ -59,11 +59,11 @@ class CastMemberApiTest extends TestCase
     {
         CastMember::factory()->count(10)->create();
         CastMember::factory()->count(10)->create([
-            'name' => 'teste'
+            'name' => 'teste',
         ]);
 
         $response = $this->get("$this->endpoint?filter=teste");
-        
+
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonCount(10, 'data');
     }
@@ -80,7 +80,7 @@ class CastMemberApiTest extends TestCase
         $castMember = CastMember::factory()->create();
 
         $response = $this->getJson("{$this->endpoint}/{$castMember->id}");
-        
+
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
@@ -88,7 +88,7 @@ class CastMemberApiTest extends TestCase
                 'name',
                 'type',
                 'created_at',
-            ]
+            ],
         ]);
     }
 
@@ -101,8 +101,8 @@ class CastMemberApiTest extends TestCase
             'message',
             'errors' => [
                 'name',
-                'type'
-            ]
+                'type',
+            ],
         ]);
     }
 
@@ -110,7 +110,7 @@ class CastMemberApiTest extends TestCase
     {
         $response = $this->postJson($this->endpoint, [
             'name' => 'teste',
-            'type' => 1
+            'type' => 1,
         ]);
 
         $response->assertStatus(Response::HTTP_CREATED);
@@ -120,10 +120,10 @@ class CastMemberApiTest extends TestCase
                 'name',
                 'type',
                 'created_at',
-            ]
+            ],
         ]);
         $this->assertDatabaseHas('cast_members', [
-            'name' => 'teste'
+            'name' => 'teste',
         ]);
     }
 
@@ -131,7 +131,7 @@ class CastMemberApiTest extends TestCase
     {
         $response = $this->putJson("{$this->endpoint}/fake_id", [
             'name' => 'teste',
-            'type' => 1
+            'type' => 1,
         ]);
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
@@ -148,7 +148,7 @@ class CastMemberApiTest extends TestCase
             'message',
             'errors' => [
                 'name',
-            ]
+            ],
         ]);
     }
 
@@ -157,7 +157,7 @@ class CastMemberApiTest extends TestCase
         $castMember = CastMember::factory()->create();
 
         $response = $this->putJson("{$this->endpoint}/{$castMember->id}", [
-            'name' => 'new name'
+            'name' => 'new name',
         ]);
 
         $response->assertStatus(Response::HTTP_OK);
@@ -167,10 +167,10 @@ class CastMemberApiTest extends TestCase
                 'name',
                 'type',
                 'created_at',
-            ]
+            ],
         ]);
         $this->assertDatabaseHas('cast_members', [
-            'name' => 'new name'
+            'name' => 'new name',
         ]);
     }
 
@@ -189,7 +189,7 @@ class CastMemberApiTest extends TestCase
 
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertSoftDeleted('cast_members', [
-            'id' => $castMember->id
+            'id' => $castMember->id,
         ]);
     }
 }

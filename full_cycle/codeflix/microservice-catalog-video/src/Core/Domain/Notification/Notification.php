@@ -10,9 +10,9 @@ class Notification
     {
         return $this->errors;
     }
-    
+
     /**
-     * @param $error array[context, message]
+     * @param  $error  array[context, message]
      */
     public function addError(array $error): void
     {

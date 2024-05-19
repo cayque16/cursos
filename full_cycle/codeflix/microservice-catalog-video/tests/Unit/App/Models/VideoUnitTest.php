@@ -3,9 +3,9 @@
 namespace Tests\Unit\App\Models;
 
 use App\Models\Video;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class VideoUnitTest extends ModelTestCase
 {
@@ -18,9 +18,10 @@ class VideoUnitTest extends ModelTestCase
     {
         return [
             HasFactory::class,
-            SoftDeletes::class
+            SoftDeletes::class,
         ];
     }
+
     protected function fillable(): array
     {
         return [
@@ -35,12 +36,13 @@ class VideoUnitTest extends ModelTestCase
         ];
 
     }
+
     protected function casts(): array
     {
         return [
             'id' => 'string',
             'is_active' => 'boolean',
-            'deleted_at' => 'datetime'
+            'deleted_at' => 'datetime',
         ];
     }
 }

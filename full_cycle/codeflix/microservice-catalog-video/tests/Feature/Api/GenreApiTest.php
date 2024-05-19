@@ -11,7 +11,7 @@ use Tests\Traits\WithoutMiddlewareTrait;
 class GenreApiTest extends TestCase
 {
     use WithoutMiddlewareTrait;
-    
+
     protected $endpoint = '/api/genres';
 
     public function testListAllEmpty()
@@ -40,7 +40,7 @@ class GenreApiTest extends TestCase
                 'per_page',
                 'to',
                 'from',
-            ]
+            ],
         ]);
     }
 
@@ -51,7 +51,7 @@ class GenreApiTest extends TestCase
         $response = $this->postJson($this->endpoint, [
             'name' => 'new genre',
             'is_active' => true,
-            'categories_ids' => $categories->pluck('id')->toArray()
+            'categories_ids' => $categories->pluck('id')->toArray(),
         ]);
 
         $response->assertStatus(Response::HTTP_CREATED);
@@ -60,7 +60,7 @@ class GenreApiTest extends TestCase
                 'id',
                 'name',
                 'is_active',
-            ]
+            ],
         ]);
     }
 
@@ -71,7 +71,7 @@ class GenreApiTest extends TestCase
         $payload = [
             'name' => '',
             'is_active' => true,
-            'categories_ids' => $categories->pluck('id')->toArray()
+            'categories_ids' => $categories->pluck('id')->toArray(),
         ];
 
         $response = $this->postJson($this->endpoint, $payload);
@@ -80,8 +80,8 @@ class GenreApiTest extends TestCase
         $response->assertJsonStructure([
             'message',
             'errors' => [
-                'name'
-            ]
+                'name',
+            ],
         ]);
     }
 
@@ -104,7 +104,7 @@ class GenreApiTest extends TestCase
                 'id',
                 'name',
                 'is_active',
-            ]
+            ],
         ]);
     }
 
@@ -114,7 +114,7 @@ class GenreApiTest extends TestCase
 
         $response = $this->putJson("{$this->endpoint}/fake_id", [
             'name' => 'New Name to Update',
-            'categories_ids' => $categories->pluck('id')->toArray()
+            'categories_ids' => $categories->pluck('id')->toArray(),
         ]);
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
@@ -124,7 +124,7 @@ class GenreApiTest extends TestCase
     {
         $response = $this->putJson("{$this->endpoint}/fake_value", [
             'name' => 'New Name to Update',
-            'categories_ids' => []
+            'categories_ids' => [],
         ]);
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -132,7 +132,7 @@ class GenreApiTest extends TestCase
             'message',
             'errors' => [
                 'categories_ids',
-            ]
+            ],
         ]);
     }
 
@@ -144,7 +144,7 @@ class GenreApiTest extends TestCase
 
         $response = $this->putJson("{$this->endpoint}/{$genre->id}", [
             'name' => 'New Name to Update',
-            'categories_ids' => $categories->pluck('id')->toArray()
+            'categories_ids' => $categories->pluck('id')->toArray(),
         ]);
 
         $response->assertStatus(Response::HTTP_OK);
@@ -153,7 +153,7 @@ class GenreApiTest extends TestCase
                 'id',
                 'name',
                 'is_active',
-            ]
+            ],
         ]);
     }
 

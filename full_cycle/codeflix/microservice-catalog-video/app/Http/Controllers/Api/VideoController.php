@@ -6,7 +6,6 @@ use App\Adapters\ApiAdapter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreVideoRequest;
 use App\Http\Requests\UpdateVideoRequest;
-use App\Http\Resources\VideoResource;
 use Core\Domain\Enum\Rating;
 use Core\UseCase\DTO\Video\CreateVideo\CreateVideoInputDto;
 use Core\UseCase\DTO\Video\DeleteVideo\DeleteVideoInputDto;
@@ -40,7 +39,7 @@ class VideoController extends Controller
     public function show(ListVideoUseCase $useCase, $id)
     {
         $response = $useCase->execute(new ListVideoInputDto($id));
-        
+
         return ApiAdapter::json($response);
     }
 

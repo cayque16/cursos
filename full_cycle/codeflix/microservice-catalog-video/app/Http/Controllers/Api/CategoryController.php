@@ -32,17 +32,17 @@ class CategoryController extends Controller
         );
 
         return CategoryResource::collection(collect($response->items))
-                                    ->additional([
-                                        'meta' => [
-                                            'total' => $response->total,
-                                            'current_page' => $response->current_page,
-                                            'last_page' => $response->last_page,
-                                            'first_page' => $response->first_page,
-                                            'per_page' => $response->per_page,
-                                            'to' => $response->to,
-                                            'from' => $response->from,
-                                        ]
-                                    ]);
+            ->additional([
+                'meta' => [
+                    'total' => $response->total,
+                    'current_page' => $response->current_page,
+                    'last_page' => $response->last_page,
+                    'first_page' => $response->first_page,
+                    'per_page' => $response->per_page,
+                    'to' => $response->to,
+                    'from' => $response->from,
+                ],
+            ]);
     }
 
     public function store(StoreCategoryRequest $request, CreateCategoryUseCase $useCase)
@@ -54,7 +54,7 @@ class CategoryController extends Controller
                 isActive: (bool) $request->is_active ?? true
             )
         );
-        
+
         return (new CategoryResource($response))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);

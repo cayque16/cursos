@@ -13,7 +13,9 @@ use DateTime;
 class Video extends BaseEntity
 {
     protected array $categoriesId = [];
+
     protected array $genresId = [];
+
     protected array $castMembersId = [];
 
     public function __construct(
@@ -48,32 +50,32 @@ class Video extends BaseEntity
         $this->validation();
     }
 
-    public function addCategoryId(String $categoryId)
+    public function addCategoryId(string $categoryId)
     {
         array_push($this->categoriesId, $categoryId);
     }
 
-    public function removeCategoryId(String $categoryId)
+    public function removeCategoryId(string $categoryId)
     {
         unset($this->categoriesId[array_search($categoryId, $this->categoriesId)]);
     }
 
-    public function addGenreId(String $genreId)
+    public function addGenreId(string $genreId)
     {
         array_push($this->genresId, $genreId);
     }
 
-    public function removeGenreId(String $genreId)
+    public function removeGenreId(string $genreId)
     {
         unset($this->genresId[array_search($genreId, $this->genresId)]);
     }
 
-    public function addCastMemberId(String $castMemberId)
+    public function addCastMemberId(string $castMemberId)
     {
         array_push($this->castMembersId, $castMemberId);
     }
 
-    public function removeCastMemberId(String $castMemberId)
+    public function removeCastMemberId(string $castMemberId)
     {
         unset($this->castMembersId[array_search($castMemberId, $this->castMembersId)]);
     }

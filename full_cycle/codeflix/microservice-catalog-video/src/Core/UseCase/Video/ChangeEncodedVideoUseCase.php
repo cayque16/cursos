@@ -12,7 +12,8 @@ class ChangeEncodedVideoUseCase
 {
     public function __construct(
         protected VideoRepositoryInterface $repository,
-    ) {}
+    ) {
+    }
 
     public function execute(ChangeEncodedInputDto $input): ChangeEncodedOutputDto
     {

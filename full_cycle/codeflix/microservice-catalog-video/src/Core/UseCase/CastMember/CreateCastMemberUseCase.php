@@ -12,7 +12,8 @@ class CreateCastMemberUseCase
 {
     public function __construct(
         protected CastMemberRepositoryInterface $repository,
-    ) { }
+    ) {
+    }
 
     public function execute(CreateCastMemberInputDto $input): CreateCastMemberOutputDto
     {

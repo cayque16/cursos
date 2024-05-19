@@ -2,7 +2,6 @@
 
 namespace Core\UseCase\Genre;
 
-use Core\Domain\Entity\Genre;
 use Core\Domain\Exception\NotFoundException;
 use Core\Domain\Repository\CategoryRepositoryInterface;
 use Core\Domain\Repository\GenreRepositoryInterface;
@@ -17,7 +16,8 @@ class UpdateGenreUseCase
         protected GenreRepositoryInterface $repository,
         protected TransactionInterface $transaction,
         protected CategoryRepositoryInterface $categoryRepository,
-    ) { }
+    ) {
+    }
 
     public function execute(GenreUpdateInputDto $input): GenreUpdateOutputDto
     {
@@ -51,9 +51,9 @@ class UpdateGenreUseCase
     private function validateCategoriesId(array $categories = [])
     {
         $categoriesDb = $this->categoryRepository->getIdsListIds($categories);
-        
+
         $arrayDiff = array_diff($categories, $categoriesDb);
-        
+
         if (count($arrayDiff)) {
             $msg = sprintf(
                 '%s %s not found',

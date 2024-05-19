@@ -15,8 +15,11 @@ use stdClass;
 class UpdateCategoryUseCaseUnitTest extends TestCase
 {
     private $mockEntity;
+
     private $mockRepo;
+
     private $mockInputDto;
+
     private $spy;
 
     public function testRenameCategory()
@@ -28,7 +31,7 @@ class UpdateCategoryUseCaseUnitTest extends TestCase
         $this->mockEntity = Mockery::mock(Category::class, [
             $categoryId,
             $categoryName,
-            $categoryDesc
+            $categoryDesc,
         ]);
         $this->mockEntity->shouldReceive('update');
         $this->mockEntity->shouldReceive('createdAt')->andReturn(date('Y-m-d H:i:s'));
@@ -39,7 +42,7 @@ class UpdateCategoryUseCaseUnitTest extends TestCase
 
         $this->mockInputDto = Mockery::mock(CategoryUpdateInputDto::class, [
             $categoryId,
-            'new name'
+            'new name',
         ]);
 
         $useCase = new UpdateCategoryUseCase($this->mockRepo);
@@ -53,7 +56,7 @@ class UpdateCategoryUseCaseUnitTest extends TestCase
         $this->spy = Mockery::spy(stdClass::class, CategoryRepositoryInterface::class);
         $this->spy->shouldReceive('findById')->andReturn($this->mockEntity);
         $this->spy->shouldReceive('update')->andReturn($this->mockEntity);
-        $useCase =  new UpdateCategoryUseCase($this->spy);
+        $useCase = new UpdateCategoryUseCase($this->spy);
         $useCase->execute($this->mockInputDto);
         $this->spy->shouldHaveReceived('findById');
         $this->spy->shouldHaveReceived('update');

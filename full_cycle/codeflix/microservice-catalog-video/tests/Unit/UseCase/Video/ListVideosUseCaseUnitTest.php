@@ -33,12 +33,12 @@ class ListVideosUseCaseUnitTest extends TestCase
     private function createMockInputDto()
     {
         $mock = Mockery::mock(ListVideosInputDto::class, [
-             '',
+            '',
             'DESC',
             1,
-            15
+            15,
         ]);
-            
+
         return $mock;
     }
 
@@ -49,7 +49,7 @@ class ListVideosUseCaseUnitTest extends TestCase
         $mock->shouldReceive('paginate')
             ->once()
             ->andReturn($this->mockPagination());
-            
+
         return $mock;
     }
 }

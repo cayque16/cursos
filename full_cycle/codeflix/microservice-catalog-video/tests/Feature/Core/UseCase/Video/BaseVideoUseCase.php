@@ -2,33 +2,27 @@
 
 namespace Tests\Feature\Core\UseCase\Video;
 
-use App\Models\{
-    CastMember,
-    Category,
-    Genre
-};
-use Core\Domain\Repository\{
-    CastMemberRepositoryInterface,
-    CategoryRepositoryInterface,
-    GenreRepositoryInterface,
-    VideoRepositoryInterface
-};
+use App\Models\CastMember;
+use App\Models\Category;
+use App\Models\Genre;
+use Core\Domain\Repository\CastMemberRepositoryInterface;
+use Core\Domain\Repository\CategoryRepositoryInterface;
+use Core\Domain\Repository\GenreRepositoryInterface;
+use Core\Domain\Repository\VideoRepositoryInterface;
 use Core\UseCase\Interfaces\TransactionInterface;
-use Illuminate\Http\UploadedFile;
-use Tests\Stubs\{
-    UploadFilesStub,
-    VideoEventStub
-};
-use Tests\TestCase;
-
 use Exception;
 use Illuminate\Database\Events\TransactionBeginning;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Event;
+use Tests\Stubs\UploadFilesStub;
+use Tests\Stubs\VideoEventStub;
+use Tests\TestCase;
 
 abstract class BaseVideoUseCase extends TestCase
 {
-    abstract function useCase(): string;
-    abstract function inputDTO(
+    abstract public function useCase(): string;
+
+    abstract public function inputDTO(
         array $categories = [],
         array $genres = [],
         array $castMembers = [],
@@ -93,7 +87,7 @@ abstract class BaseVideoUseCase extends TestCase
         $this->assertTrue($withMediaThumb ? $response->thumbFile !== null : $response->thumbFile === null);
         $this->assertTrue($withMediaThumbHalf ? $response->thumbHalfFile !== null : $response->thumbHalfFile === null);
     }
-    
+
     protected function provider(): array
     {
         return [

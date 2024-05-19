@@ -27,7 +27,7 @@ class DeleteVideoUseCaseTest extends TestCase
     public function testDeleteIdNotFound()
     {
         $this->expectException(NotFoundException::class);
-        
+
         $useCase = new DeleteVideoUseCase(
             $this->app->make(VideoRepositoryInterface::class)
         );

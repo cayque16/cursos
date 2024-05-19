@@ -16,5 +16,6 @@ class UpdateVideoInputDto
         public ?array $bannerFile = null,
         public ?array $trailerFile = null,
         public ?array $videoFile = null,
-    ) { }
+    ) {
+    }
 }

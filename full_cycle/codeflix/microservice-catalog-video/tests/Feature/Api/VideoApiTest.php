@@ -15,9 +15,10 @@ use Tests\Traits\WithoutMiddlewareTrait;
 class VideoApiTest extends TestCase
 {
     use WithoutMiddlewareTrait;
-    
+
     protected $endpoint = '/api/videos';
-    protected $serializedFields =  [
+
+    protected $serializedFields = [
         'id',
         'title',
         'description',
@@ -49,7 +50,7 @@ class VideoApiTest extends TestCase
 
         if ($filter) {
             Video::factory()->count($total)->create([
-                'title' => $filter
+                'title' => $filter,
             ]);
         }
 
@@ -59,16 +60,16 @@ class VideoApiTest extends TestCase
             'order' => 'DESC',
             'filter' => $filter,
         ]);
-        
+
         $response = $this->getJson("$this->endpoint?$params");
-        
+
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonCount($totalCurrentPage, 'data');
         $response->assertJsonPath('meta.current_page', $page);
         $response->assertJsonPath('meta.per_page', $perPage);
         $response->assertJsonStructure([
             'data' => [
-                '*' => $this->serializedFields
+                '*' => $this->serializedFields,
             ],
             'meta' => [
                 'total',
@@ -78,7 +79,7 @@ class VideoApiTest extends TestCase
                 'per_page',
                 'to',
                 'from',
-            ]
+            ],
         ]);
     }
 

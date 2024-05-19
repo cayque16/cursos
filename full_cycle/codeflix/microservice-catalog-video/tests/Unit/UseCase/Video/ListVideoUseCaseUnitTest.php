@@ -18,7 +18,7 @@ class ListVideoUseCaseUnitTest extends TestCase
     public function testList()
     {
         $uuid = Uuid::random();
-        
+
         $useCase = new ListVideoUseCase(
             repository: $this->mockRepository(),
         );
@@ -31,7 +31,7 @@ class ListVideoUseCaseUnitTest extends TestCase
     private function mockInputDto(string $id)
     {
         return Mockery::mock(ListVideoInputDto::class, [
-            $id
+            $id,
         ]);
     }
 
@@ -42,7 +42,7 @@ class ListVideoUseCaseUnitTest extends TestCase
         $mock->shouldReceive('findById')
             ->once()
             ->andReturn($this->createEntity());
-            
+
         return $mock;
     }
 

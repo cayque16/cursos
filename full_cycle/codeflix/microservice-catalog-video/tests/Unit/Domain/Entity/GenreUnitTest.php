@@ -6,7 +6,6 @@ use Core\Domain\Entity\Genre;
 use Core\Domain\Exception\EntityValidationException;
 use Core\Domain\ValueObject\Uuid;
 use DateTime;
-use PhpParser\Node\Expr\New_;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid as RamseyUuid;
 
@@ -124,10 +123,10 @@ class GenreUnitTest extends TestCase
             name: 'new genre',
             categories: [
                 $categoryId,
-                $categoryId2   
+                $categoryId2,
             ]
         );
-        
+
         $this->assertCount(2, $genre->categories);
 
         $genre->removeCategory(categoryId: $categoryId);

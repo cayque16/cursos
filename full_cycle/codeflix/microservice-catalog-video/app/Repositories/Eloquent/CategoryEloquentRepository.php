@@ -13,7 +13,8 @@ class CategoryEloquentRepository implements CategoryRepositoryInterface
 {
     public function __construct(
         protected ModelCategory $model
-    ) { }
+    ) {
+    }
 
     public function insert(EntityCategory $category): EntityCategory
     {
@@ -30,7 +31,7 @@ class CategoryEloquentRepository implements CategoryRepositoryInterface
 
     public function findById(string $id): EntityCategory
     {
-        if (!$category = $this->model->find($id)) {
+        if (! $category = $this->model->find($id)) {
             throw new NotFoundException();
         }
 
@@ -40,14 +41,14 @@ class CategoryEloquentRepository implements CategoryRepositoryInterface
     public function getIdsListIds(array $categoriesId = []): array
     {
         return $this->model
-                    ->whereIn('id', $categoriesId)
-                    ->pluck('id')
-                    ->toArray();
+            ->whereIn('id', $categoriesId)
+            ->pluck('id')
+            ->toArray();
     }
 
     public function findAll(string $filter = '', $order = 'DESC'): array
     {
-        $categories = $this->model->where(function ($query) use ($filter){
+        $categories = $this->model->where(function ($query) use ($filter) {
             $query->where('name', 'LIKE', "%{$filter}%");
         })->get();
 
@@ -68,7 +69,7 @@ class CategoryEloquentRepository implements CategoryRepositoryInterface
 
     public function update(EntityCategory $category): EntityCategory
     {
-        if (!$categoryDb = $this->model->find($category->id())) {
+        if (! $categoryDb = $this->model->find($category->id())) {
             throw new NotFoundException();
         }
 
@@ -85,7 +86,7 @@ class CategoryEloquentRepository implements CategoryRepositoryInterface
 
     public function delete(string $id): bool
     {
-        if (!$categoryDb = $this->model->find($id)) {
+        if (! $categoryDb = $this->model->find($id)) {
             throw new NotFoundException();
         }
 
@@ -94,7 +95,7 @@ class CategoryEloquentRepository implements CategoryRepositoryInterface
 
     public function toCategory(object $data): EntityCategory
     {
-        $entity =  new EntityCategory(
+        $entity = new EntityCategory(
             id: $data->id,
             name: $data->name,
             description: $data->description

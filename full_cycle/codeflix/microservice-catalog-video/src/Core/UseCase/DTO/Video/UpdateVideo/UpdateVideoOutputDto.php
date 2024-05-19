@@ -23,5 +23,6 @@ class UpdateVideoOutputDto
         public ?string $thumbHalfFile = null,
         public ?string $bannerFile = null,
         public ?string $trailerFile = null,
-    ) { }
+    ) {
+    }
 }

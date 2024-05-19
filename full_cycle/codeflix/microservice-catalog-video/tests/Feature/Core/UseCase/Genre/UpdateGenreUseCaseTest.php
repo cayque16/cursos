@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\Core\UseCase\Genre;
 
-use App\Repositories\Eloquent\GenreEloquentRepository;
 use App\Models\Category as CategoryModel;
 use App\Models\Genre as GenreModel;
 use App\Repositories\Eloquent\CategoryEloquentRepository;
+use App\Repositories\Eloquent\GenreEloquentRepository;
 use App\Repositories\Transaction\DbTransaction;
 use Core\Domain\Exception\NotFoundException;
 use Core\UseCase\DTO\Genre\UpdateGenre\GenreUpdateInputDto;
@@ -29,7 +29,7 @@ class UpdateGenreUseCaseTest extends TestCase
 
     public function testUpdate()
     {
-        $categories =  CategoryModel::factory()->count(10)->create();
+        $categories = CategoryModel::factory()->count(10)->create();
         $categoriesId = $categories->pluck('id')->toArray();
 
         $useCase = new UpdateGenreUseCase(
@@ -49,7 +49,7 @@ class UpdateGenreUseCaseTest extends TestCase
         );
 
         $this->assertDatabaseHas('genres', [
-            'name' => 'Teste'
+            'name' => 'Teste',
         ]);
         $this->assertDatabaseCount('category_genre', 10);
     }
@@ -58,7 +58,7 @@ class UpdateGenreUseCaseTest extends TestCase
     {
         $this->expectException(NotFoundException::class);
 
-        $categories =  CategoryModel::factory()->count(10)->create();
+        $categories = CategoryModel::factory()->count(10)->create();
         $categoriesId = $categories->pluck('id')->toArray();
         array_push($categoriesId, 'fake_id');
 
@@ -81,7 +81,7 @@ class UpdateGenreUseCaseTest extends TestCase
 
     public function testTransactionUpdate()
     {
-        $categories =  CategoryModel::factory()->count(10)->create();
+        $categories = CategoryModel::factory()->count(10)->create();
         $categoriesId = $categories->pluck('id')->toArray();
 
         $useCase = new UpdateGenreUseCase(
@@ -102,7 +102,7 @@ class UpdateGenreUseCaseTest extends TestCase
             );
 
             $this->assertDatabaseHas('genres', [
-                'name' => 'Teste'
+                'name' => 'Teste',
             ]);
             $this->assertDatabaseCount('category_genre', 10);
         } catch (Throwable $th) {

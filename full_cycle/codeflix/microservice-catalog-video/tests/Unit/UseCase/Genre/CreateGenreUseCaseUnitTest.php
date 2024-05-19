@@ -36,7 +36,7 @@ class CreateGenreUseCaseUnitTest extends TestCase
     public function testCreateCategoriesNotFound()
     {
         $this->expectException(NotFoundException::class);
-        
+
         $uuid = (string) RamseyUuid::uuid4();
 
         $useCase = new CreateGenreUseCase(
@@ -50,8 +50,8 @@ class CreateGenreUseCaseUnitTest extends TestCase
 
     private function mockEntity(string $uuid)
     {
-        $mockEntity = Mockery::mock(EntityGenre::class,[
-            'teste', new Uuid($uuid), true, []
+        $mockEntity = Mockery::mock(EntityGenre::class, [
+            'teste', new Uuid($uuid), true, [],
         ]);
         $mockEntity->shouldReceive('createdAt')->andReturn(date('Y-m-a H:i:s'));
 
@@ -62,8 +62,8 @@ class CreateGenreUseCaseUnitTest extends TestCase
     {
         $mockRepository = Mockery::mock(stdClass::class, GenreRepositoryInterface::class);
         $mockRepository->shouldReceive('insert')
-                        ->times($timesCalled)
-                        ->andReturn($this->mockEntity($uuid));
+            ->times($timesCalled)
+            ->andReturn($this->mockEntity($uuid));
 
         return $mockRepository;
     }
@@ -80,7 +80,7 @@ class CreateGenreUseCaseUnitTest extends TestCase
     private function mockCreateInputDto(array $uuid)
     {
         $mockCreateInputDto = Mockery::mock(GenreCreateInputDto::class, [
-            'name', $uuid, true
+            'name', $uuid, true,
         ]);
 
         return $mockCreateInputDto;

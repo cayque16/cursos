@@ -6,11 +6,12 @@ use Core\Domain\Repository\CategoryRepositoryInterface;
 use Core\UseCase\DTO\Category\UpdateCategory\CategoryUpdateInputDto;
 use Core\UseCase\DTO\Category\UpdateCategory\CategoryUpdateOutputDto;
 
-class UpdateCategoryUseCase 
+class UpdateCategoryUseCase
 {
     public function __construct(
         private CategoryRepositoryInterface $repository
-    ) {}
+    ) {
+    }
 
     public function execute(CategoryUpdateInputDto $input): CategoryUpdateOutputDto
     {

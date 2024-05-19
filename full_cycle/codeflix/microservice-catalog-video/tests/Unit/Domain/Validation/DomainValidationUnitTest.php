@@ -21,7 +21,6 @@ class DomainValidationUnitTest extends TestCase
         }
     }
 
-
     public function testNotNullCustomMessageException()
     {
         try {

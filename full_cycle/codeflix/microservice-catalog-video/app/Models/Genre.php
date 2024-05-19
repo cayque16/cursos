@@ -14,7 +14,7 @@ class Genre extends Model
         'id',
         'name',
         'is_active',
-        'created_at'
+        'created_at',
     ];
 
     public $incrementing = false;
@@ -22,7 +22,7 @@ class Genre extends Model
     protected $casts = [
         'id' => 'string',
         'is_active' => 'boolean',
-        'deleted_at' => 'datetime'
+        'deleted_at' => 'datetime',
     ];
 
     public function categories()

@@ -10,7 +10,8 @@ class DeleteCastMemberUseCase
 {
     public function __construct(
         protected CastMemberRepositoryInterface $repository,
-    ) { }
+    ) {
+    }
 
     public function execute(CastMemberInputDto $input): DeleteCastMemberOutputDto
     {

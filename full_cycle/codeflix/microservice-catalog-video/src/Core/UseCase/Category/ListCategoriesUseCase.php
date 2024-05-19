@@ -6,11 +6,12 @@ use Core\Domain\Repository\CategoryRepositoryInterface;
 use Core\UseCase\DTO\Category\ListCategories\ListCategoriesInputDto;
 use Core\UseCase\DTO\Category\ListCategories\ListCategoriesOutputDto;
 
-class ListCategoriesUseCase 
+class ListCategoriesUseCase
 {
     public function __construct(
         protected CategoryRepositoryInterface $repository
-    ) {}
+    ) {
+    }
 
     public function execute(ListCategoriesInputDto $input): ListCategoriesOutputDto
     {
@@ -20,7 +21,7 @@ class ListCategoriesUseCase
             page: $input->page,
             totalPage: $input->totalPage
         );
-        
+
         return new ListCategoriesOutputDto(
             items: $categories->items(),
             total: $categories->total(),

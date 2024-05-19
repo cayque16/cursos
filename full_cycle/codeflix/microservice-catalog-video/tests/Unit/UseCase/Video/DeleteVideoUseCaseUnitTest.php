@@ -40,7 +40,7 @@ class DeleteVideoUseCaseUnitTest extends TestCase
         $mock->shouldReceive('delete')
             ->once()
             ->andReturn(true);
-            
+
         return $mock;
     }
 }

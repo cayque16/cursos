@@ -7,7 +7,7 @@ use Core\Domain\Repository\CategoryRepositoryInterface;
 use Core\UseCase\DTO\Category\CreateCategory\CreateCategoryInputDto;
 use Core\UseCase\DTO\Category\CreateCategory\CreateCategoryOutputDto;
 
-class CreateCategoryUseCase 
+class CreateCategoryUseCase
 {
     protected $repository;
 

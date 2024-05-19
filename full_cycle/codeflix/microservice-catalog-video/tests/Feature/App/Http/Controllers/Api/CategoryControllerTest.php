@@ -53,7 +53,7 @@ class CategoryControllerTest extends TestCase
         $request = new StoreCategoryRequest();
         $request->headers->set('content-type', 'application/json');
         $request->setJson(new ParameterBag([
-            'name' => 'Teste'
+            'name' => 'Teste',
         ]));
 
         $response = $this->controller->store($request, $useCase);
@@ -65,7 +65,7 @@ class CategoryControllerTest extends TestCase
     public function testShow()
     {
         $category = Category::factory()->create();
-        
+
         $response = $this->controller->show(
             useCase: new ListCategoryUseCase($this->repository),
             id: $category->id,
@@ -82,7 +82,7 @@ class CategoryControllerTest extends TestCase
         $request = new UpdateCategoryRequest();
         $request->headers->set('content-type', 'application/json');
         $request->setJson(new ParameterBag([
-            'name' => 'Updated'
+            'name' => 'Updated',
         ]));
 
         $response = $this->controller->update(
@@ -94,7 +94,7 @@ class CategoryControllerTest extends TestCase
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(Response::HTTP_OK, $response->status());
         $this->assertDatabaseHas('categories', [
-            'name' => 'Updated'
+            'name' => 'Updated',
         ]);
     }
 

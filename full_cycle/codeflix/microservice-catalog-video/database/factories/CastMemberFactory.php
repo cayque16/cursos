@@ -2,11 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Support\Str;
 use Core\Domain\Enum\CastMemberType;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
-use function PHPSTORM_META\type;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CastMember>

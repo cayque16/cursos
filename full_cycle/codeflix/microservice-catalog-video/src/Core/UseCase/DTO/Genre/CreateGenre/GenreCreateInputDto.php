@@ -8,5 +8,6 @@ class GenreCreateInputDto
         public string $name,
         public array $categories = [],
         public bool $isActive = true,
-    ) { }
+    ) {
+    }
 }

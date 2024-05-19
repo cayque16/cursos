@@ -14,7 +14,7 @@ class ListVideoUseCaseTest extends TestCase
     public function testList()
     {
         $video = Video::factory()->create();
-        
+
         $useCase = new ListVideoUseCase(
             $this->app->make(VideoRepositoryInterface::class)
         );

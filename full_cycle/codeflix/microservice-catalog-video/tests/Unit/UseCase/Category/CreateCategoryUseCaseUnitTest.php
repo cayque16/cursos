@@ -15,8 +15,11 @@ use stdClass;
 class CreateCategoryUseCaseUnitTest extends TestCase
 {
     private $mockEntity;
+
     private $mockRepo;
+
     private $mockInputDto;
+
     private $spy;
 
     public function testCreateNewCategory()
@@ -27,13 +30,13 @@ class CreateCategoryUseCaseUnitTest extends TestCase
 
         $this->mockEntity = Mockery::mock(Category::class, [
             $uuid,
-            $categoryName
+            $categoryName,
         ]);
 
         $this->mockEntity->shouldReceive('id')->andReturn($uuid);
         $this->mockEntity = Mockery::mock(Category::class, [
             $uuid,
-            $categoryName
+            $categoryName,
         ]);
 
         $this->mockEntity->shouldReceive('id')->andReturn($uuid);
@@ -43,12 +46,12 @@ class CreateCategoryUseCaseUnitTest extends TestCase
         $this->mockRepo->shouldReceive('insert')->andReturn($this->mockEntity);
 
         $this->mockInputDto = Mockery::mock(CreateCategoryInputDto::class, [
-            $categoryName
+            $categoryName,
         ]);
         $this->mockRepo->shouldReceive('insert')->andReturn($this->mockEntity);
 
         $this->mockInputDto = Mockery::mock(CreateCategoryInputDto::class, [
-            $categoryName
+            $categoryName,
         ]);
 
         $useCase = new CreateCategoryUseCase($this->mockRepo);

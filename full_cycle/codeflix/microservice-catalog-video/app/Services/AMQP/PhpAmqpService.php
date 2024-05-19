@@ -10,6 +10,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 class PhpAmqpService implements AMQPInterface
 {
     protected $connection = null;
+
     protected $channel = null;
 
     public function connect()
@@ -43,14 +44,14 @@ class PhpAmqpService implements AMQPInterface
         $this->channel->queue_bind($queue, $exchange);
 
         $message = new AMQPMessage(json_encode($payload), [
-            'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT
+            'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT,
         ]);
         $this->channel->basic_publish($message, $exchange);
 
         $this->closeChannel();
         $this->closeConnection();
     }
-    
+
     public function producerFanout(array $payload, string $exchange): void
     {
         $this->channel->exchange_declare(
@@ -61,7 +62,7 @@ class PhpAmqpService implements AMQPInterface
             auto_delete: false,
         );
 
-        $message = new AMQPMessage(json_encode($payload),[
+        $message = new AMQPMessage(json_encode($payload), [
             'content_type' => 'text/plain',
         ]);
 
@@ -70,14 +71,14 @@ class PhpAmqpService implements AMQPInterface
         $this->closeChannel();
         $this->closeConnection();
     }
-    
+
     public function consumer(string $queue, string $exchange, Closure $callback): void
     {
         $this->channel->queue_declare(
             queue: $queue,
             durable: true,
             auto_delete: false
-        );     
+        );
 
         $this->channel->queue_bind(
             queue: $queue,

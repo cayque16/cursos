@@ -11,7 +11,6 @@ use Core\Domain\Repository\GenreRepositoryInterface;
 use Core\Domain\Repository\VideoRepositoryInterface;
 use Core\UseCase\Interfaces\FileStorageInterface;
 use Core\UseCase\Interfaces\TransactionInterface;
-use Core\UseCase\Video\CreateVideoUseCase;
 use Core\UseCase\Video\Interfaces\VideoEventManagerInterface;
 use Mockery;
 use stdClass;
@@ -20,7 +19,9 @@ use Tests\TestCase;
 abstract class BaseVideoUseCaseUnitTest extends TestCase
 {
     abstract protected function nameActionRepository(): string;
+
     abstract protected function getUseCase(): string;
+
     abstract protected function createMockInputDto(
         array $categoriesIds = [],
         array $genresIds = [],
@@ -89,15 +90,15 @@ abstract class BaseVideoUseCaseUnitTest extends TestCase
         $response = ($this->createUseCase(
             timesCallMethodStoreFileStorage: $timesStoreFileStorage,
             timesCallMethodDispatchEventManager: $timesDispatch
-            ))->execute(
-                input: $this->createMockInputDto(
-                    videoFile: $video['value'],
-                    trailerFile: $trailer['value'],
-                    thumbFile: $thumb['value'],
-                    thumbHalfFile: $thumbHalf['value'],
-                    bannerFile: $banner['value'],
-                )
-            );
+        ))->execute(
+            input: $this->createMockInputDto(
+                videoFile: $video['value'],
+                trailerFile: $trailer['value'],
+                thumbFile: $thumb['value'],
+                thumbHalfFile: $thumbHalf['value'],
+                bannerFile: $banner['value'],
+            )
+        );
 
         $this->assertEquals($response->videoFile, $video['expected']);
         $this->assertEquals($response->trailerFile, $trailer['expected']);
@@ -116,7 +117,7 @@ abstract class BaseVideoUseCaseUnitTest extends TestCase
                 'thumbHalf' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
                 'banner' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
                 'timesStorage' => 5,
-                'timesDispatch' => 1
+                'timesDispatch' => 1,
             ],
             [
                 'video' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
@@ -125,7 +126,7 @@ abstract class BaseVideoUseCaseUnitTest extends TestCase
                 'thumbHalf' => ['value' => null, 'expected' => null],
                 'banner' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.ext'],
                 'timesStorage' => 3,
-                'timesDispatch' => 1
+                'timesDispatch' => 1,
             ],
             [
                 'video' => ['value' => null, 'expected' => null],
@@ -141,7 +142,7 @@ abstract class BaseVideoUseCaseUnitTest extends TestCase
                 'thumb' => ['value' => null, 'expected' => null],
                 'thumbHalf' => ['value' => null, 'expected' => null],
                 'banner' => ['value' => null, 'expected' => null],
-                'timesStorage' => 0
+                'timesStorage' => 0,
             ],
         ];
     }
@@ -162,7 +163,7 @@ abstract class BaseVideoUseCaseUnitTest extends TestCase
         int $timesCallAction,
         int $timesCallUpdateMedia,
     ) {
-        $mock =  Mockery::mock(stdClass::class, VideoRepositoryInterface::class);
+        $mock = Mockery::mock(stdClass::class, VideoRepositoryInterface::class);
 
         $mock->shouldReceive($this->nameActionRepository())
             ->times($timesCallAction)
@@ -177,7 +178,7 @@ abstract class BaseVideoUseCaseUnitTest extends TestCase
 
     private function createMockCategoryRepository($response = [])
     {
-        $mock =  Mockery::mock(stdClass::class, CategoryRepositoryInterface::class);
+        $mock = Mockery::mock(stdClass::class, CategoryRepositoryInterface::class);
 
         $mock->shouldReceive('getIdsListIds')->andReturn($response);
 
@@ -186,7 +187,7 @@ abstract class BaseVideoUseCaseUnitTest extends TestCase
 
     private function createMockGenreRepository($response = [])
     {
-        $mock =  Mockery::mock(stdClass::class, GenreRepositoryInterface::class);
+        $mock = Mockery::mock(stdClass::class, GenreRepositoryInterface::class);
 
         $mock->shouldReceive('getIdsListIds')->andReturn($response);
 
@@ -195,7 +196,7 @@ abstract class BaseVideoUseCaseUnitTest extends TestCase
 
     private function createMockCastMemberRepository($response = [])
     {
-        $mock =  Mockery::mock(stdClass::class, CastMemberRepositoryInterface::class);
+        $mock = Mockery::mock(stdClass::class, CastMemberRepositoryInterface::class);
 
         $mock->shouldReceive('getIdsListIds')->andReturn($response);
 
@@ -219,15 +220,15 @@ abstract class BaseVideoUseCaseUnitTest extends TestCase
         $mock = Mockery::mock(stdClass::class, FileStorageInterface::class);
 
         $mock->shouldReceive('store')
-                            ->times($times)
-                            ->andReturn('path/file.ext');
+            ->times($times)
+            ->andReturn('path/file.ext');
 
         return $mock;
     }
 
     private function createMockEventManage(int $times)
     {
-        $mock =  Mockery::mock(stdClass::class, VideoEventManagerInterface::class);
+        $mock = Mockery::mock(stdClass::class, VideoEventManagerInterface::class);
 
         $mock->shouldReceive('dispatch')->times($times);
 

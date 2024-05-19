@@ -14,8 +14,11 @@ use stdClass;
 class ListCategoriesUseCaseUnitTest extends TestCase
 {
     private $mockRepo;
+
     private $mockInputDto;
+
     private $spy;
+
     private $mockPagination;
 
     public function testListCategoriesEmpty()
@@ -54,7 +57,7 @@ class ListCategoriesUseCaseUnitTest extends TestCase
         $register->updated_at = 'updated_at';
         $register->deleted_at = 'deleted_at';
         $mockPagination = $this->mockPagination([
-            $register
+            $register,
         ]);
 
         $this->mockRepo = Mockery::mock(stdClass::class, CategoryRepositoryInterface::class);
