@@ -6,9 +6,12 @@ use App\Models\Category;
 use App\Models\Genre;
 use Illuminate\Http\Response;
 use Tests\TestCase;
+use Tests\Traits\WithoutMiddlewareTrait;
 
 class GenreApiTest extends TestCase
 {
+    use WithoutMiddlewareTrait;
+    
     protected $endpoint = '/api/genres';
 
     public function testListAllEmpty()

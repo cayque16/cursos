@@ -5,9 +5,12 @@ namespace Tests\Feature\Api;
 use App\Models\CastMember;
 use Illuminate\Http\Response;
 use Tests\TestCase;
+use Tests\Traits\WithoutMiddlewareTrait;
 
 class CastMemberApiTest extends TestCase
 {
+    use WithoutMiddlewareTrait;
+    
     private $endpoint = '/api/cast_members';
 
     public function testGetAllEmpty()
