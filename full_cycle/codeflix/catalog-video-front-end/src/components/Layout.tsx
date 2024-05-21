@@ -5,10 +5,12 @@ import React from "react";
 export function Layout({ children }: { children: React.ReactNode}) {
     return (
         <Box>
-            <Container maxWidth="lg" sx={{
+            <Container 
+                maxWidth="lg" 
+                sx={{
+                color: "white",
                 mt: 4,
                 mb: 4,
-                backgroundColor: "#000",
             }}
         >
                 {children}
