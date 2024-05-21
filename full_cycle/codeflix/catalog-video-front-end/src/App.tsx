@@ -6,22 +6,9 @@ import { Layout } from "./components/Layout";
 import { appTheme } from "./config/theme";
 import { Typography } from "@mui/material";
 import { Routes, Route, Link } from "react-router-dom";
-
-const Home = () => (
-  <Box>
-    <Typography variant="h3" component="h1">
-      Home
-    </Typography>
-  </Box>
-);
-
-const About = () => (
-  <Box>
-    <Typography variant="h3" component="h1">
-      About test
-    </Typography>
-  </Box>
-);
+import { CategoryList } from "./features/categories/ListCategory";
+import { CategoryCreate } from "./features/categories/CreateCategory";
+import { CategoryEdit } from "./features/categories/EditCategory";
 
 function App() {
   return (
@@ -35,10 +22,21 @@ function App() {
       >
         <Header />
         <Layout>
-          <h1>Welcome</h1>
           <Routes>
-            <Route path="/" element={<Home />}></Route>
-            <Route path="about" element={<About />}></Route>
+            <Route path="/" element={<CategoryList />}></Route>
+            <Route path="/categories" element={<CategoryList />}></Route>
+            <Route path="/categories/create" element={<CategoryCreate />}></Route>
+            <Route path="/categories/edit/:id" element={<CategoryEdit />}></Route>
+
+            <Route
+              path="*"
+              element={
+                <Box sx={{ color: "white" }}>
+                  <Typography variant="h1">404</Typography>
+                  <Typography variant="h2">Page not found</Typography>
+                </Box>
+              }
+            />
           </Routes>
         </Layout>
       </Box>
