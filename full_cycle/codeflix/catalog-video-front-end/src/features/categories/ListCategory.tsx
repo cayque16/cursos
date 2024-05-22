@@ -8,6 +8,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 export const CategoryList = () => {
     const categories = useAppSelector(selectCategories);
 
+    const componentsProps = {
+        toolbar: {
+            showQuickFilter: true,
+            quickFilterProps: { debounceMs: 500}
+        },
+    };
+
     //use categories to crate rows
     const rows: GridRowsProp = categories.map((category) => ({
         id: category.id,
@@ -21,7 +28,8 @@ export const CategoryList = () => {
         {
             field: "name",
             headerName: "Name", 
-            flex: 1
+            flex: 1,
+            renderCell: renderNameCell,
         },
         {
             field: "isActive",
@@ -54,6 +62,17 @@ export const CategoryList = () => {
         );
     }
 
+    function renderNameCell(rowData: GridRenderCellParams) {
+        return (
+            <Link
+                style={{ textDecoration: "none"}}
+                to={`/categories/edit/${rowData.id}`}
+            >
+                <Typography color="primary">{rowData.value}</Typography>
+            </Link>
+        );
+    }
+
     function renderIsActiveCell(rowData: GridRenderCellParams) {
         return (
             <Typography color={rowData.value ? "primary" : "secondary"}>
@@ -76,24 +95,19 @@ export const CategoryList = () => {
                 </Button>
             </Box>
 
-            <div style={{ height: 300, width: "100%" }}>
+            <Box style={{ display: "flex", height: 600 }}>
                 <DataGrid
-                    components={{ Toolbar: GridToolbar }}
-                    rowsPerPageOptions={[10, 20, 50, 100]}
-                    disableSelectionOnClick={true}
-                    disableColumnSelector={true}
-                    disableColumnFilter={true}
-                    disableDensitySelector={true}
                     rows={rows}
                     columns={columns}
-                    componentsProps={{
-                        toolbar: {
-                            showQuickFilter: true,
-                            quickFilterProps: { debounceMs: 500}
-                        },
-                    }}
+                    disableColumnFilter={true}
+                    disableColumnSelector={true}
+                    disableDensitySelector={true}
+                    disableSelectionOnClick={true}
+                    componentsProps={componentsProps}
+                    components={{ Toolbar: GridToolbar }}
+                    rowsPerPageOptions={[10, 20, 50, 100]}
                 />
-            </div>
+            </Box>
         </Box>
     );
 };
