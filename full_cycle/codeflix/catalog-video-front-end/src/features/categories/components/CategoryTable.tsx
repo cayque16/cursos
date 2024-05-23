@@ -8,12 +8,12 @@ type Props = {
     data: Results | undefined;
     perPage: number;
     isFetching: boolean;
-    rowsPerPage?: number;
+    rowsPerPage?: number[];
 
     handleOnPageChange: (page: number) => void;
     handleFilterChange: (filterModel: GridFilterModel) => void;
     handleOnPageSizeChange: (perPage: number) => void;
-    handleDelete: (id: number) => void;
+    handleDelete: (id: string) => void;
 }
 
 export function CategoriesTable({
@@ -121,12 +121,12 @@ export function CategoriesTable({
                 disableColumnSelector={true}
                 disableDensitySelector={true}
                 disableSelectionOnClick={true}
+                rowsPerPageOptions={rowsPerPage}
                 componentsProps={componentsProps}
                 onPageChange={handleOnPageChange}
                 components={{ Toolbar: GridToolbar }}
                 onPageSizeChange={handleOnPageSizeChange}
                 onFilterModelChange={handleFilterChange}
-                // rowsPerPageOptions={rowsPerPage}
             />
         </Box>
     );
