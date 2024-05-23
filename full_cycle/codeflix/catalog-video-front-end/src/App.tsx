@@ -1,18 +1,26 @@
-import { Box} from "@mui/system";
-import {  ThemeProvider } from "@mui/material/styles";
-import * as React from 'react';
+import { Typography } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
+import { Box } from "@mui/system";
+import { Route, Routes } from "react-router-dom";
 import { Header } from "./components/Header";
 import { Layout } from "./components/Layout";
 import { appTheme } from "./config/theme";
-import { Typography } from "@mui/material";
-import { Routes, Route, Link } from "react-router-dom";
-import { CategoryList } from "./features/categories/ListCategory";
 import { CategoryCreate } from "./features/categories/CreateCategory";
 import { CategoryEdit } from "./features/categories/EditCategory";
+import { CategoryList } from "./features/categories/ListCategory";
+import { SnackbarProvider } from "notistack";
 
 function App() {
   return (
     <ThemeProvider theme={appTheme}>
+      <SnackbarProvider
+        autoHideDuration={2000}
+        maxSnack={3}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+      >
       <Box
         component="main"
         sx={{
@@ -40,6 +48,7 @@ function App() {
           </Routes>
         </Layout>
       </Box>
+      </SnackbarProvider>
     </ThemeProvider>
   );
 }
