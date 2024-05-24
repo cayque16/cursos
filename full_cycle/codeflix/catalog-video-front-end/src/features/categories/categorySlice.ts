@@ -17,23 +17,25 @@ const endpointUrl = '/categories';
 
 function parseQueryParams(params: CategoryParams) {
     const query = new URLSearchParams();
+    console.log(params);
     if (params.page) {
         query.append('page', params.page.toString());
     }
     if (params.perPage) {
         query.append('per_page', params.perPage.toString());
     }
-    if (params.search) {
-        query.append('search', params.search);
+    if (params.filter) {
+        query.append('filter', params.filter);
     }
     if (params.isActive) {
         query.append('is_active', params.isActive.toString());
     }
+    console.log(query.toString());
     return query.toString();
 }
 
-function getCategories({ page = 1, perPage = 10, search = "" }) {
-    const params = { page, perPage, search, isActive: true }
+function getCategories({ page = 1, perPage = 10, filter = "" }) {
+    const params = { page, perPage, filter, isActive: true }
 
     return `${endpointUrl}?${parseQueryParams(params)}`;
 }

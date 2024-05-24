@@ -1,34 +1,38 @@
 import { Box, Button } from "@mui/material";
+import { GridFilterModel } from "@mui/x-data-grid";
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAppDispatch } from "../../app/hooks";
 import { useDeleteCategoryMutation, useGetCategoriesQuery } from "./categorySlice";
 import { CategoriesTable } from "./components/CategoryTable";
-import { GridFilterModel } from "@mui/x-data-grid";
 
 export const CategoryList = () => {
     const [page, setPage] = useState(1);
-    const [perPage] = useState(10);
-    const [search, setSearch] = useState("");
+    const [perPage, setPerPage] = useState(10);
+    const [filter, setFilter] = useState("");
     const [rowsPerPage] = useState([10, 25, 50, 100]);
 
-    const options = { perPage, search, page };
+    const options = { perPage, filter, page };
 
     const { data, isFetching, error } = useGetCategoriesQuery(options);
     const [deleteCategory, deleteCategoryStatus] = useDeleteCategoryMutation();
     const { enqueueSnackbar } = useSnackbar();
 
     function handleOnPageChange(page: number) {
-        console.log(page);
+        setPage(page + 1);
     }
 
     function handleOnPageSizeChange(perPage: number) {
-        console.log(perPage);
+        setPerPage(perPage);
     }
 
-    function handleFilterChange(filterMode: GridFilterModel) {
-        console.log(filterMode);
+    function handleFilterChange(filterModel: GridFilterModel) {
+        if (filterModel.quickFilterValues?.length) {
+            const filter = filterModel.quickFilterValues.join("");
+            return setFilter(filter);
+        }
+
+        return setFilter("");
     }
 
     async function handleDeleteCategory(id: string) {
