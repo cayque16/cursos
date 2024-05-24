@@ -75,7 +75,8 @@ class CategoryController extends Controller
         $response = $useCase->execute(
             input: new CategoryUpdateInputDto(
                 id: $id,
-                name: $request->name
+                name: $request->name,
+                isActive: $request->is_active ?? true,
             )
         );
 

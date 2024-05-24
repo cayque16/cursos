@@ -22,6 +22,8 @@ class UpdateCategoryUseCase
             description: $input->description ?? $category->description
         );
 
+        $input->isActive ? $category->activate() : $category->disable();
+
         $categoryUpdated = $this->repository->update($category);
 
         return new CategoryUpdateOutputDto(

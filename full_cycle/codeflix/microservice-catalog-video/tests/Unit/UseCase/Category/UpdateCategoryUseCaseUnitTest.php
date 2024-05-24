@@ -34,6 +34,8 @@ class UpdateCategoryUseCaseUnitTest extends TestCase
             $categoryDesc,
         ]);
         $this->mockEntity->shouldReceive('update');
+        $this->mockEntity->shouldReceive('activate');
+        $this->mockEntity->shouldReceive('disable');
         $this->mockEntity->shouldReceive('createdAt')->andReturn(date('Y-m-d H:i:s'));
 
         $this->mockRepo = Mockery::mock(stdClass::class, CategoryRepositoryInterface::class);

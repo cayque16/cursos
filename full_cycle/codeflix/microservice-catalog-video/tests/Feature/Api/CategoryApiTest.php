@@ -161,6 +161,7 @@ class CategoryApiTest extends TestCase
 
         $data = [
             'name' => 'Name Updated',
+            'is_active' => false,
         ];
 
         $response = $this->putJson("{$this->endpoint}/{$category->id}", $data);
@@ -177,6 +178,7 @@ class CategoryApiTest extends TestCase
         ]);
         $this->assertDatabaseHas('categories', [
             'name' => 'Name Updated',
+            'is_active' => 0
         ]);
     }
 
