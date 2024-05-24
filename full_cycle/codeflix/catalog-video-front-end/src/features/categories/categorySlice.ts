@@ -17,7 +17,6 @@ const endpointUrl = '/categories';
 
 function parseQueryParams(params: CategoryParams) {
     const query = new URLSearchParams();
-    console.log(params);
     if (params.page) {
         query.append('page', params.page.toString());
     }
@@ -30,7 +29,6 @@ function parseQueryParams(params: CategoryParams) {
     if (params.isActive) {
         query.append('is_active', params.isActive.toString());
     }
-    console.log(query.toString());
     return query.toString();
 }
 
@@ -89,7 +87,6 @@ const categoriesSlice = createSlice({
             const index = state.findIndex(
                 (category) => category.id === action.payload.id
             );
-            console.log(action.payload);
             // update category on state
             state[index] = action.payload;
         },
