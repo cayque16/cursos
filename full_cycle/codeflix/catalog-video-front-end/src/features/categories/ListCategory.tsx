@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { GridFilterModel } from "@mui/x-data-grid";
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
@@ -47,6 +47,10 @@ export const CategoryList = () => {
             enqueueSnackbar("Category not deleted", { variant: "error" });
         }
     }, [deleteCategoryStatus, enqueueSnackbar]);
+
+    if (error) {
+        return <Typography>Error fetching categories</Typography>
+    }
 
     return (
         <Box maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
