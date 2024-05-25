@@ -8,7 +8,6 @@ type Props = {
     isLoading?: boolean;
     handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleToggle: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export function CastMemberForm({
