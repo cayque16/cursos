@@ -1260,7 +1260,7 @@ exports[`CastMembersTable should render CastMembersTable with loading 1`] = `
 </DocumentFragment>
 `;
 
-exports[`CastMembersTable should render castMember talbe correcly 1`] = `
+exports[`CastMembersTable should render castMember table correctly 1`] = `
 <DocumentFragment>
   <div
     class="MuiBox-root css-1fat0eg"
@@ -1912,7 +1912,7 @@ exports[`CastMembersTable should render castMember talbe correcly 1`] = `
 </DocumentFragment>
 `;
 
-exports[`CastMembersTable should render corret type 1`] = `
+exports[`CastMembersTable should render correct type 1`] = `
 <DocumentFragment>
   <div
     class="MuiBox-root css-1fat0eg"

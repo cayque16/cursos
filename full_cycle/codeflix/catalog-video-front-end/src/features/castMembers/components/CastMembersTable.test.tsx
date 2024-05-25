@@ -40,7 +40,7 @@ const Props = {
 };
 
 describe("CastMembersTable", () => {
-  it("should render castMember talbe correcly", () => {
+  it("should render castMember table correctly", () => {
     const { asFragment } = render(<CastMembersTable {...Props} />, {
       wrapper: BrowserRouter,
     });
@@ -65,7 +65,7 @@ describe("CastMembersTable", () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it("should render corret type", () => {
+  it("should render correct type", () => {
     const { asFragment } = render(
       <CastMembersTable
         {...Props}
