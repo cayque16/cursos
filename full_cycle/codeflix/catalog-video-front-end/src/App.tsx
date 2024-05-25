@@ -9,6 +9,7 @@ import { CategoryCreate } from "./features/categories/CreateCategory";
 import { CategoryEdit } from "./features/categories/EditCategory";
 import { CategoryList } from "./features/categories/ListCategory";
 import { SnackbarProvider } from "notistack";
+import { ListCastMembers } from "./features/castMembers/ListCastMembers";
 
 function App() {
   return (
@@ -32,10 +33,12 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<CategoryList />}></Route>
+            {/* Category */}
             <Route path="/categories" element={<CategoryList />}></Route>
             <Route path="/categories/create" element={<CategoryCreate />}></Route>
             <Route path="/categories/edit/:id" element={<CategoryEdit />}></Route>
-
+            {/* Cast Member */}
+            <Route path="/cast-members" element={<ListCastMembers />}></Route>
             <Route
               path="*"
               element={

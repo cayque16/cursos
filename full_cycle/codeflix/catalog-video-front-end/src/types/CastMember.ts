@@ -14,9 +14,9 @@ export interface CastMember {
     id: string;
     name: string;
     type: number;
-    deleteAt: null;
-    createdAt: string;
-    updatedAt: string;
+    deleted_at: null;
+    created_at: string;
+    updated_at: string;
 }
 
 export interface Links {
@@ -39,6 +39,6 @@ export interface Meta {
 export interface CastMemberParams {
     page?: number;
     type?: number;
-    search?: string;
+    filter?: string;
     perPage?: number;
 }
