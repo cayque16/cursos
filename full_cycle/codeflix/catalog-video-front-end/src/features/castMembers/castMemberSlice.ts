@@ -1,15 +1,15 @@
-import { CastMember, CastMemberParams, Result, Results } from "../../types/CastMember";
+import { CastMemberParams, Result, Results } from "../../types/CastMember";
 import { apiSlice } from "../api/apiSlice";
 
 const endpointUrl = "/cast_members";
 
-export const initialState: CastMember = {
-    id: "",
-    name: "",
-    type: 0,
-    deleted_at: null,
-    created_at: "",
-    updated_at: "",
+export interface CastMember {
+    id: string;
+    name: string;
+    type: number;
+    deleted_at: null;
+    created_at: string;
+    updated_at: string;
 };
 
 function parseQueryParams(params: CastMemberParams) {
