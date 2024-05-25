@@ -25,4 +25,20 @@ describe("CastMemberForm", () => {
 
         expect(asFragment()).toMatchSnapshot();
     });
+
+    it("should render CastMemberForm with loading state", () => {
+        const { asFragment } = render(<CastMemberForm  {...Props} isLoading={true}/>, {
+            wrapper: BrowserRouter,
+        });
+
+        expect(asFragment()).toMatchSnapshot();
+    })
+
+    it("should render CastMemberForm with loading state", () => {
+        const { asFragment } = render(<CastMemberForm  {...Props} isDisabled={true} isLoading={true}/>, {
+            wrapper: BrowserRouter,
+        });
+
+        expect(asFragment()).toMatchSnapshot();
+    })
 })
