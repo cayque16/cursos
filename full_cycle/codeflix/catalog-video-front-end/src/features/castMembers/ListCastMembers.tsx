@@ -32,8 +32,7 @@ export const ListCastMembers = () => {
     function handleFilterChange(filterModel: GridFilterModel) {
         if (filterModel.quickFilterValues?.length) {
             const filter = filterModel.quickFilterValues.join("");
-            options.filter = filter;
-            setFilter(filter);
+            return setFilter(filter);
         }
         return setFilter("");
     }
