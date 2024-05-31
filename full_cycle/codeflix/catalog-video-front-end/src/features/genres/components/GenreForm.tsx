@@ -1,10 +1,11 @@
 import { Autocomplete, Box, Button, FormControl, Grid, TextField } from "@mui/material";
 import { Category } from "../../../types/Category";
 import { Link } from "react-router-dom";
+import { Genre } from "../../../types/Genre";
 
 type Props = {
-    genre: any,
-    categories: Category[],
+    genre: Genre,
+    categories: Category[] | undefined,
     isLoading: boolean,
     isDisabled: boolean,
     handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void,
@@ -41,9 +42,18 @@ export function GenreForm({
                             disablePortal
                             multiple
                             loading={isLoading}
-                            options={[]}
+                            options={categories || []}
                             value={genre.categories}
                             disabled={isDisabled || !categories}
+                            getOptionLabel={(option) => option.name}
+                            renderOption={(props, option) => (
+                                <li {...props} key={option.id}>
+                                    {option.name}
+                                </li>
+                            )}
+                            onChange={(_, value) => {
+                                handleChange({ target: { name: "categories", value }} as any);
+                            }}
                             renderInput={(params) => (
                                 <TextField
                                     {...params}

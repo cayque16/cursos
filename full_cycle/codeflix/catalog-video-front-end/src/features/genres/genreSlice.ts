@@ -1,3 +1,4 @@
+import { Results } from "../../types/Category";
 import { Genre, GenreParams, GenrePayload } from "../../types/Genre";
 import { apiSlice } from "../api/apiSlice";
 const endpointUrl = "/genres";
@@ -40,8 +41,15 @@ function createGenreMutation(genre: GenrePayload) {
     return { url: endpointUrl, method: "POST", body: genre };
 }
 
+function getCategories() {
+    return `categories?all=true`;
+}
+
 export const genresSlice = apiSlice.injectEndpoints({
     endpoints: ({ query, mutation }) => ({
+        getCategories: query<Results, void>({
+            query: getCategories,
+        }),
         createGenre: mutation<Genre, GenrePayload>({
             query: createGenreMutation,
             invalidatesTags: ["Genres"],
@@ -49,4 +57,4 @@ export const genresSlice = apiSlice.injectEndpoints({
     }),
 });
 
-export const { useCreateGenreMutation } = genresSlice;
+export const { useCreateGenreMutation, useGetCategoriesQuery } = genresSlice;
