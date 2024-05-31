@@ -1,6 +1,11 @@
 {
     "workbench.activityBar.location": "hidden",
-    "workbench.tree.indent": 20
+    "workbench.tree.indent": 20,
+    "conventionalCommits.scopes": [
+        "desafio_ci"
+    ],
+    "terminal.integrated.shell.linux": "/bin/bash",
+    "intelephense.diagnostics.typeErrors": false
 }
 
 // ctrl/cmd+shift+X: abre as extensões/plugins
