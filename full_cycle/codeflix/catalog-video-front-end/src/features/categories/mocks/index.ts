@@ -7,6 +7,13 @@ export const categoryResponse = {
           "is_active": true,
           "created_at": "2024-05-22 14:16:39"
         },
+        {
+          "id": "e0c9af5c-185e-11ef-baec-0242ac120003",
+          "name": "Policial",
+          "description": "Filmes que seguem a vida de policiais e detetives, explorando investigações criminais, perseguições e a aplicação da lei.",
+          "is_active": true,
+          "created_at": "2024-05-22 14:16:39"
+        },
       ],
       "meta": {
         "total": 31,
