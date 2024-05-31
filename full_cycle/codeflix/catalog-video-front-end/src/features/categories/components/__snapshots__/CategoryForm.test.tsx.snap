@@ -38,6 +38,7 @@ exports[`CategoryForm should render CategoryForm with loading 1`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                  data-testeid="name"
                   disabled=""
                   id=":r2:"
                   name="name"
@@ -90,6 +91,7 @@ exports[`CategoryForm should render CategoryForm with loading 1`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                  data-testeid="description"
                   disabled=""
                   id=":r3:"
                   name="description"
@@ -127,6 +129,7 @@ exports[`CategoryForm should render CategoryForm with loading 1`] = `
               >
                 <span
                   class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-checked css-ob1t9r-MuiButtonBase-root-MuiSwitch-switchBase"
+                  data-testid="is_active"
                 >
                   <input
                     aria-label="controlled"
@@ -224,6 +227,7 @@ exports[`CategoryForm should render correctly 1`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                  data-testeid="name"
                   id=":r0:"
                   name="name"
                   required=""
@@ -275,6 +279,7 @@ exports[`CategoryForm should render correctly 1`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                  data-testeid="description"
                   id=":r1:"
                   name="description"
                   required=""
@@ -311,6 +316,7 @@ exports[`CategoryForm should render correctly 1`] = `
               >
                 <span
                   class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-checked css-ob1t9r-MuiButtonBase-root-MuiSwitch-switchBase"
+                  data-testid="is_active"
                 >
                   <input
                     aria-label="controlled"
