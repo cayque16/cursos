@@ -32,7 +32,7 @@ export function CategoryForm({
                                     value={category.name}
                                     disabled={isDisabled}
                                     onChange={handleChange}
-                                    inputProps={{ "data-testeid": "name",}}
+                                    inputProps={{ "data-testid": "name",}}
                                 />
                             </FormControl>
                         </Grid>
@@ -46,7 +46,7 @@ export function CategoryForm({
                                     value={category.description}
                                     disabled={isDisabled}
                                     onChange={handleChange}
-                                    inputProps={{ "data-testeid": "description",}}
+                                    inputProps={{ "data-testid": "description",}}
                                 />
                             </FormControl>
                         </Grid>

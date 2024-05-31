@@ -57,7 +57,7 @@ exports[`CreateCategory should render correctly 1`] = `
                     <input
                       aria-invalid="false"
                       class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                      data-testeid="name"
+                      data-testid="name"
                       id=":r0:"
                       name="name"
                       required=""
@@ -109,7 +109,7 @@ exports[`CreateCategory should render correctly 1`] = `
                     <input
                       aria-invalid="false"
                       class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                      data-testeid="description"
+                      data-testid="description"
                       id=":r1:"
                       name="description"
                       required=""

@@ -1,12 +1,11 @@
 import { Action, combineReducers, configureStore, PreloadedState, ThunkAction } from '@reduxjs/toolkit';
 import { apiSlice } from '../features/api/apiSlice';
 import { castMembersApiSlice } from '../features/castMembers/castMemberSlice';
-import categoriesReducer, { categoriesApiSlice } from '../features/categories/categorySlice';
+import { categoriesApiSlice } from '../features/categories/categorySlice';
 import counterReducer from '../features/counter/counterSlice';
 
 const rootReducer = combineReducers({
   counter: counterReducer,
-  categories: categoriesReducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
   [categoriesApiSlice.reducerPath]: apiSlice.reducer,
   [castMembersApiSlice.reducerPath]: apiSlice.reducer,
