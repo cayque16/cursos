@@ -49,7 +49,7 @@ export interface Meta {
 export interface GenreParams {
   page?: number;
   perPage?: number;
-  search?: string;
+  filter?: string;
   isActive?: boolean;
 }
 

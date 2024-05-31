@@ -1,17 +1,18 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { GenreForm } from "./components/GenreForm";
 import { useSnackbar } from "notistack";
-import { 
+import {
     useCreateGenreMutation,
-    initialState as genreInitialState, 
-    useGetCategoriesQuery
+    initialState as genreInitialState,
+    useGetAllCategoriesQuery, 
 } from "./genreSlice";
 import { useEffect, useState } from "react";
 import { Genre } from "../../types/Genre";
 
 export const GenreCreate = () => {
     const { enqueueSnackbar } = useSnackbar();
-    const { data: categories } = useGetCategoriesQuery();
+    const { data: categories } = useGetAllCategoriesQuery();
+    console.log(categories);
     const [createGenre, status] = useCreateGenreMutation();
     const [genreState, setGenreState] = useState<Genre>(genreInitialState);
 

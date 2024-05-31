@@ -3,14 +3,14 @@ import { apiSlice } from '../features/api/apiSlice';
 import { castMembersApiSlice } from '../features/castMembers/castMemberSlice';
 import { categoriesApiSlice } from '../features/categories/categorySlice';
 import counterReducer from '../features/counter/counterSlice';
-import { genresSlice } from '../features/genres/genreSlice';
+import { genreSlice } from '../features/genres/genreSlice';
 
 const rootReducer = combineReducers({
   counter: counterReducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
   [categoriesApiSlice.reducerPath]: apiSlice.reducer,
   [castMembersApiSlice.reducerPath]: apiSlice.reducer,
-  [genresSlice.reducerPath]: apiSlice.reducer,
+  [genreSlice.reducerPath]: apiSlice.reducer,
 });
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
