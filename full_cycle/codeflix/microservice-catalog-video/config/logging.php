@@ -50,7 +50,8 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['daily', 'logstash'],
+            // 'channels' => ['daily', 'logstash'],
+            'channels' => ['daily'],
             'ignore_exceptions' => false,
         ],
 
