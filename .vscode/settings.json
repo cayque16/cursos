@@ -1,0 +1,11 @@
+{
+    "workbench.activityBar.location": "hidden",
+    "workbench.tree.indent": 20
+}
+
+// ctrl/cmd+shift+X: abre as extensões/plugins
+// ctrl/cmd+shift+B: abre/fecha a lateral inteira
+// ctrl/cmd+shift+F: abre a busca
+// ctrl/cmd+shift+D: abre o debug
+// ctrl/cmd+shift+E: abre a árvore de pastas e arquivos
+// ctrl/cmd+shift+G: abre o controle do código

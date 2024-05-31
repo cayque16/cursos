@@ -1,4 +1,4 @@
-.vscode
+#.vscode
 full_cycle/observabilidade/elasticsearch_data
 full_cycle/observabilidade/prometheus/go.sum
 full_cycle/fc-monolito/
