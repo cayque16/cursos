@@ -13,6 +13,12 @@ export const handlers = [
         }
         return res(ctx.json(categoryResponse), ctx.delay(150));
     }),
+    rest.delete(
+        `${baseUrl}/categories/e14a89ed-185e-11ef-baec-0242ac120003`,
+        (_, res, ctx) => {
+          return res(ctx.delay(150), ctx.status(204));
+        }
+      ),
 ];
 
 const server = setupServer(...handlers);
@@ -91,5 +97,22 @@ describe("ListCategory", () => {
           const loading = screen.getByRole("progressbar");
           expect(loading).toBeInTheDocument();
         });
-      });
+    });
+
+    it("should handle Delete Category success", async () => {
+    renderWithProviders(<CategoryList />);
+
+    await waitFor(() => {
+        const name = screen.getByText("PaleTurquoise");
+        expect(name).toBeInTheDocument();
+    });
+
+    const deleteButton = screen.getAllByTestId("delete-button")[0];
+    fireEvent.click(deleteButton);
+
+    await waitFor(() => {
+        const name = screen.getByText("Category deleted");
+        expect(name).toBeInTheDocument();
+    });
+    });
 });
