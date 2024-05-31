@@ -1,13 +1,16 @@
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 
-import { renderWithProviders, screen, waitFor } from "../../utils/test-utils";
+import { fireEvent, renderWithProviders, screen, waitFor } from "../../utils/test-utils";
 import { CategoryList } from "./ListCategory";
 import { baseUrl } from "../api/apiSlice";
-import { categoryResponse } from "./mocks";
+import { categoryResponse, categoryResponse2 } from "./mocks";
 
 export const handlers = [
-    rest.get(`${baseUrl}/categories`, (_, res, ctx) => {
+    rest.get(`${baseUrl}/categories`, (req, res, ctx) => {
+        if (req.url.searchParams.get('page') === "2") {
+            return res(ctx.json(categoryResponse2), ctx.delay(150));
+        }
         return res(ctx.json(categoryResponse), ctx.delay(150));
     }),
 ];
@@ -51,6 +54,23 @@ describe("ListCategory", () => {
         await waitFor(() => {
             const error = screen.getByText("Error fetching categories");
             expect(error).toBeInTheDocument();
+        });
+    });
+
+    it("should handle On PageChange", async () => {
+        renderWithProviders(<CategoryList />);
+
+        await waitFor(() => {
+            const name = screen.getByText("Experimental");
+            expect(name).toBeInTheDocument();
+        });
+
+        const nextButton = screen.getByTestId("KeyboardArrowRightIcon");
+        fireEvent.click(nextButton);
+
+        await waitFor(() => {
+            const name = screen.getByText("Romance");
+            expect(name).toBeInTheDocument();
         });
     });
 });
