@@ -60,4 +60,11 @@ describe("CategoryTable", () => {
 
         expect(asFragment()).toMatchSnapshot();
     });
+    it("should render CategoriesTable with Inactive value", () => {
+        const { asFragment } = render(<CategoriesTable {...Props} data={{...mockData, data: [{...mockData.data[0], is_active: false}]}}/>, {
+            wrapper: BrowserRouter
+        });
+
+        expect(asFragment()).toMatchSnapshot();
+    });
 });
