@@ -22,8 +22,6 @@ return new class extends Migration
             $table->foreign('genre_id')
                 ->references('id')
                 ->on('genres');
-
-            $table->unique('category_id');
         });
     }
 
