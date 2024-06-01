@@ -26,6 +26,7 @@ class UpdateGenreUseCase
         try {
             $genre->update(name: $input->name);
 
+            $genre->clearCategories();
             foreach ($input->categories as $categoryId) {
                 $genre->addCategory($categoryId);
             }

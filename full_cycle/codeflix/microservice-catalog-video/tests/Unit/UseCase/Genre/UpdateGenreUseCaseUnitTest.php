@@ -56,6 +56,7 @@ class UpdateGenreUseCaseUnitTest extends TestCase
         $mockEntity->shouldReceive('createdAt')->andReturn(date('Y-m-a H:i:s'));
         $mockEntity->shouldReceive('update')->times(1);
         $mockEntity->shouldReceive('addCategory');
+        $mockEntity->shouldReceive('clearCategories');
 
         return $mockEntity;
     }

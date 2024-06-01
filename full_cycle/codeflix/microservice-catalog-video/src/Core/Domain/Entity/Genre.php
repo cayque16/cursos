@@ -48,6 +48,11 @@ class Genre
         }
     }
 
+    public function clearCategories(): void
+    {
+        $this->categories = [];
+    }
+
     public function removeCategory(string $categoryId)
     {
         unset($this->categories[array_search($categoryId, $this->categories)]);
