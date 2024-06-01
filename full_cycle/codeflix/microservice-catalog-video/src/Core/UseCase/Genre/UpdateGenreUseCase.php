@@ -26,6 +26,7 @@ class UpdateGenreUseCase
         try {
             $genre->update(name: $input->name);
 
+            $genre->clearCategories();
             foreach ($input->categories as $categoryId) {
                 $genre->addCategory($categoryId);
             }
@@ -41,6 +42,7 @@ class UpdateGenreUseCase
                 name: $genreDb->name,
                 is_active: $genreDb->isActive,
                 created_at: $genreDb->createdAt(),
+                categories: $genreDb->categories,
             );
         } catch (Throwable $th) {
             $this->transaction->rollback();

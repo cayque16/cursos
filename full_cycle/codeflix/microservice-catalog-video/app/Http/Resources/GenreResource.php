@@ -18,6 +18,7 @@ class GenreResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'is_active' => $this->is_active,
+            'categories' => $this->categories,
         ];
     }
 }

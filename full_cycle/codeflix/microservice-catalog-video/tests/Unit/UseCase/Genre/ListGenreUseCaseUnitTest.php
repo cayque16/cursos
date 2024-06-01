@@ -3,6 +3,7 @@
 namespace Tests\Unit\UseCase\Genre;
 
 use Core\Domain\Entity\Genre as EntityGenre;
+use Core\Domain\Repository\CategoryRepositoryInterface;
 use Core\Domain\Repository\GenreRepositoryInterface;
 use Core\Domain\ValueObject\Uuid;
 use Core\UseCase\DTO\Genre\GenreInputDto;
@@ -30,11 +31,17 @@ class ListGenreUseCaseUnitTest extends TestCase
             ->with($uuid)
             ->andReturn($mockEntity);
 
+        $mockCategoryRepository = Mockery::mock(stdClass::class, CategoryRepositoryInterface::class);
+        $mockCategoryRepository->shouldReceive('lstCategoryWithIdAndName')
+            ->once()
+            ->with([])
+            ->andReturn([]);
+
         $mockInputDto = Mockery::mock(GenreInputDto::class, [
             $uuid,
         ]);
 
-        $useCase = new ListGenreUseCase($mockRepository);
+        $useCase = new ListGenreUseCase($mockRepository, $mockCategoryRepository);
         $response = $useCase->execute($mockInputDto);
 
         $this->assertInstanceOf(GenreOutputDto::class, $response);

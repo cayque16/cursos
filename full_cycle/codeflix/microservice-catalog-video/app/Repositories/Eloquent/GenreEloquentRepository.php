@@ -73,6 +73,9 @@ class GenreEloquentRepository implements GenreRepositoryInterface
                     $query->where('name', 'LIKE', "%{$filter}%");
                 }
             })
+            ->with([
+                'categories',
+            ])
             ->orderBy('name', $order)
             ->paginate($totalPage);
 
@@ -112,7 +115,11 @@ class GenreEloquentRepository implements GenreRepositoryInterface
             name: $data->name,
             createdAt: new DateTime($data->created_at),
         );
-
+        
+        foreach ($data->categories as $category) {
+            $entity->addCategory($category->id);
+        }
+        
         ((bool) $data->is_active) ? $entity->activate() : $entity->disable();
 
         return $entity;

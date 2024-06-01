@@ -101,15 +101,13 @@ class GenreUnitTest extends TestCase
 
     public function testAddCategoryToGenre()
     {
-        $categoryId = (string) RamseyUuid::uuid4();
-
         $genre = new Genre(name: 'new genre');
 
         $this->assertIsArray($genre->categories);
         $this->assertCount(0, $genre->categories);
 
-        $genre->addCategory(categoryId: $categoryId);
-        $genre->addCategory(categoryId: $categoryId);
+        $genre->addCategory(categoryId: (string) RamseyUuid::uuid4());
+        $genre->addCategory(categoryId: (string) RamseyUuid::uuid4());
 
         $this->assertCount(2, $genre->categories);
     }
