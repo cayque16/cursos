@@ -23,6 +23,7 @@ export const GenreCreate = () => {
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         await createGenre({
+            id: genreState.id,
             name: genreState.name, 
             categories_ids: genreState.categories?.map((category) => category.id),
         });
