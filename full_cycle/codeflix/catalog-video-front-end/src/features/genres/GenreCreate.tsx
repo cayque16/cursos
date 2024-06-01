@@ -12,19 +12,19 @@ import { Genre } from "../../types/Genre";
 export const GenreCreate = () => {
     const { enqueueSnackbar } = useSnackbar();
     const { data: categories } = useGetAllCategoriesQuery();
-    console.log(categories);
     const [createGenre, status] = useCreateGenreMutation();
     const [genreState, setGenreState] = useState<Genre>(genreInitialState);
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+        const { name, value } = event.target;
+        setGenreState({ ...genreState, [name]: value });
     }
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         await createGenre({
-            id: genreState.id,
             name: genreState.name, 
-            categories_id: genreState.categories?.map((category) => category.id),
+            categories_ids: genreState.categories?.map((category) => category.id),
         });
     };
 
