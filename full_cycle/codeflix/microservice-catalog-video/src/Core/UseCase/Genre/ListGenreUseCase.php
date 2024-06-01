@@ -22,6 +22,7 @@ class ListGenreUseCase
             name: $genre->name,
             is_active: $genre->isActive,
             created_at: $genre->createdAt(),
+            categories: $genre->categories,
         );
     }
 }

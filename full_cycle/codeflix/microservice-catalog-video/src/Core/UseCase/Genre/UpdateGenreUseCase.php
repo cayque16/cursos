@@ -41,6 +41,7 @@ class UpdateGenreUseCase
                 name: $genreDb->name,
                 is_active: $genreDb->isActive,
                 created_at: $genreDb->createdAt(),
+                categories: $genreDb->categories,
             );
         } catch (Throwable $th) {
             $this->transaction->rollback();
