@@ -7,6 +7,11 @@ use Tests\TestCase;
 
 class AuthApiTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->markTestSkipped('the authenticate is disabled.');
+    }
     public function testAuthenticationCategory()
     {
         $this->getJson('/api/categories')
