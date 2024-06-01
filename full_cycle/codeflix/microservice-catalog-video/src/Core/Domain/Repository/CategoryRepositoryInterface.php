@@ -21,4 +21,6 @@ interface CategoryRepositoryInterface
     public function delete(string $id): bool;
 
     public function toCategory(object $data): Category;
+
+    public function lstCategoryWithIdAndName(array $categoriesId = []): array;
 }

@@ -107,4 +107,13 @@ class CategoryEloquentRepository implements CategoryRepositoryInterface
 
         return $entity;
     }
+
+    public function lstCategoryWithIdAndName(array $categoriesId = []): array
+    {
+        $result = $this->model
+            ->whereIn('id', $categoriesId)
+            ->get();
+        
+        return array_column($result->toArray(), 'name', 'id');
+    }
 }
