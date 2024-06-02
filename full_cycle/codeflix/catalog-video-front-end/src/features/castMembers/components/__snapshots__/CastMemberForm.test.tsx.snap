@@ -38,6 +38,7 @@ exports[`CastMemberForm should render CastMemberForm with loading state 1`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                  data-testid="name"
                   id=":r2:"
                   name="name"
                   required=""
@@ -74,6 +75,7 @@ exports[`CastMemberForm should render CastMemberForm with loading state 1`] = `
             <div
               aria-labelledby="type of cast member"
               class="MuiFormGroup-root MuiRadioGroup-root css-dmmspl-MuiFormGroup-root"
+              data-testid="type"
               role="radiogroup"
             >
               <label
@@ -246,6 +248,7 @@ exports[`CastMemberForm should render CastMemberForm with loading state 2`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                  data-testid="name"
                   disabled=""
                   id=":r4:"
                   name="name"
@@ -283,6 +286,7 @@ exports[`CastMemberForm should render CastMemberForm with loading state 2`] = `
             <div
               aria-labelledby="type of cast member"
               class="MuiFormGroup-root MuiRadioGroup-root css-dmmspl-MuiFormGroup-root"
+              data-testid="type"
               role="radiogroup"
             >
               <label
@@ -455,6 +459,7 @@ exports[`CastMemberForm should render correctly 1`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                  data-testid="name"
                   id=":r0:"
                   name="name"
                   required=""
@@ -491,6 +496,7 @@ exports[`CastMemberForm should render correctly 1`] = `
             <div
               aria-labelledby="type of cast member"
               class="MuiFormGroup-root MuiRadioGroup-root css-dmmspl-MuiFormGroup-root"
+              data-testid="type"
               role="radiogroup"
             >
               <label

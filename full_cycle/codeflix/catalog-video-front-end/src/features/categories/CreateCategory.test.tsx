@@ -7,88 +7,66 @@ import {
   screen,
   waitFor,
 } from "../../utils/test-utils";
-import { CategoryEdit } from "./EditCategory";
+import { CategoryCreate } from "./CreateCategory";
 import { baseUrl } from "../api/apiSlice";
 
-const data = {
-  id: "1",
-  name: "Category 1",
-  is_active: true,
-  deleted_at: null,
-  created_at: "2022-09-27T17:10:33+0000",
-  updated_at: "2022-09-27T17:10:33+0000",
-};
-
 export const handlers = [
-  rest.get(`${baseUrl}/categories/undefined`, (_, res, ctx) => {
-    return res(ctx.delay(150), ctx.json({ data }));
-  }),
-  rest.put(`${baseUrl}/categories/1`, (_, res, ctx) => {
-    return res(ctx.delay(150), ctx.status(200));
+  rest.post(`${baseUrl}/categories`, (req, res, ctx) => {
+    return res(ctx.delay(150), ctx.status(201));
   }),
 ];
 
 const server = setupServer(...handlers);
 
-describe("EditCategory", () => {
+describe("CreateCategory", () => {
   afterAll(() => server.close());
   beforeAll(() => server.listen());
   afterEach(() => server.resetHandlers());
-
   it("should render correctly", () => {
-    const { asFragment } = renderWithProviders(<CategoryEdit />);
+    const { asFragment } = renderWithProviders(<CategoryCreate />);
     expect(asFragment()).toMatchSnapshot();
   });
 
   it("should handle submit", async () => {
-    renderWithProviders(<CategoryEdit />);
-
+    renderWithProviders(<CategoryCreate />);
     const name = screen.getByTestId("name");
     const description = screen.getByTestId("description");
     const isActive = screen.getByTestId("is_active");
     const submit = screen.getByText("Save");
 
-    await waitFor(() => {
-      expect(name).toHaveValue("Category 1");
-    });
-
-    fireEvent.change(name, { target: { value: "Category 2" } });
-    fireEvent.change(description, { target: { value: "Description 2" } });
+    fireEvent.change(name, { target: { value: "test" } });
+    fireEvent.change(description, { target: { value: "test desc" } });
     fireEvent.click(isActive);
 
     fireEvent.click(submit);
 
     await waitFor(() => {
-      const text = screen.getByText("Category updated successfully");
+      const text = screen.getByText("Category created successfully");
       expect(text).toBeInTheDocument();
     });
   });
 
   it("should handle submit error", async () => {
     server.use(
-      rest.put(`${baseUrl}/categories/1`, (_, res, ctx) => {
-        return res(ctx.status(400));
+      rest.post(`${baseUrl}/categories`, (_, res, ctx) => {
+        return res(ctx.status(500));
       })
     );
 
-    renderWithProviders(<CategoryEdit />);
+    renderWithProviders(<CategoryCreate />);
     const name = screen.getByTestId("name");
     const description = screen.getByTestId("description");
     const isActive = screen.getByTestId("is_active");
     const submit = screen.getByText("Save");
 
-    await waitFor(() => {
-      expect(name).toHaveValue("Category 1");
-    });
-
-    fireEvent.change(name, { target: { value: "Category 2" } });
-    fireEvent.change(description, { target: { value: "Description 2" } });
+    fireEvent.change(name, { target: { value: "test" } });
+    fireEvent.change(description, { target: { value: "test desc" } });
     fireEvent.click(isActive);
 
     fireEvent.click(submit);
 
     await waitFor(() => {
-      const text = screen.getByText("Category not updated");
+      const text = screen.getByText("Category not created");
       expect(text).toBeInTheDocument();
     });
   });

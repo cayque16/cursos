@@ -4,7 +4,7 @@ import { setupServer } from "msw/node";
 import { fireEvent, renderWithProviders, screen, waitFor } from "../../utils/test-utils";
 import { CategoryList } from "./ListCategory";
 import { baseUrl } from "../api/apiSlice";
-import { categoryResponse, categoryResponse2 } from "./mocks";
+import { categoryResponse, categoryResponse2 } from "../mocks";
 
 export const handlers = [
     rest.get(`${baseUrl}/categories`, (req, res, ctx) => {
