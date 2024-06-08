@@ -8,6 +8,7 @@ import {
 } from "./genreSlice";
 import { useEffect, useState } from "react";
 import { Genre } from "../../types/Genre";
+import { mapGenreToForm } from "./util";
 
 export const GenreCreate = () => {
     const { enqueueSnackbar } = useSnackbar();
@@ -22,11 +23,7 @@ export const GenreCreate = () => {
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        await createGenre({
-            id: genreState.id,
-            name: genreState.name, 
-            categories_ids: genreState.categories?.map((category) => category.id),
-        });
+        await createGenre(mapGenreToForm(genreState));
     };
 
     useEffect(() => {
