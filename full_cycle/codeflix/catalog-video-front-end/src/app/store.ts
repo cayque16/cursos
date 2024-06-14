@@ -4,12 +4,14 @@ import { castMembersApiSlice } from '../features/castMembers/castMemberSlice';
 import { categoriesApiSlice } from '../features/categories/categorySlice';
 import counterReducer from '../features/counter/counterSlice';
 import { genreSlice } from '../features/genres/genreSlice';
+import { videoSlice } from '../features/videos/videoSlice';
 
 const rootReducer = combineReducers({
   counter: counterReducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
   [categoriesApiSlice.reducerPath]: apiSlice.reducer,
   [castMembersApiSlice.reducerPath]: apiSlice.reducer,
+  [videoSlice.reducerPath]: apiSlice.reducer,
   [genreSlice.reducerPath]: apiSlice.reducer,
 });
 

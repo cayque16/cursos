@@ -3,6 +3,27 @@ import { apiSlice } from "../api/apiSlice";
 
 const endpoint = "/videos";
 
+export const initialState = {
+    id: "",
+    title: "",
+    description: "",
+    year_launched: 0,
+    opened: false,
+    rating: "",
+    duration: 0,
+    deleted_at: "",
+    created_at: "",
+    updated_at: "",
+    genres: [],
+    categories: [],
+    cast_members: [],
+    video_file: "",
+    trailer_file: "",
+    banner_file: "",
+    thumb_file: "",
+    thumb_half_file: "",
+};
+
 function parseQueryParams(params: VideoParams) {
     const query = new URLSearchParams();
 
@@ -26,7 +47,7 @@ const getVideos = ({ page = 1, perPage = 10, filter = "" }) => {
     return `${endpoint}?${parseQueryParams(params)}`;
 };
 
-const videosSlice = apiSlice.injectEndpoints({
+export const videoSlice = apiSlice.injectEndpoints({
     endpoints: ({ query }) => ({
         getVideos: query<Results, VideoParams>({
             query: getVideos,
@@ -35,4 +56,4 @@ const videosSlice = apiSlice.injectEndpoints({
     }),
 });
 
-export const { useGetVideosQuery } = videosSlice;
+export const { useGetVideosQuery } = videoSlice;

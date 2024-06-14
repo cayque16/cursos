@@ -33,7 +33,8 @@ export function VideoTable({
     };
 
     const columns: GridColDef[] = [
-        { field: 'name', headerName: "Name", flex: 1, renderCell: renderNameCell },
+        { field: 'title', headerName: "Title", flex: 1, renderCell: renderNameCell },
+        { field: 'genres', headerName: "Genres", flex: 1, renderCell: renderGenresCell},
         { field: "id", headerName: "Actions", type: "string",flex: 1, renderCell: renderActionsCell },
     ]
 
@@ -41,8 +42,19 @@ export function VideoTable({
         const { data: videos } = data;
         return videos.map((video) => ({
             id: video.id,
-            name: video.title,
+            title: video.title,
+            genres: video.genres,
         }));
+    }
+
+    function renderGenresCell(params: GridRenderCellParams) {
+        const genres = params.value;
+
+        return (
+            <Typography style={{ overflow: 'scroll' }}>
+                { genres.map((genre: any) => genre.name).join(", ") }
+            </Typography>
+        );
     }
 
     function renderActionsCell(params: GridRenderCellParams) {
