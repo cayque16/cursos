@@ -1,7 +1,7 @@
-import { Results, VideoParams } from "../../types/Video";
+import { Result, Results, VideoParams } from "../../types/Video";
 import { apiSlice } from "../api/apiSlice";
 
-const endpoint = "/videos";
+const endpointUrl = "/videos";
 
 export const initialState = {
     id: "",
@@ -44,16 +44,27 @@ function parseQueryParams(params: VideoParams) {
 
 const getVideos = ({ page = 1, perPage = 10, filter = "" }) => {
     const params: VideoParams = { page, perPage, filter };
-    return `${endpoint}?${parseQueryParams(params)}`;
+    return `${endpointUrl}?${parseQueryParams(params)}`;
 };
 
+function  deleteVideo({ id }: { id: string }) {
+    return { url: `${endpointUrl}/${id}`, method: "DELETE" };
+}
+
 export const videoSlice = apiSlice.injectEndpoints({
-    endpoints: ({ query }) => ({
+    endpoints: ({ query, mutation }) => ({
         getVideos: query<Results, VideoParams>({
             query: getVideos,
             providesTags: ["Videos"],
         }),
+        deleteVideo: mutation<Result, { id: string }>({
+            query: deleteVideo,
+            invalidatesTags: ["Videos"],
+        }),
     }),
 });
 
-export const { useGetVideosQuery } = videoSlice;
+export const { 
+    useGetVideosQuery,
+    useDeleteVideoMutation
+ } = videoSlice;

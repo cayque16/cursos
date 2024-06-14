@@ -1,11 +1,13 @@
 import { Box, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { VideoTable } from "./components/VideoTable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GridFilterModel } from "@mui/x-data-grid";
-import { useGetVideosQuery } from "./videoSlice";
+import { useDeleteVideoMutation, useGetVideosQuery } from "./videoSlice";
+import { useSnackbar } from "notistack";
 
 export const VideoList = () => {
+    const { enqueueSnackbar } = useSnackbar();
     const [options, setOptions] = useState({
         page: 1,
         perPage: 10,
@@ -14,12 +16,11 @@ export const VideoList = () => {
     });
 
     const { data, isFetching, error } = useGetVideosQuery(options);
+    const [deleteVideo, { error: deleteError, isSuccess: deleteSuccess }] = useDeleteVideoMutation();
 
-    if (error) {
-        return <Typography>Error fetching videos</Typography>
+    async function handleDeleteVideo(id: string) {
+        await deleteVideo({ id });
     }
-
-    function handleDeleteVideo(id: string) {}
 
     function handleOnPageChange(page: number) {
         setOptions({...options, page: page + 1});
@@ -35,6 +36,19 @@ export const VideoList = () => {
         }
         const filter = filterModel.quickFilterValues.join("");
         setOptions({...options, filter});
+    }
+    
+    useEffect(() => {
+        if (deleteSuccess) {
+          enqueueSnackbar(`Video deleted`, { variant: "success" });
+        }
+        if (deleteError) {
+          enqueueSnackbar(`Video not deleted`, { variant: "error" });
+        }
+      }, [deleteSuccess, deleteError, enqueueSnackbar]);
+
+    if (error) {
+        return <Typography>Error fetching videos</Typography>
     }
 
     return (
