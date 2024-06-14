@@ -4,6 +4,7 @@ import { DataGrid, GridColDef, GridFilterModel, GridRenderCellParams, GridToolba
 import { Link } from "react-router-dom";
 import { Results } from "../../../types/Video";
 import { Genre } from "../../../types/Genre";
+import { Category } from "../../categories/categorySlice";
 
 type Props = {
     data: Results | undefined;
@@ -81,15 +82,31 @@ export function VideoTable({
     }
 
     function renderCategoriesCell(params: GridRenderCellParams) {
-        const categories = params.value;
+        const categories = params.value as Category[];
+        const twoFirstCategories = categories.slice(0, 2);
+        const remainingCategories = categories.length - twoFirstCategories.length;
 
         return (
             <Box>
-                { categories.map((category: any) => (
-                    <Chip sx={{mr: 1}} 
+                { twoFirstCategories.map((category, index) => (
+                    <Chip key={index}
+                    sx={{
+                        fontSize: "0.6rm", marginRight: 1,
+                    }}
                         label={category.name}
                     />
                 ))}
+
+                {remainingCategories > 0 && (
+                    <Tooltip title={categories.map((category) => category.name).join(", ")}>
+                        <Chip
+                            sx={{
+                                fontSize: "0.6rm", marginRight: 1,
+                            }}
+                            label={`+${remainingCategories}`}
+                        />
+                    </Tooltip>
+                )}
             </Box>
         );
     }
