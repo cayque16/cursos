@@ -1,8 +1,9 @@
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, Chip, IconButton, Tooltip, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridFilterModel, GridRenderCellParams, GridToolbar } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { Results } from "../../../types/Video";
+import { Genre } from "../../../types/Genre";
 
 type Props = {
     data: Results | undefined;
@@ -35,6 +36,7 @@ export function VideoTable({
     const columns: GridColDef[] = [
         { field: 'title', headerName: "Title", flex: 1, renderCell: renderNameCell },
         { field: 'genres', headerName: "Genres", flex: 1, renderCell: renderGenresCell},
+        { field: 'categories', headerName: "Categories", flex: 1, renderCell: renderCategoriesCell},
         { field: "id", headerName: "Actions", type: "string",flex: 1, renderCell: renderActionsCell },
     ]
 
@@ -44,18 +46,54 @@ export function VideoTable({
             id: video.id,
             title: video.title,
             genres: video.genres,
+            categories: video.categories,
         }));
     }
 
     function renderGenresCell(params: GridRenderCellParams) {
-        const genres = params.value;
+        const genres = params.value as Genre[];
+        const twoFirstGenres = genres.slice(0, 2);
+        const remainingGenres = genres.length - twoFirstGenres.length;
 
         return (
-            <Typography style={{ overflow: 'scroll' }}>
-                { genres.map((genre: any) => genre.name).join(", ") }
-            </Typography>
+            <Box>
+                { twoFirstGenres.map((genre, index) => (
+                    <Chip key={index}
+                    sx={{
+                        fontSize: "0.6rm", marginRight: 1,
+                    }}
+                        label={genre.name}
+                    />
+                ))}
+
+                {remainingGenres > 0 && (
+                    <Tooltip title={genres.map((genre) => genre.name).join(", ")}>
+                        <Chip
+                            sx={{
+                                fontSize: "0.6rm", marginRight: 1,
+                            }}
+                            label={`+${remainingGenres}`}
+                        />
+                    </Tooltip>
+                )}
+            </Box>
         );
     }
+
+    function renderCategoriesCell(params: GridRenderCellParams) {
+        const categories = params.value;
+
+        return (
+            <Box>
+                { categories.map((category: any) => (
+                    <Chip sx={{mr: 1}} 
+                        label={category.name}
+                    />
+                ))}
+            </Box>
+        );
+    }
+
 
     function renderActionsCell(params: GridRenderCellParams) {
         return (
