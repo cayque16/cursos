@@ -66,8 +66,8 @@ export interface VideoPayload {
   opened: boolean;
   duration: number;
   description: string;
-  genres_id?: string[];
+  genres?: string[];
   year_launched: number;
-  categories_id?: string[];
-  cast_members_id?: string[];
+  categories?: string[];
+  cast_members?: string[];
 }

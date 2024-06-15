@@ -1,10 +1,11 @@
 import { Box, Paper, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
-import { initialState, useGetVideoQuery, useUpdateVideoMutation } from "./videoSlice";
-import { useEffect, useState } from "react";
-import { Video } from "../../types/Video";
 import { useSnackbar } from "notistack";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { Video } from "../../types/Video";
 import { VideoForm } from "./components/VideoForm";
+import { initialState, useGetVideoQuery, useUpdateVideoMutation } from "./videoSlice";
+import { mapVideoToForm } from "./utils";
 
 export function VideoEdit() {
     const id = useParams<{ id: string }>().id as string;
@@ -17,10 +18,10 @@ export function VideoEdit() {
         const { name, value } = event.target;
         setVideoState((state) => ({...state, [name]: value }));
     }
-
-    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-        await updateVideo(videoState);
+    
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        await updateVideo(mapVideoToForm(videoState));
     }
 
     useEffect(() => {
