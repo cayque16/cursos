@@ -1,4 +1,4 @@
-import { Result, Results, VideoParams } from "../../types/Video";
+import { Result, Results, VideoParams, VideoPayload } from "../../types/Video";
 import { apiSlice } from "../api/apiSlice";
 
 const endpointUrl = "/videos";
@@ -55,6 +55,14 @@ function getVideo({ id }: { id: string }) {
     return `${endpointUrl}/${id}`;
 }
 
+function updateVideo(video: VideoPayload) {
+    return {
+        url: `${endpointUrl}/${video.id}`,
+        method: "PUT",
+        body: video,
+    };
+}
+
 export const videoSlice = apiSlice.injectEndpoints({
     endpoints: ({ query, mutation }) => ({
         getVideos: query<Results, VideoParams>({
@@ -69,6 +77,10 @@ export const videoSlice = apiSlice.injectEndpoints({
             query: deleteVideo,
             invalidatesTags: ["Videos"],
         }),
+        updateVideo: mutation<Result, VideoPayload>({
+            query: updateVideo,
+            invalidatesTags: ["Videos"],
+        }),
     }),
 });
 
@@ -76,4 +88,5 @@ export const {
     useGetVideoQuery,
     useGetVideosQuery,
     useDeleteVideoMutation,
+    useUpdateVideoMutation,
  } = videoSlice;

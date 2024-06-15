@@ -1,6 +1,6 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { initialState, useGetVideoQuery } from "./videoSlice";
+import { initialState, useGetVideoQuery, useUpdateVideoMutation } from "./videoSlice";
 import { useEffect, useState } from "react";
 import { Video } from "../../types/Video";
 import { useSnackbar } from "notistack";
@@ -11,7 +11,7 @@ export function VideoEdit() {
     const { enqueueSnackbar } = useSnackbar();
     const { data: video, isFetching } = useGetVideoQuery({ id });
     const [videoState, setVideoState] = useState<Video>(initialState);
-    const [status, setStatus] = useState({isSuccess: false, isError: false});
+    const [updateVideo, status] = useUpdateVideoMutation();
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
@@ -20,7 +20,7 @@ export function VideoEdit() {
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        // await updateVideo(videoState);
+        await updateVideo(videoState);
     }
 
     useEffect(() => {
