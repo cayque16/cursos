@@ -31,13 +31,13 @@ class UpdateVideoRequest extends FormRequest
             'description' => [
                 'required',
             ],
-            'categories' => 'required|array|exists:categories,id,deleted_at,NULL',
+            'categories' => 'sometimes|array|exists:categories,id,deleted_at,NULL',
             'genres' => [
-                'required',
+                'sometimes',
                 'array',
                 'exists:genres,id,deleted_at,NULL',
             ],
-            'cast_members' => 'required|array|exists:cast_members,id,deleted_at,NULL',
+            'cast_members' => 'sometimes|array|exists:cast_members,id,deleted_at,NULL',
             'thumb_file' => 'nullable|image', //5MB
             'thumb_half_file' => 'nullable|image', //5MB
             'banner_file' => 'nullable|image', //10MB
