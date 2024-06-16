@@ -29,8 +29,8 @@ export function VideoForm({
     return (
         <Box p={2}>
             <form onSubmit={handleSubmit}>
-                <Grid container spacing={3}>
-                    <Grid item xs={12}>
+                <Grid container spacing={4}>
+                    <Grid item xs={12} md={6} sx={{ "& .MuiTextField-root": { my: 2}} }>
                         <FormControl fullWidth>
                             <TextField
                                 required
@@ -42,12 +42,11 @@ export function VideoForm({
                                 inputProps={{ "data-testid" : "title"}}
                             />
                         </FormControl>
-                    </Grid>
-
-                    <Grid item xs={12}>
                         <FormControl fullWidth>
                             <TextField
                                 required
+                                multiline
+                                minRows={4}
                                 name="description"
                                 label="Description"
                                 value={video.description}
@@ -56,34 +55,116 @@ export function VideoForm({
                                 inputProps={{ "data-testid" : "description"}}
                             />
                         </FormControl>
-                    </Grid>
+                        
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                                <FormControl fullWidth>
+                                    <TextField
+                                        required
+                                        name="year_launched"
+                                        label="Year Launched"
+                                        value={video.year_launched}
+                                        disabled={isDisabled}
+                                        onChange={handleChange}
+                                        inputProps={{ "data-testid" : "year_launched"}}
+                                    />
+                                </FormControl>
+                         </Grid>
 
-                    <Grid item xs={6}>
-                        <FormControl fullWidth>
-                            <TextField
-                                required
-                                name="year_launched"
-                                label="Year Launched"
-                                value={video.year_launched}
-                                disabled={isDisabled}
-                                onChange={handleChange}
-                                inputProps={{ "data-testid" : "year_launched"}}
+                        <Grid item xs={6}>
+                            <FormControl fullWidth>
+                                <TextField
+                                    name="duration"
+                                    label="Duration"
+                                    value={video.duration}
+                                    disabled={isDisabled}
+                                    onChange={handleChange}
+                                    inputProps={{ "data-testid" : "duration"}}
+                                />
+                            </FormControl>
+                        </Grid>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Autocomplete
+                                disablePortal
+                                multiple
+                                loading={isLoading}
+                                options={categories || []}
+                                value={video.categories}
+                                disabled={isDisabled || !categories}
+                                getOptionLabel={(option) => option.name}
+                                renderOption={(props, option) => (
+                                    <li {...props} key={option.id}>
+                                        {option.name}
+                                    </li>
+                                )}
+                                onChange={(_, value) => {
+                                    handleChange({ target: { name: "categories", value }} as any);
+                                }}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Categories"
+                                        data-testid="categories-input"
+                                    />
+                                )}
                             />
-                        </FormControl>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Autocomplete
+                                disablePortal
+                                multiple
+                                loading={isLoading}
+                                options={genres || []}
+                                value={video.genres}
+                                disabled={isDisabled || !genres}
+                                getOptionLabel={(option) => option.name}
+                                renderOption={(props, option) => (
+                                    <li {...props} key={option.id}>
+                                        {option.name}
+                                    </li>
+                                )}
+                                onChange={(_, value) => {
+                                    handleChange({ target: { name: "genres", value }} as any);
+                                }}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Genres"
+                                        data-testid="genres-input"
+                                    />
+                                )}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Autocomplete
+                                disablePortal
+                                multiple
+                                loading={isLoading}
+                                options={castMembers || []}
+                                value={video.cast_members}
+                                disabled={isDisabled || !castMembers}
+                                getOptionLabel={(option) => option.name}
+                                renderOption={(props, option) => (
+                                    <li {...props} key={option.id}>
+                                        {option.name}
+                                    </li>
+                                )}
+                                onChange={(_, value) => {
+                                    handleChange({ target: { name: "castMembers", value }} as any);
+                                }}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Cast Members"
+                                        data-testid="castMembers-input"
+                                    />
+                                )}
+                            />
+                        </Grid>
                     </Grid>
-
-                    <Grid item xs={6}>
-                        <FormControl fullWidth>
-                            <TextField
-                                required
-                                name="duration"
-                                label="Duration"
-                                value={video.duration}
-                                disabled={isDisabled}
-                                onChange={handleChange}
-                                inputProps={{ "data-testid" : "duration"}}
-                            />
-                        </FormControl>
+                    <Grid item xs={12} md={6} sx={{ "&.MuiTextField-root": { my: 2}}}>
+                        <h1>Left</h1>
                     </Grid>
                    
                     <Grid item xs={12}>
