@@ -4,6 +4,8 @@ import { Genre } from "../../../types/Genre";
 import { CastMember } from "../../../types/CastMember";
 import { Link } from "react-router-dom";
 import { Category } from "../../../types/Category";
+import React from "react";
+import { AutoCompleteFields } from "../../../components/AutoCompleteFields";
 
 type Props = {
     video: Video,
@@ -85,81 +87,36 @@ export function VideoForm({
                         </Grid>
                         </Grid>
                         <Grid item xs={12}>
-                            <Autocomplete
-                                disablePortal
-                                multiple
-                                loading={isLoading}
+                            <AutoCompleteFields
+                                name="categories"
+                                label="Categories"
+                                isLoading={isLoading}
+                                isDisabled={isDisabled}
+                                values={video.categories}
                                 options={categories || []}
-                                value={video.categories}
-                                disabled={isDisabled || !categories}
-                                getOptionLabel={(option) => option.name}
-                                renderOption={(props, option) => (
-                                    <li {...props} key={option.id}>
-                                        {option.name}
-                                    </li>
-                                )}
-                                onChange={(_, value) => {
-                                    handleChange({ target: { name: "categories", value }} as any);
-                                }}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label="Categories"
-                                        data-testid="categories-input"
-                                    />
-                                )}
+                                handleChange={handleChange}
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <Autocomplete
-                                disablePortal
-                                multiple
-                                loading={isLoading}
+                            <AutoCompleteFields
+                                name="genres"
+                                label="Genres"
+                                isLoading={isLoading}
+                                isDisabled={isDisabled}
+                                values={video.genres}
                                 options={genres || []}
-                                value={video.genres}
-                                disabled={isDisabled || !genres}
-                                getOptionLabel={(option) => option.name}
-                                renderOption={(props, option) => (
-                                    <li {...props} key={option.id}>
-                                        {option.name}
-                                    </li>
-                                )}
-                                onChange={(_, value) => {
-                                    handleChange({ target: { name: "genres", value }} as any);
-                                }}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label="Genres"
-                                        data-testid="genres-input"
-                                    />
-                                )}
+                                handleChange={handleChange}
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <Autocomplete
-                                disablePortal
-                                multiple
-                                loading={isLoading}
+                            <AutoCompleteFields
+                                name="castMembers"
+                                label="Cast Members"
+                                isLoading={isLoading}
+                                isDisabled={isDisabled}
+                                values={video.cast_members}
                                 options={castMembers || []}
-                                value={video.cast_members}
-                                disabled={isDisabled || !castMembers}
-                                getOptionLabel={(option) => option.name}
-                                renderOption={(props, option) => (
-                                    <li {...props} key={option.id}>
-                                        {option.name}
-                                    </li>
-                                )}
-                                onChange={(_, value) => {
-                                    handleChange({ target: { name: "castMembers", value }} as any);
-                                }}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label="Cast Members"
-                                        data-testid="castMembers-input"
-                                    />
-                                )}
+                                handleChange={handleChange}
                             />
                         </Grid>
                     </Grid>
