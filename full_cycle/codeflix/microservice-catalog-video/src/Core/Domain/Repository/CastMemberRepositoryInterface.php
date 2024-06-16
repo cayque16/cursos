@@ -21,4 +21,6 @@ interface CastMemberRepositoryInterface
     public function delete(string $id): bool;
 
     public function toCastMember(object $data): CastMember;
+
+    public function lstCastMemberWithIdAndName(array $genresId = []): array;
 }

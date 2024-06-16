@@ -124,4 +124,13 @@ class GenreEloquentRepository implements GenreRepositoryInterface
 
         return $entity;
     }
+
+    public function lstGenreWithIdAndName(array $genresId = []): array
+    {
+        $result = $this->model
+            ->whereIn('id', $genresId)
+            ->get();
+        
+        return array_column($result->toArray(), 'name', 'id');
+    }
 }

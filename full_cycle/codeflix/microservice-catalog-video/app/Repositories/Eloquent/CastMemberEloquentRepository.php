@@ -108,4 +108,13 @@ class CastMemberEloquentRepository implements CastMemberRepositoryInterface
             createdAt: $data->created_at
         );
     }
+
+    public function lstCastMemberWithIdAndName(array $castMembersId = []): array
+    {
+        $result = $this->model
+            ->whereIn('id', $castMembersId)
+            ->get();
+        
+        return array_column($result->toArray(), 'name', 'id');
+    }
 }

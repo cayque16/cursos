@@ -21,4 +21,6 @@ interface GenreRepositoryInterface
     public function delete(string $id): bool;
 
     public function toGenre(object $data): Genre;
+
+    public function lstGenreWithIdAndName(array $genresId = []): array;
 }
