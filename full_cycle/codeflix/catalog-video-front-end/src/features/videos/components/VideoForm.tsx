@@ -93,7 +93,7 @@ export function VideoForm({
                                 isLoading={isLoading}
                                 isDisabled={isDisabled}
                                 values={video.categories}
-                                options={categories || []}
+                                options={categories}
                                 handleChange={handleChange}
                             />
                         </Grid>
@@ -104,7 +104,7 @@ export function VideoForm({
                                 isLoading={isLoading}
                                 isDisabled={isDisabled}
                                 values={video.genres}
-                                options={genres || []}
+                                options={genres}
                                 handleChange={handleChange}
                             />
                         </Grid>
@@ -115,7 +115,7 @@ export function VideoForm({
                                 isLoading={isLoading}
                                 isDisabled={isDisabled}
                                 values={video.cast_members}
-                                options={castMembers || []}
+                                options={castMembers}
                                 handleChange={handleChange}
                             />
                         </Grid>

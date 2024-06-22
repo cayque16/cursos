@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Video } from "../../types/Video";
 import { VideoForm } from "./components/VideoForm";
-import { initialState, useGetVideoQuery, useUpdateVideoMutation } from "./videoSlice";
+import { initialState, useGetAllCastMembersQuery, useGetAllCategoriesQuery, useGetAllGenresQuery, useGetVideoQuery, useUpdateVideoMutation } from "./videoSlice";
 import { mapVideoToForm } from "./utils";
 
 export function VideoEdit() {
@@ -13,6 +13,9 @@ export function VideoEdit() {
     const { data: video, isFetching } = useGetVideoQuery({ id });
     const [videoState, setVideoState] = useState<Video>(initialState);
     const [updateVideo, status] = useUpdateVideoMutation();
+    const { data: categories } = useGetAllCategoriesQuery();
+    const { data: genres } = useGetAllGenresQuery();
+    const { data: castMembers } = useGetAllCastMembersQuery();
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
@@ -51,9 +54,9 @@ export function VideoEdit() {
                     video={videoState}
                     handleSubmit={handleSubmit}
                     handleChange={handleChange}
-                    genres={[]}
-                    categories={[]}
-                    castMembers={[]}
+                    genres={genres?.data}
+                    categories={categories?.data}
+                    castMembers={castMembers?.data}
                     isDisabled={isFetching}
                     isLoading={isFetching}
                 />
