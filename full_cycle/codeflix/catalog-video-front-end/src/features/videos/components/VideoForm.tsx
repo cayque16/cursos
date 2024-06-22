@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, FormControl, Grid, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField } from "@mui/material";
 import { Video } from "../../../types/Video";
 import { Genre } from "../../../types/Genre";
 import { CastMember } from "../../../types/CastMember";
@@ -17,6 +17,15 @@ type Props = {
     handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void,
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
 };
+
+const ratingOptions = [
+    { label: "L", value: "L" },
+    { label: "10", value: "10" },
+    { label: "12", value: "12"},
+    { label: "14", value: "14"},
+    { label: "16", value: "16"},
+    { label: "18", value: "18"},
+]
 
 export function VideoForm({
     video,
@@ -121,7 +130,24 @@ export function VideoForm({
                         </Grid>
                     </Grid>
                     <Grid item xs={12} md={6} sx={{ "&.MuiTextField-root": { my: 2}}}>
-                        <h1>Left</h1>
+                        <FormControl>
+                            <FormLabel component="legend">Rating</FormLabel>
+                            <RadioGroup
+                                row
+                                name="rating"
+                                value={video.rating}
+                                onChange={handleChange}
+                            >
+                                {ratingOptions.map((option) => (
+                                    <FormControlLabel
+                                        key={option.value}
+                                        value={option.value}
+                                        control={<Radio />}
+                                        label={option.label}
+                                    />
+                                ))}
+                            </RadioGroup>
+                        </FormControl>
                     </Grid>
                    
                     <Grid item xs={12}>
