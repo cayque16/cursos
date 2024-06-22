@@ -77,7 +77,7 @@ class GenreEloquentRepository implements GenreRepositoryInterface
                 'categories',
             ])
             ->orderBy('name', $order)
-            ->paginate($totalPage);
+            ->paginate($totalPage, ['*'], 'page', $page);
 
         return new PaginationPresenter($result);
     }

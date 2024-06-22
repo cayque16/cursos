@@ -27,7 +27,7 @@ class CastMemberController extends Controller
                 filter: $request->get('filter', ''),
                 order: $request->get('order', 'DESC'),
                 page: (int) $request->get('page', 1),
-                totalPage: (int) $request->get('total_page', 15),
+                totalPage: $request->get('all') ? PHP_INT_MAX : (int) $request->get('total_page', 15),
             )
         );
 

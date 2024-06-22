@@ -63,15 +63,16 @@ class CastMemberEloquentRepository implements CastMemberRepositoryInterface
 
     public function paginate(string $filter = '', $order = 'DESC', int $page = 1, $totalPage = 15): PaginationInterface
     {
-        $query = $this->model;
-        if ($filter) {
-            $query = $query->where('name', 'LIKE', "%{$filter}%");
-        }
-        $query = $query->orderBy('name', $order);
+        $result = $this->model
+            ->where(function ($query) use ($filter) {
+                if ($filter) {
+                    $query->where('name', 'LIKE', "%{$filter}%");
+                }
+            })
+            ->orderBy('name', $order)
+            ->paginate($totalPage, ['*'], 'page', $page);
 
-        $dataBd = $query->paginate($totalPage);
-
-        return new PaginationPresenter($dataBd);
+        return new PaginationPresenter($result);
     }
 
     public function update(CastMemberEntity $castMember): CastMemberEntity
