@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { Category } from "../../../types/Category";
 import React from "react";
 import { AutoCompleteFields } from "../../../components/AutoCompleteFields";
+import { Rating } from "../../../components/Rating";
+import { RatingsList } from "../../../components/RatingList";
 
 type Props = {
     video: Video,
@@ -138,14 +140,7 @@ export function VideoForm({
                                 value={video.rating}
                                 onChange={handleChange}
                             >
-                                {ratingOptions.map((option) => (
-                                    <FormControlLabel
-                                        key={option.value}
-                                        value={option.value}
-                                        control={<Radio />}
-                                        label={option.label}
-                                    />
-                                ))}
+                                <RatingsList isDisabled={isDisabled}></RatingsList>
                             </RadioGroup>
                         </FormControl>
                     </Grid>
