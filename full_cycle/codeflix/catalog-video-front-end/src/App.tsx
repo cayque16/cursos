@@ -19,14 +19,16 @@ import { VideoCreate } from "./features/videos/VideoCreate";
 import { VideoList } from "./features/videos/VideoList";
 import { VideoEdit } from "./features/videos/VideoEdit";
 import { useEffect, useState } from "react";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 function App() {
   const [theme, setTheme] = useState(darkTheme);
+  const [currentTheme, setCurrentTheme] = useLocalStorage("theme", "dark");
 
   const toggle = () => {
     const currentTheme = theme.palette.mode === "dark" ? lightTheme : darkTheme;
     setTheme(currentTheme);
-    localStorage.setItem("theme", currentTheme.palette.mode);
+    setCurrentTheme(currentTheme.palette.mode);
   };
 
   useEffect(() => {
