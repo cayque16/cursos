@@ -1,9 +1,6 @@
-import { CssBaseline, Typography } from "@mui/material";
-import { ThemeProvider } from "@mui/material/styles";
+import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { SnackbarProvider } from "notistack";
 import { Route, Routes } from "react-router-dom";
-import { Header } from "./components/Header";
 import { Layout } from "./components/Layout";
 import { CreateCastMember } from "./features/castMembers/CreateCastMember";
 import { EditCastMember } from "./features/castMembers/EditCastMember";
@@ -20,61 +17,37 @@ import { VideoList } from "./features/videos/VideoList";
 import { useAppTheme } from "./hooks/useAppTheme";
 
 function App() {
-  const [currentTheme, toggleCurrentTheme] = useAppTheme();
-
-
   return (
-    <ThemeProvider theme={currentTheme}>
-      <CssBaseline />
-      <SnackbarProvider
-        autoHideDuration={2000}
-        maxSnack={3}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-      >
-      <Box
-        component="main"
-        sx={{
-          height: "100vh",
-          backgroundColor: (theme) => theme.palette.grey[900],
-        }}
-      >
-        <Header theme={currentTheme.palette.mode} toggle={toggleCurrentTheme} />
-        <Layout>
-          <Routes>
-            <Route path="/" element={<CategoryList />}></Route>
-            {/* Category */}
-            <Route path="/categories" element={<CategoryList />}></Route>
-            <Route path="/categories/create" element={<CategoryCreate />}></Route>
-            <Route path="/categories/edit/:id" element={<CategoryEdit />}></Route>
-            {/* Cast Member */}
-            <Route path="/cast-members" element={<ListCastMembers />}></Route>
-            <Route path="/cast-members/create" element={<CreateCastMember />}></Route>
-            <Route path="/cast-members/edit/:id" element={<EditCastMember />}></Route>
-            {/* Genre */}
-            <Route path="/genres" element={<GenreList />}></Route>
-            <Route path="/genres/create" element={<GenreCreate />} />
-            <Route path="/genres/edit/:id" element={<GenreEdit />}></Route>
-            {/* Videos */}
-            <Route path="/videos" element={<VideoList />}></Route>
-            <Route path="/videos/create" element={<VideoCreate />} />
-            <Route path="/videos/edit/:id" element={<VideoEdit />}></Route>
-            <Route
-              path="*"
-              element={
-                <Box sx={{ color: "white" }}>
-                  <Typography variant="h1">404</Typography>
-                  <Typography variant="h2">Page not found</Typography>
-                </Box>
-              }
-            />
-          </Routes>
-        </Layout>
-      </Box>
-      </SnackbarProvider>
-    </ThemeProvider>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<CategoryList />}></Route>
+        {/* Category */}
+        <Route path="/categories" element={<CategoryList />}></Route>
+        <Route path="/categories/create" element={<CategoryCreate />}></Route>
+        <Route path="/categories/edit/:id" element={<CategoryEdit />}></Route>
+        {/* Cast Member */}
+        <Route path="/cast-members" element={<ListCastMembers />}></Route>
+        <Route path="/cast-members/create" element={<CreateCastMember />}></Route>
+        <Route path="/cast-members/edit/:id" element={<EditCastMember />}></Route>
+        {/* Genre */}
+        <Route path="/genres" element={<GenreList />}></Route>
+        <Route path="/genres/create" element={<GenreCreate />} />
+        <Route path="/genres/edit/:id" element={<GenreEdit />}></Route>
+        {/* Videos */}
+        <Route path="/videos" element={<VideoList />}></Route>
+        <Route path="/videos/create" element={<VideoCreate />} />
+        <Route path="/videos/edit/:id" element={<VideoEdit />}></Route>
+        <Route
+          path="*"
+          element={
+            <Box sx={{ color: "white" }}>
+              <Typography variant="h1">404</Typography>
+              <Typography variant="h2">Page not found</Typography>
+            </Box>
+          }
+        />
+      </Routes>
+    </Layout>
   );
 }
 
