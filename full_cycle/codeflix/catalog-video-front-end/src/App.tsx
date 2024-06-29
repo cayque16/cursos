@@ -4,7 +4,7 @@ import { Box } from "@mui/system";
 import { Route, Routes } from "react-router-dom";
 import { Header } from "./components/Header";
 import { Layout } from "./components/Layout";
-import { appTheme } from "./config/theme";
+import { darkTheme, lightTheme } from "./config/theme";
 import { CategoryCreate } from "./features/categories/CreateCategory";
 import { CategoryEdit } from "./features/categories/EditCategory";
 import { CategoryList } from "./features/categories/ListCategory";
@@ -18,10 +18,18 @@ import { GenreList } from "./features/genres/GenreList";
 import { VideoCreate } from "./features/videos/VideoCreate";
 import { VideoList } from "./features/videos/VideoList";
 import { VideoEdit } from "./features/videos/VideoEdit";
+import { useState } from "react";
 
 function App() {
+  const [theme, setTheme] = useState(darkTheme);
+
+  const toggle = () => {
+    const currentTheme = theme.palette.mode === "dark" ? lightTheme : darkTheme;
+    setTheme(currentTheme);
+  };
+
   return (
-    <ThemeProvider theme={appTheme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <SnackbarProvider
         autoHideDuration={2000}
@@ -38,7 +46,7 @@ function App() {
           backgroundColor: (theme) => theme.palette.grey[900],
         }}
       >
-        <Header />
+        <Header toggle={toggle} />
         <Layout>
           <Routes>
             <Route path="/" element={<CategoryList />}></Route>
