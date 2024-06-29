@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { CssBaseline, Typography } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { Box } from "@mui/system";
 import { Route, Routes } from "react-router-dom";
@@ -22,6 +22,7 @@ import { VideoEdit } from "./features/videos/VideoEdit";
 function App() {
   return (
     <ThemeProvider theme={appTheme}>
+      <CssBaseline />
       <SnackbarProvider
         autoHideDuration={2000}
         maxSnack={3}
