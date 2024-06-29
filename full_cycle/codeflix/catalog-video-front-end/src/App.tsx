@@ -18,7 +18,7 @@ import { GenreList } from "./features/genres/GenreList";
 import { VideoCreate } from "./features/videos/VideoCreate";
 import { VideoList } from "./features/videos/VideoList";
 import { VideoEdit } from "./features/videos/VideoEdit";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const [theme, setTheme] = useState(darkTheme);
@@ -26,7 +26,15 @@ function App() {
   const toggle = () => {
     const currentTheme = theme.palette.mode === "dark" ? lightTheme : darkTheme;
     setTheme(currentTheme);
+    localStorage.setItem("theme", currentTheme.palette.mode);
   };
+
+  useEffect(() => {
+    const currentTheme = localStorage.getItem("theme");
+    if (currentTheme) {
+      setTheme(currentTheme === "dark"? darkTheme : lightTheme);
+    }
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -46,7 +54,7 @@ function App() {
           backgroundColor: (theme) => theme.palette.grey[900],
         }}
       >
-        <Header toggle={toggle} />
+        <Header theme={theme.palette.mode} toggle={toggle} />
         <Layout>
           <Routes>
             <Route path="/" element={<CategoryList />}></Route>
