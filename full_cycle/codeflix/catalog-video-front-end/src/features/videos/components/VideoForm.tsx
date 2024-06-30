@@ -99,23 +99,23 @@ export function VideoForm({
                         </Grid>
                         <Grid item xs={12}>
                             <AutoCompleteFields
-                                name="categories"
-                                label="Categories"
-                                isLoading={isLoading}
-                                isDisabled={isDisabled}
-                                values={video.categories}
-                                options={categories}
-                                handleChange={handleChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <AutoCompleteFields
                                 name="genres"
                                 label="Genres"
                                 isLoading={isLoading}
                                 isDisabled={isDisabled}
                                 values={video.genres}
                                 options={genres}
+                                handleChange={handleChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <AutoCompleteFields
+                                name="categories"
+                                label="Categories"
+                                isLoading={isLoading}
+                                isDisabled={isDisabled}
+                                values={video.categories}
+                                options={categories}
                                 handleChange={handleChange}
                             />
                         </Grid>

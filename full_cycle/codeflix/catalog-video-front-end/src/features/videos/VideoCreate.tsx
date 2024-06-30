@@ -26,7 +26,6 @@ export const VideoCreate = () => {
     }
 
     useEffect(() => {
-        console.log(videoState.genres);
         const categories = videoState.genres
             ?.map(({ categories }) => categories)
             .flat();
