@@ -1,18 +1,19 @@
 import { Box, Paper, Typography } from "@mui/material";
-import { VideoForm } from "./components/VideoForm";
 import { useSnackbar } from "notistack";
-import { initialState, useCreateVideoMutation, useGetAllCastMembersQuery, useGetAllCategoriesQuery, useGetAllGenresQuery } from "./videoSlice";
-import { Video } from "../../types/Video";
 import { useEffect, useState } from "react";
+import { Video } from "../../types/Video";
+import { VideoForm } from "./components/VideoForm";
 import { mapVideoToForm } from "./utils";
+import { initialState, useCreateVideoMutation, useGetAllCastMembersQuery, useGetAllGenresQuery } from "./videoSlice";
+import { Category } from "../categories/categorySlice";
 
 export const VideoCreate = () => {
     const { enqueueSnackbar } = useSnackbar();
     const { data: genres } = useGetAllGenresQuery();
-    const { data: categories } = useGetAllCategoriesQuery();
     const { data: castMembers } = useGetAllCastMembersQuery();
     const [createVideo, status] = useCreateVideoMutation();
     const [videoState, setVideoState] = useState<Video>(initialState);
+    const [categories, setCategories] = useState<(Category | undefined)[]>();
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
@@ -23,6 +24,19 @@ export const VideoCreate = () => {
         e.preventDefault();
         await createVideo(mapVideoToForm(videoState));
     }
+
+    useEffect(() => {
+        console.log(videoState.genres);
+        const categories = videoState.genres
+            ?.map(({ categories }) => categories)
+            .flat();
+            
+        const uniqueCategories = categories?.filter((category, index, self) => {
+            return self.findIndex((c) => c?.id === category?.id) === index;
+        });
+        
+        setCategories(uniqueCategories);
+    }, [videoState.genres]);
 
     useEffect(() => {
         if (status.isSuccess) {
@@ -49,7 +63,8 @@ export const VideoCreate = () => {
                     handleSubmit={handleSubmit}
                     isLoading={status.isLoading}
                     isDisabled={status.isLoading}
-                    categories={categories?.data}
+                    // @ts-ignore
+                    categories={categories}
                     castMembers={castMembers?.data}
                 />
             </Paper>

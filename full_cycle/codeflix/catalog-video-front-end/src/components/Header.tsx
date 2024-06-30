@@ -28,7 +28,7 @@ export function Header({ toggle, theme, handleDrawerToggle }: HeaderProps) {
           {theme === "dark" ? <Brightness7ICon /> : <Brightness4ICon />}
         </IconButton>
 
-        <Button>
+        <Button color="inherit">
           Login
         </Button>
       </Toolbar>
