@@ -1,6 +1,6 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Video } from "../../types/Video";
 import { VideoForm } from "./components/VideoForm";
 import { mapVideoToForm } from "./utils";
@@ -13,7 +13,8 @@ export const VideoCreate = () => {
     const { data: castMembers } = useGetAllCastMembersQuery();
     const [createVideo, status] = useCreateVideoMutation();
     const [videoState, setVideoState] = useState<Video>(initialState);
-    const [categories, setCategories] = useState<(Category | undefined)[]>();
+    const [uniqueCategories, setUniqueCategories] = useState<Category[]>([]);
+    const categoriesToKeepRef = useRef<Category[] | undefined>(undefined);
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
@@ -25,17 +26,30 @@ export const VideoCreate = () => {
         await createVideo(mapVideoToForm(videoState));
     }
 
+    const filterById = (
+        category: Category | undefined,
+        index: number,
+        self: (Category | undefined)[]
+    ): boolean => index === self.findIndex((c) => c?.id === category?.id);
+
     useEffect(() => {
-        const categories = videoState.genres
-            ?.map(({ categories }) => categories)
-            .flat();
-            
-        const uniqueCategories = categories?.filter((category, index, self) => {
-            return self.findIndex((c) => c?.id === category?.id) === index;
-        });
-        
-        setCategories(uniqueCategories);
+        const uniqueCategories = videoState.genres
+            ?.flatMap(({ categories }) => categories)
+            .filter(filterById) as Category[];
+
+        setUniqueCategories(uniqueCategories);
     }, [videoState.genres]);
+
+    useEffect(() => {
+        categoriesToKeepRef.current = videoState.categories?.filter((category) => 
+            uniqueCategories.find((c) => c?.id === category.id)
+        );
+    }, [uniqueCategories, videoState.categories]);
+
+    useEffect(() => {
+        // @ts-ignore
+        setVideoState((state: Video) => ({...state, categories: categoriesToKeepRef.current }));
+    }, [uniqueCategories, setVideoState]);
 
     useEffect(() => {
         if (status.isSuccess) {
@@ -63,7 +77,7 @@ export const VideoCreate = () => {
                     isLoading={status.isLoading}
                     isDisabled={status.isLoading}
                     // @ts-ignore
-                    categories={categories}
+                    categories={uniqueCategories}
                     castMembers={castMembers?.data}
                 />
             </Paper>
