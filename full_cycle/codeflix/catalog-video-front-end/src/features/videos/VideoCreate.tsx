@@ -6,6 +6,7 @@ import { VideoForm } from "./components/VideoForm";
 import { mapVideoToForm } from "./utils";
 import { initialState, useCreateVideoMutation, useGetAllCastMembersQuery, useGetAllGenresQuery } from "./videoSlice";
 import { Category } from "../categories/categorySlice";
+import { useUniqueCategories } from "../../hooks/useUniqueCategories";
 
 export const VideoCreate = () => {
     const { enqueueSnackbar } = useSnackbar();
@@ -13,8 +14,7 @@ export const VideoCreate = () => {
     const { data: castMembers } = useGetAllCastMembersQuery();
     const [createVideo, status] = useCreateVideoMutation();
     const [videoState, setVideoState] = useState<Video>(initialState);
-    const [uniqueCategories, setUniqueCategories] = useState<Category[]>([]);
-    const categoriesToKeepRef = useRef<Category[] | undefined>(undefined);
+    const [categories] = useUniqueCategories(videoState, setVideoState);
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
@@ -26,30 +26,7 @@ export const VideoCreate = () => {
         await createVideo(mapVideoToForm(videoState));
     }
 
-    const filterById = (
-        category: Category | undefined,
-        index: number,
-        self: (Category | undefined)[]
-    ): boolean => index === self.findIndex((c) => c?.id === category?.id);
-
-    useEffect(() => {
-        const uniqueCategories = videoState.genres
-            ?.flatMap(({ categories }) => categories)
-            .filter(filterById) as Category[];
-
-        setUniqueCategories(uniqueCategories);
-    }, [videoState.genres]);
-
-    useEffect(() => {
-        categoriesToKeepRef.current = videoState.categories?.filter((category) => 
-            uniqueCategories.find((c) => c?.id === category.id)
-        );
-    }, [uniqueCategories, videoState.categories]);
-
-    useEffect(() => {
-        // @ts-ignore
-        setVideoState((state: Video) => ({...state, categories: categoriesToKeepRef.current }));
-    }, [uniqueCategories, setVideoState]);
+    
 
     useEffect(() => {
         if (status.isSuccess) {
@@ -76,8 +53,7 @@ export const VideoCreate = () => {
                     handleSubmit={handleSubmit}
                     isLoading={status.isLoading}
                     isDisabled={status.isLoading}
-                    // @ts-ignore
-                    categories={uniqueCategories}
+                    categories={categories}
                     castMembers={castMembers?.data}
                 />
             </Paper>

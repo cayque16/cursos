@@ -6,6 +6,7 @@ import { Video } from "../../types/Video";
 import { VideoForm } from "./components/VideoForm";
 import { initialState, useGetAllCastMembersQuery, useGetAllCategoriesQuery, useGetAllGenresQuery, useGetVideoQuery, useUpdateVideoMutation } from "./videoSlice";
 import { mapVideoToForm } from "./utils";
+import { useUniqueCategories } from "../../hooks/useUniqueCategories";
 
 export function VideoEdit() {
     const id = useParams<{ id: string }>().id as string;
@@ -13,9 +14,10 @@ export function VideoEdit() {
     const { data: video, isFetching } = useGetVideoQuery({ id });
     const [videoState, setVideoState] = useState<Video>(initialState);
     const [updateVideo, status] = useUpdateVideoMutation();
-    const { data: categories } = useGetAllCategoriesQuery();
+    // const { data: categories } = useGetAllCategoriesQuery();
     const { data: genres } = useGetAllGenresQuery();
     const { data: castMembers } = useGetAllCastMembersQuery();
+    const [categories, setCategories] = useUniqueCategories(videoState, setVideoState);
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
@@ -30,8 +32,9 @@ export function VideoEdit() {
     useEffect(() => {
         if (video) {
             setVideoState(video.data);
+            setCategories(video.data.categories || []);
         }
-    }, [video]);
+    }, [video, setCategories]);
 
     useEffect(() => {
         if (status.isSuccess) {
@@ -55,7 +58,7 @@ export function VideoEdit() {
                     handleSubmit={handleSubmit}
                     handleChange={handleChange}
                     genres={genres?.data}
-                    categories={categories?.data}
+                    categories={categories}
                     castMembers={castMembers?.data}
                     isDisabled={isFetching}
                     isLoading={isFetching}
