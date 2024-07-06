@@ -1,12 +1,12 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { useAppDispatch } from "../../app/hooks";
+import { useUniqueCategories } from "../../hooks/useUniqueCategories";
 import { FileObject, Video } from "../../types/Video";
 import { VideoForm } from "./components/VideoForm";
 import { mapVideoToForm } from "./utils";
 import { initialState, useCreateVideoMutation, useGetAllCastMembersQuery, useGetAllGenresQuery } from "./videoSlice";
-import { Category } from "../categories/categorySlice";
-import { useUniqueCategories } from "../../hooks/useUniqueCategories";
 
 export const VideoCreate = () => {
     const { enqueueSnackbar } = useSnackbar();
@@ -16,6 +16,7 @@ export const VideoCreate = () => {
     const [videoState, setVideoState] = useState<Video>(initialState);
     const [categories] = useUniqueCategories(videoState, setVideoState);
     const [selectedFiles, setSelectedFiles] = useState<FileObject[]>([]);
+    const dispatch = useAppDispatch();
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;

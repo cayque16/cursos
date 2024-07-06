@@ -5,6 +5,7 @@ import { categoriesApiSlice } from '../features/categories/categorySlice';
 import counterReducer from '../features/counter/counterSlice';
 import { genreSlice } from '../features/genres/genreSlice';
 import { videoSlice } from '../features/videos/videoSlice';
+import { uploadReducer } from "../features/uploads/UploadSlice";
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   [castMembersApiSlice.reducerPath]: apiSlice.reducer,
   [videoSlice.reducerPath]: apiSlice.reducer,
   [genreSlice.reducerPath]: apiSlice.reducer,
+  uploads: uploadReducer,
 });
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
