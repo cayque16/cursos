@@ -11,14 +11,21 @@ import { CategoryList } from "./features/categories/ListCategory";
 import { GenreCreate } from "./features/genres/GenreCreate";
 import { GenreEdit } from "./features/genres/GenreEdit";
 import { GenreList } from "./features/genres/GenreList";
+import { UploadList } from "./features/uploads/UploadList";
 import { VideoCreate } from "./features/videos/VideoCreate";
 import { VideoEdit } from "./features/videos/VideoEdit";
 import { VideoList } from "./features/videos/VideoList";
-import { useAppTheme } from "./hooks/useAppTheme";
 
 function App() {
   return (
     <Layout>
+      <UploadList
+        uploads={[
+          { name: "Video 1", progress: 50 },
+          { name: "Video 2", progress: 75 },
+          { name: "Video 3", progress: 100 },
+        ]}
+      />
       <Routes>
         <Route path="/" element={<CategoryList />}></Route>
         {/* Category */}
