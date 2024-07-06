@@ -1,5 +1,5 @@
 import { Autocomplete, Box, Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField } from "@mui/material";
-import { Video } from "../../../types/Video";
+import { FileObject, Video } from "../../../types/Video";
 import { Genre } from "../../../types/Genre";
 import { CastMember } from "../../../types/CastMember";
 import { Link } from "react-router-dom";
@@ -8,6 +8,7 @@ import React from "react";
 import { AutoCompleteFields } from "../../../components/AutoCompleteFields";
 import { Rating } from "../../../components/Rating";
 import { RatingsList } from "../../../components/RatingList";
+import { InputFile } from "../../../components/InputFile";
 
 type Props = {
     video: Video,
@@ -18,6 +19,8 @@ type Props = {
     isDisabled: boolean,
     handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void,
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    handleAddFiles: ({ name, file }: FileObject) => void,
+    handleRemoveFiles: (name: string) => void,
 };
 
 const ratingOptions = [
@@ -38,7 +41,50 @@ export function VideoForm({
     isDisabled = false,
     handleSubmit,
     handleChange,
+    handleAddFiles,
+    handleRemoveFiles,
 }: Props) {
+
+    const handleAddBanner = (file: File) => {
+        handleAddFiles({ name: "banner_file", file });
+    };
+
+    const handleRemoveBanner = () => {
+        handleRemoveFiles("banner_file");
+    }
+
+    const handleAddThumbnail = (file: File) => {
+        handleAddFiles({ name: "thumb_file", file });
+    };
+
+    const handleRemoveThumbnail = () => {
+        handleRemoveFiles("thumb_file");
+    }
+
+    const handleAddThumbnailHalf = (file: File) => {
+        handleAddFiles({ name: "thumb_half_file", file });
+    };
+
+    const handleRemoveThumbnailHalf = () => {
+        handleRemoveFiles("thumb_half_file");
+    }
+
+    const handleAddVideo = (file: File) => {
+        handleAddFiles({ name: "video_file", file });
+    };
+
+    const handleRemoveVideo = () => {
+        handleRemoveFiles("video_file");
+    }
+
+    const handleAddTrailer = (file: File) => {
+        handleAddFiles({ name: "trailer_file", file });
+    };
+
+    const handleRemoveTrailer = () => {
+        handleRemoveFiles("trailer_file");
+    }
+
     return (
         <Box p={2}>
             <form onSubmit={handleSubmit}>
@@ -142,6 +188,22 @@ export function VideoForm({
                             >
                                 <RatingsList isDisabled={isDisabled}></RatingsList>
                             </RadioGroup>
+                        </FormControl>
+
+                        <FormControl fullWidth>
+                            <FormLabel component="legend">Banner</FormLabel>
+                            <InputFile onAdd={handleAddBanner} onRemove={handleRemoveBanner}/>
+                            <FormLabel component="legend">Thumb</FormLabel>
+                            <InputFile onAdd={handleAddThumbnail} onRemove={handleRemoveThumbnail}/>
+                            <FormLabel component="legend">Thumb Half</FormLabel>
+                            <InputFile onAdd={handleAddThumbnailHalf} onRemove={handleRemoveThumbnailHalf}/>
+                        </FormControl>
+
+                        <FormControl fullWidth>
+                            <FormLabel component="legend">Video</FormLabel>
+                            <InputFile onAdd={handleAddVideo} onRemove={handleRemoveVideo}/>
+                            <FormLabel component="legend">Trailer</FormLabel>
+                            <InputFile onAdd={handleAddTrailer} onRemove={handleRemoveTrailer}/>
                         </FormControl>
                     </Grid>
                    

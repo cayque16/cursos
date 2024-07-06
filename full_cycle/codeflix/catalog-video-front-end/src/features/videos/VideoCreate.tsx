@@ -1,7 +1,7 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useEffect, useRef, useState } from "react";
-import { Video } from "../../types/Video";
+import { FileObject, Video } from "../../types/Video";
 import { VideoForm } from "./components/VideoForm";
 import { mapVideoToForm } from "./utils";
 import { initialState, useCreateVideoMutation, useGetAllCastMembersQuery, useGetAllGenresQuery } from "./videoSlice";
@@ -15,10 +15,19 @@ export const VideoCreate = () => {
     const [createVideo, status] = useCreateVideoMutation();
     const [videoState, setVideoState] = useState<Video>(initialState);
     const [categories] = useUniqueCategories(videoState, setVideoState);
+    const [selectedFiles, setSelectedFiles] = useState<FileObject[]>([]);
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
         setVideoState((state) => ({...state, [name]: value }));
+    }
+
+    function handleAddFiles({ name, file }: FileObject) {
+        setSelectedFiles([...selectedFiles, { name, file }]);
+    }
+
+    function handleRemoveFiles(name: string) {
+        setSelectedFiles(selectedFiles.filter((file) => file.name !== name));
     }
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -55,6 +64,8 @@ export const VideoCreate = () => {
                     isDisabled={status.isLoading}
                     categories={categories}
                     castMembers={castMembers?.data}
+                    handleAddFiles={handleAddFiles}
+                    handleRemoveFiles={handleRemoveFiles}
                 />
             </Paper>
         </Box>

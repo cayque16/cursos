@@ -62,6 +62,8 @@ export function VideoEdit() {
                     castMembers={castMembers?.data}
                     isDisabled={isFetching}
                     isLoading={isFetching}
+                    handleAddFiles={() => null}
+                    handleRemoveFiles={() => null}
                 />
             </Paper>
         </Box>
