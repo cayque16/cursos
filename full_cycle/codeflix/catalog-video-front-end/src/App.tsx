@@ -19,13 +19,7 @@ import { VideoList } from "./features/videos/VideoList";
 function App() {
   return (
     <Layout>
-      <UploadList
-        uploads={[
-          { name: "Video 1", progress: 50 },
-          { name: "Video 2", progress: 75 },
-          { name: "Video 3", progress: 100 },
-        ]}
-      />
+      <UploadList/>
       <Routes>
         <Route path="/" element={<CategoryList />}></Route>
         {/* Category */}

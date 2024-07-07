@@ -1,6 +1,8 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, List, ListItem, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, LinearProgress, List, ListItem, Typography } from "@mui/material";
 import { GridExpandMoreIcon } from "@mui/x-data-grid";
-import { LinearWithValueLabel } from "../../components/Progress";
+import { LinearProgressWithLabel, LinearWithValueLabel } from "../../components/Progress";
+import { useAppSelector } from "../../app/hooks";
+import { selectUploads } from "./UploadSlice";
 
 type Upload = {
     name: string;
@@ -11,8 +13,9 @@ type Props = {
     uploads?: Upload[];
 }
 
-export const UploadList: React.FC<Props> = ({ uploads }) => {
-    if (!uploads || uploads.length === 0) {
+export const UploadList: React.FC<Props> = () => {
+    const uploadList = useAppSelector(selectUploads);
+    if (!uploadList || uploadList.length === 0) {
         return null;
     }
 
@@ -34,11 +37,13 @@ export const UploadList: React.FC<Props> = ({ uploads }) => {
                 </AccordionSummary>
                 <AccordionDetails>
                     <List>
-                        {uploads.map((upload, index) => (
+                        {uploadList.map((upload, index) => (
                             <Box key={index}>
-                                <Typography>{upload.name}</Typography>
+                                <Typography>{upload.field}</Typography>
                                 <ListItem>
-                                    <LinearWithValueLabel/>
+                                    <Box sx={{ width: "100%" }}>
+                                        <LinearProgressWithLabel value={upload.progress}/>
+                                    </Box>
                                 </ListItem>
                             </Box>
                         ))}

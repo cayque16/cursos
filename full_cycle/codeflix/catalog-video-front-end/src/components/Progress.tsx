@@ -1,7 +1,7 @@
 import { Box, LinearProgress, LinearProgressProps, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
-function LinearProgressWithLabel(
+export function LinearProgressWithLabel(
     props: LinearProgressProps & { value: number }
 ) {
     return (
