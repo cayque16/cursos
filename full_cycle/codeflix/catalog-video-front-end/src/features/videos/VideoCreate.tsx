@@ -6,7 +6,9 @@ import { useUniqueCategories } from "../../hooks/useUniqueCategories";
 import { FileObject, Video } from "../../types/Video";
 import { VideoForm } from "./components/VideoForm";
 import { mapVideoToForm } from "./utils";
+import { nanoid } from "nanoid";
 import { initialState, useCreateVideoMutation, useGetAllCastMembersQuery, useGetAllGenresQuery } from "./videoSlice";
+import { addUpload } from "../uploads/UploadSlice";
 
 export const VideoCreate = () => {
     const { enqueueSnackbar } = useSnackbar();
@@ -31,9 +33,22 @@ export const VideoCreate = () => {
         setSelectedFiles(selectedFiles.filter((file) => file.name !== name));
     }
 
+    function handleSubmitUploads(videoId: string) {
+        selectedFiles.forEach(({ file, name })=> {
+            const payload = { id: nanoid(), file, videoId, field: name };
+            dispatch(addUpload(payload));
+        });
+    }
+
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        await createVideo(mapVideoToForm(videoState));
+        const { ...payload } = mapVideoToForm(videoState);
+        try {
+            const { data } = await createVideo(payload).unwrap();
+            handleSubmitUploads(data[0].id);
+        } catch (e) {
+            enqueueSnackbar(`Error creating video`, { variant: "error" });
+        }
     }
 
     

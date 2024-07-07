@@ -42,7 +42,7 @@ export const UploadList: React.FC<Props> = () => {
                                 <Typography>{upload.field}</Typography>
                                 <ListItem>
                                     <Box sx={{ width: "100%" }}>
-                                        <LinearProgressWithLabel value={upload.progress}/>
+                                        {/* <LinearProgressWithLabel value={upload.progress}/> */}
                                     </Box>
                                 </ListItem>
                             </Box>

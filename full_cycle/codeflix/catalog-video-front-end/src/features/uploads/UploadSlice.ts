@@ -6,7 +6,7 @@ export interface UploadState {
     file: File;
     field: string;
     videoId: string;
-    progress: number;
+    progress?: number;
     status?: "idle" | "loading" | "success" | "failed";
 }
 
