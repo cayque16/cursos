@@ -88,7 +88,7 @@ function getAllCastMembers() {
 
 export const videoSlice = apiSlice.injectEndpoints({
     endpoints: ({ query, mutation }) => ({
-        createVideo: mutation<Results, VideoPayload>({
+        createVideo: mutation<Result, VideoPayload>({
             query: createVideo,
             invalidatesTags: ["Videos"],
         }),

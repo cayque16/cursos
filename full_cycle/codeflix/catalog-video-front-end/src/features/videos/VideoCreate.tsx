@@ -22,8 +22,8 @@ export const VideoCreate = () => {
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
-        setVideoState((state) => ({...state, [name]: value }));
-    }
+        setVideoState((state) => ({ ...state, [name]: value }));
+      }
 
     function handleAddFiles({ name, file }: FileObject) {
         setSelectedFiles([...selectedFiles, { name, file }]);
@@ -45,7 +45,7 @@ export const VideoCreate = () => {
         const { ...payload } = mapVideoToForm(videoState);
         try {
             const { data } = await createVideo(payload).unwrap();
-            handleSubmitUploads(data[0].id);
+            handleSubmitUploads(data.id);
         } catch (e) {
             enqueueSnackbar(`Error creating video`, { variant: "error" });
         }

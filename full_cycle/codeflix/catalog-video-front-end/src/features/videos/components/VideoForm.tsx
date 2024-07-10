@@ -167,7 +167,7 @@ export function VideoForm({
                         </Grid>
                         <Grid item xs={12}>
                             <AutoCompleteFields
-                                name="castMembers"
+                                name="cast_members"
                                 label="Cast Members"
                                 isLoading={isLoading}
                                 isDisabled={isDisabled}
