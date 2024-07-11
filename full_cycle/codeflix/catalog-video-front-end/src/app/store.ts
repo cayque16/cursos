@@ -6,6 +6,7 @@ import counterReducer from '../features/counter/counterSlice';
 import { genreSlice } from '../features/genres/genreSlice';
 import { videoSlice } from '../features/videos/videoSlice';
 import { uploadReducer } from "../features/uploads/UploadSlice";
+import { uploadQueue } from '../middlewares/uploadQueue';
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -22,7 +23,11 @@ export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
     reducer: rootReducer,
     preloadedState,
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware({ serializableCheck: false }).concat(apiSlice.middleware),
+      getDefaultMiddleware({
+        serializableCheck: false
+      })
+      .prepend(uploadQueue.middleware)
+      .concat(apiSlice.middleware),
   });
 };
 

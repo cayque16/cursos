@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
+import { updateVideo } from "./uploadThunk";
 
 export interface UploadState {
     id: string;
@@ -37,6 +38,26 @@ const uploadsSlice = createSlice({
                 upload.progress = progress;
             }
         },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(updateVideo.pending, (state, action) => {
+            const upload = state.find((upload) => upload.id === action.meta.arg.id);
+            if (upload) {
+                upload.status = "loading";
+            }
+        });
+        builder.addCase(updateVideo.fulfilled, (state, action) => {
+            const upload = state.find((upload) => upload.id === action.meta.arg.id);
+            if (upload) {
+                upload.status = "success";
+            }
+        });
+        builder.addCase(updateVideo.rejected, (state, action) => {
+            const upload = state.find((upload) => upload.id === action.meta.arg.id);
+            if (upload) {
+                upload.status = "failed";
+            }
+        });
     },
 });
 
