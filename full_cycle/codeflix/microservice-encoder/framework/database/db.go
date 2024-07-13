@@ -1,9 +1,11 @@
 package database
 
 import (
+	"encoder/domain"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	_ "github.com/lib/pq"
+	"log"
 )
 
 type Database struct {
@@ -23,7 +25,7 @@ func NewDb() *Database {
 
 func NewDbTest() *gorm.DB {
 	dbInstance := NewDb()
-	dbInstance.Env = "Test"
+	dbInstance.Env = "test"
 	dbInstance.DbTypeTest = "sqlite3"
 	dbInstance.DsnTest = ":memory:"
 	dbInstance.AutoMigrateDb = true
@@ -41,24 +43,24 @@ func NewDbTest() *gorm.DB {
 func (db *Database) Connect() (*gorm.DB, error) {
 	var err error
 
-	if d.Env != "Test" {
-		d.Db, err = gorm.Open(d.DbType, d.Dsn)
+	if db.Env != "test" {
+		db.Db, err = gorm.Open(db.DbType, db.Dsn)
 	} else {
-		d.Db, err = gorm.Open(d.DbTypeTest, d.DsnTest)
+		db.Db, err = gorm.Open(db.DbTypeTest, db.DsnTest)
 	}
 
 	if err!= nil {
         return nil, err
     }
 
-	if d.Debug {
-		d.Db.LogMode(true)
+	if db.Debug {
+		db.Db.LogMode(true)
 	}
 
-	if d.AutoMigrateDb {
-        d.Db.AutoMigrate(&domain.Video{}, &domain.Job{})
-		d.Db.Model(domain.Job{}).AddForeignKey("video_id", "videos (id)", "CASCADE", "CASCADE")
+	if db.AutoMigrateDb {
+        db.Db.AutoMigrate(&domain.Video{}, &domain.Job{})
+		db.Db.Model(domain.Job{}).AddForeignKey("video_id", "videos (id)", "CASCADE", "CASCADE")
     }
 
-	return d.Db, nil
+	return db.Db, nil
 }
