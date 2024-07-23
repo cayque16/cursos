@@ -1,7 +1,7 @@
 FROM php:8.1.1-fpm
 
 ARG user=fullcycle
-ARG uid=1000
+ARG uid=1001
 
 RUN apt-get update && apt-get install -y git
 
