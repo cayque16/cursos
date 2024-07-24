@@ -1,0 +1,26 @@
+{
+    "name": "fullcycle/app-php",
+    "authors": [
+        {
+            "name": "Cayque Santos",
+            "email": "cayque_santos16@hotmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Core\\": "src/Core/"
+        }
+    },
+    "require-dev": {
+        "pestphp/pest": "^2.34",
+        "mockery/mockery": "^1.6"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "scripts": {
+        "test": "./vendor/bin/pest"
+    }
+}
