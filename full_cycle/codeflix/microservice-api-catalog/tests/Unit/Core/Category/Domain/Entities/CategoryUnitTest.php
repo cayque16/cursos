@@ -2,6 +2,7 @@
 
 use DateTime;
 use Core\Category\Domain\Entities\Category;
+use Core\SeedWork\Domain\ValueObjects\Uuid;
 
 beforeEach(fn () => $this->category = new Category(
     name: 'test',
@@ -31,4 +32,20 @@ test("constructor of category and getters and setters", function () {
     expect($category->createdAt)->toBe($date);
     expect($category->createdAt())->toBeString();
     expect($category->createdAt())->not->toBeNull();
+});
+
+test('id field', function () {
+    expect($this->category->id)->not->toBeString();
+    expect($this->category->id)->not->toBeNull();
+    expect($this->category->id)->toBeInstanceOf(Uuid::class);
+    expect($this->category->id())->toBeString();
+
+    $id = Uuid::random();
+    $category = new Category(name: 'test', id: $id);
+
+    expect($category->id)->not->toBeString();
+    expect($category->id)->not->toBeNull();
+    expect($category->id)->toBeInstanceOf(Uuid::class);
+    expect($category->id())->toBeString();
+    expect($category->id)->toBe($id);
 });
