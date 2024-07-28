@@ -28,7 +28,5 @@ test('unit test get categories', function () {
 
     expect($response)->toBeInstanceOf(OutputCategoriesDTO::class);
     expect($response->total)->toBe(count($mockCategory));
-    foreach ($response->items as $item) {
-        expect($item)->toBeInstanceOf(OutputCategoryDTO::class);
-    }
+    array_map(fn ($item) => expect($item)->toBeInstanceOf(OutputCategoryDTO::class), $response->items);
 });
