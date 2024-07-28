@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\SeedWork\Domain\Exceptions\Exception;
+namespace Core\SeedWork\Domain\Exceptions;
 
 use Exception;
 
