@@ -9,12 +9,14 @@
     ],
     "require": {
         "php": "^8.1",
+        "elasticsearch/elasticsearch": "^8.14",
+        "fakerphp/faker": "^1.23",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "ramsey/uuid": "^4.7",
-        "fakerphp/faker": "^1.23"
+        "rebing/graphql-laravel": "^9.5"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -53,7 +55,8 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
-        "test": "./vendor/bin/pest"
+        "test": "./vendor/bin/pest",
+        "test:coverage": "./vendor/bin/pest --coverage"
     },
     "extra": {
         "laravel": {
