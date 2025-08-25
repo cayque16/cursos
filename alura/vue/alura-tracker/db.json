@@ -1,12 +1,63 @@
 {
   "projetos": [
     {
-      "id": 1,
+      "id": "1",
       "nome": "Alura Tracker 3.0"
     },
     {
-      "id": 2,
+      "id": "2",
+      "nome": "Novo Projetosss"
+    },
+    {
+      "id": "51b0",
       "nome": "Novo Projeto"
+    }
+  ],
+  "tarefas": [
+    {
+      "id": "1",
+      "duracaoEmSegundos": 120,
+      "descricao": "Configuração do ambiente",
+      "projeto": {
+        "id": 1,
+        "nome": "Alura Tracker 3.0"
+      }
+    },
+    {
+      "id": "4eaa",
+      "duracaoEmSegundos": 5,
+      "descricao": "Novo Teste",
+      "projeto": {
+        "id": "2",
+        "nome": "Novo Projeto"
+      }
+    },
+    {
+      "id": "16cd",
+      "duracaoEmSegundos": 6,
+      "descricao": "Teste Antigo",
+      "projeto": {
+        "id": "51b0",
+        "nome": "Novo Projeto"
+      }
+    },
+    {
+      "id": "ca93",
+      "duracaoEmSegundos": 10,
+      "descricao": "Nova tarefasss",
+      "projeto": {
+        "id": "2",
+        "nome": "Novo Projetosss"
+      }
+    },
+    {
+      "id": "9db5",
+      "duracaoEmSegundos": 27,
+      "descricao": "New task",
+      "projeto": {
+        "id": "1",
+        "nome": "Alura Tracker 3.0"
+      }
     }
   ]
 }

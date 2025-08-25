@@ -1,6 +1,6 @@
 <template>
   <Box>
-    <div class="columns">
+    <div class="columns clicavel" @click="tarefaClicada">
       <div class="column is-4">
         {{ tarefa.descricao || "Tarefa sem descrição" }}
       </div>
@@ -20,9 +20,15 @@ import ITarefa from "@/interfaces/ITarefa";
 
 export default defineComponent({
   name: "Tarefa",
+  emits: ["aoTarefaClicada"],
   components: {
     Cronometro,
     Box,
+  },
+  methods: {
+    tarefaClicada(): void {
+      this.$emit("aoTarefaClicada", this.tarefa);
+    },
   },
   props: {
     tarefa: {
@@ -32,3 +38,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.clicavel {
+  cursor: pointer;
+}
+</style>
