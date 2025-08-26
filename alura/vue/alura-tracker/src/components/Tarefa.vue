@@ -25,16 +25,20 @@ export default defineComponent({
     Cronometro,
     Box,
   },
-  methods: {
-    tarefaClicada(): void {
-      this.$emit("aoTarefaClicada", this.tarefa);
-    },
-  },
   props: {
     tarefa: {
       type: Object as PropType<ITarefa>,
       required: true,
     },
+  },
+  setup(props, { emit }) {
+    const tarefaClicada = (): void => {
+      emit("aoTarefaClicada", props.tarefa);
+    };
+
+    return {
+      tarefaClicada,
+    };
   },
 });
 </script>
