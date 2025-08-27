@@ -4,10 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portifólio</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./styles/style.css" />
   </head>
   <body>
-    <header></header>
+    <header class="cabecalho">
+      <nav class="cabecalho__menu">
+        <a class="cabecalho__menu__link" href="index.html">Home</a>
+        <a class="cabecalho__menu__link" href="about.html">Sobre mim</a>
+      </nav>
+    </header>
     <main class="apresentacao">
       <section class="apresentacao__conteudo">
         <h1 class="apresentacao__conteudo__titulo">
@@ -22,20 +27,32 @@
           prática boas ideais. Vamos conversar?
         </p>
         <div class="apresentacao__links">
-          <a
-            class="apresentacao__links__link"
-            href="https://instagram.com/ocayque"
-            >Instagram</a
-          >
+          <h2 class="apresentacao__links__subtitulo">Acesse minhas redes:</h2>
           <a
             class="apresentacao__links__link"
             href="https://github.com/cayque16"
-            >GitHub</a
           >
+            <img src="./assets/github.png" />
+            GitHub
+          </a>
+          <a
+            class="apresentacao__links__link"
+            href="https://instagram.com/ocayque"
+          >
+            <img src="./assets/instagram.png" />
+            Instagram
+          </a>
+          <a
+            class="apresentacao__links__link"
+            href="https://www.twitch.tv/cayque16"
+          >
+            <img src="./assets/twitch.png" />
+            Twitch
+          </a>
         </div>
       </section>
-      <img src="imagem.png" alt="Imagem de mulher programando" />
+      <img src="./assets/imagem.png" alt="Imagem de mulher programando" />
     </main>
-    <footer></footer>
+    <footer class="rodape">Desenvolvido por Cayque Santos</footer>
   </body>
 </html>
