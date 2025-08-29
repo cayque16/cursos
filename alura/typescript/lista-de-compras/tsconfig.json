@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2015",
     "module": "commonjs",
     "rootDir": "./",
     "outDir": "./"
-  }
+  },
+  "include": ["*.ts"],
+  "exclude": ["node_modules"]
 }
