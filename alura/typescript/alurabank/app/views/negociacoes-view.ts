@@ -1,13 +1,8 @@
 import { Neogiciacoes } from "../models/negociacoes.js";
+import { AbstactView } from "./abstract-view.js";
 
-export class NeogiciacoesView {
-  private elemento: HTMLElement;
-
-  constructor(seletor: string) {
-    this.elemento = document.querySelector(seletor);
-  }
-
-  template(model: Neogiciacoes): string {
+export class NeogiciacoesView extends AbstactView<Neogiciacoes> {
+  protected template(model: Neogiciacoes): string {
     return `
       <table class="table table-hover table-bordered">
         <thead>
@@ -23,7 +18,7 @@ export class NeogiciacoesView {
             .map((negociacao) => {
               return `
               <tr>
-                <td>${new Intl.DateTimeFormat().format(negociacao.data)}</td>
+                <td>${this.formatar(negociacao.data)}</td>
                 <td>${negociacao.quantidade}</td>
                 <td>${negociacao.valor}</td>
               </tr>
@@ -35,7 +30,7 @@ export class NeogiciacoesView {
     `;
   }
 
-  update(model: Neogiciacoes): void {
-    this.elemento.innerHTML = this.template(model);
+  private formatar(data: Date): string {
+    return new Intl.DateTimeFormat().format(data);
   }
 }
