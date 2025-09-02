@@ -1,7 +1,11 @@
+import { escapar } from "../decorators/escapar.js";
+import { inspect } from "../decorators/inspect.js";
+import { logarTempoDeExecucao } from "../decorators/logar-tempo-de-execucao.js";
 import { Neogiciacoes } from "../models/negociacoes.js";
 import { AbstactView } from "./abstract-view.js";
 
 export class NeogiciacoesView extends AbstactView<Neogiciacoes> {
+  @escapar
   protected template(model: Neogiciacoes): string {
     return `
       <table class="table table-hover table-bordered">
