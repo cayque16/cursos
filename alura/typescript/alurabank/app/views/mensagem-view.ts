@@ -14,7 +14,12 @@ export class MensagemView extends AbstactView<string> {
 
   protected template(model: string): string {
     return `
-      <p class="alert ${this.tipoMensagem}">${model}</p>
+      <p id="alert" class="alert ${this.tipoMensagem}">${model}</p>
     `;
+  }
+
+  public update(model: string): void {
+    super.update(model);
+    setTimeout(() => (this.elemento.innerHTML = ""), 3000);
   }
 }
