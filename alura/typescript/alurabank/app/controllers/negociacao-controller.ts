@@ -5,6 +5,7 @@ import { DiasDaSemana } from "../enums/dias-da-semana.js";
 import { Negociacao } from "../models/negociacao.js";
 import { Neogiciacoes } from "../models/negociacoes.js";
 import { NegociacoesService } from "../services/negociacoes-service.js";
+import { imprimir } from "../utils/imprimir.js";
 import { MensagemView, TiposMensagem } from "../views/mensagem-view.js";
 import { NeogiciacoesView } from "../views/negociacoes-view.js";
 
